@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text,Image,TextInput, SafeAreaView,View,TouchableOpacity} from 'react-native';
 import { cores } from '../style/globalStyle';
-import logo from '../assets/logo-rmr.png';
+import logo from '../assets/logo-rmr-transparente-1080.png';
 import { useNavigation } from '@react-navigation/native';
 import InputField from '../components/InputField';
+import Api from '../Api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -12,10 +14,31 @@ const SignIn = () => {
   const [password,setPassword] = useState('');
   const navigation = useNavigation();
 
- const onSingUp = () => {
 
 
-alert('tocou no tenho cadastro');
+ 
+
+ const onSignInTouch = async () => {
+
+  if(email != '' && password != ''){
+
+     let response = await Api.signIn(email, password);
+     const json = await response.json(); 
+     if(json.authToken){
+      await AsyncStorage.setItem('token', json.authToken);
+      let jsonUser = await Api.getUser(json.authToken);
+      await AsyncStorage.setItem('userName', jsonUser.name);
+      if (jsonUser.role === 'cliente')
+         navigation.reset({routes:[{name:'ClientTab'}]});
+      else
+         navigation.reset({routes:[{name:'WorkerTab'}]});
+      } else {
+      alert("Email e ou senha inválidos.");
+     }
+
+  } else {
+    alert("Por favor, informe o seu email e a sua senha.");
+  }
 
 
  }
@@ -29,10 +52,8 @@ alert('tocou no tenho cadastro');
   return (
     <SafeAreaView style={styles.container}>
      <View style={styles.header}>   
-        <View style={styles.logoContainer}>
           <Image source={logo} style={styles.logo}/>
-        </View>
-        <Text style={styles.headerText}>Bem-vindo ao RmrPart-Time</Text>
+          <Text style={styles.headerText}>Bem-vindo ao RMR Part-Time</Text>
      </View>
      <View style={styles.inputArea}>
         <InputField 
@@ -51,7 +72,7 @@ alert('tocou no tenho cadastro');
             onChangeText={t=>setPassword(t)}
             password={true}
         />
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity onPress={onSignInTouch} style={styles.button}>
          <Text style={styles.buttonText}>ENTRAR</Text>
        </TouchableOpacity>
        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.signUpMessage}>
@@ -70,29 +91,21 @@ export default SignIn
 const styles = StyleSheet.create({
     container: {
       flex:1,
-      backgroundColor: cores.azul,
+      backgroundColor: cores.amarelo,
       alignItems: 'center',
       justifyContent: 'center',
     },
     header:{
        flexGrow:1,
        alignItems: 'center',
-       justifyContent: 'flex-end',
+       justifyContent: 'center',
         
-    },
-    logoContainer:{
-        width: 220,
-        height: 220,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 110,
-        backgroundColor:'#fff',
-        marginBottom: 20,
     },
    
     logo: {
       width: 150,
       height: 150,
+      marginBottom:20,
     },
     headerText:{
       color: '#fff',
@@ -115,7 +128,7 @@ const styles = StyleSheet.create({
     button:{
      
       height: 50,
-      backgroundColor: cores.azul,
+      backgroundColor: cores.amarelo,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius:15,
@@ -138,7 +151,7 @@ const styles = StyleSheet.create({
 
     },
     signUpMessageTextBold:{
-      color: cores.azul,
+      color: cores.amarelo,
       fontWeight: 'bold',
     },
     

@@ -1,31 +1,81 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text,Image,TextInput, SafeAreaView,View,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text,Image,ScrollView, SafeAreaView,View,TouchableOpacity} from 'react-native';
 import { cores } from '../style/globalStyle';
-import logo from '../assets/logo-rmr.png';
-
-
-
+import logo from '../assets/logo-rmr-transparente-1080.png';
+import Api from '../Api';
 import { useNavigation } from '@react-navigation/native';
 import InputField from '../components/InputField';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
+
+
 
 const SignUp = () => {
     const [nome,setNome] = useState('');
     const [telefone,setTelefone] = useState('');
     const [email,setEmail] = useState('');
+    const [role,setRole] = useState(0);  // 0->cliente 1->profissional
     const [password,setPassword] = useState('');
     const [passwordConfirm,setPasswordConfirm] = useState('');
     const navigation = useNavigation();
 
-  return (
+
+    const onSignUpTouch = async () => {
+
+      if(nome != '' && telefone != '' && email != '' && password != '' && passwordConfirm != ''){
+        if(password===passwordConfirm){
+        
+          if (role===0)
+              roleString = 'cliente'
+          else
+          roleString = 'profissional'
+          //console.log(email);
+          let json = await Api.signUp(nome,email,telefone, password,roleString);
+         
+        
+          
+          if(json.authToken){
+           
+            await AsyncStorage.setItem('token', json.authToken);
+            await AsyncStorage.setItem('userName', nome);
+            if (role===0)
+               navigation.reset({routes:[{name:'ClientTab'}]});
+            else
+               navigation.reset({routes:[{name:'WorkerTab'}]});
+
+          } else {
+            alert("Email já utilizado.");
+          }
+        } else {
+
+          alert("As senhas informadas são diferentes.");
+
+        }
+      } else {
+
+        alert("Preencha todos os campos por favor.");
+
+      }
     
+    }
+
+
+
+
+
+  return (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={styles.container}>
+  
     <View style={styles.header}>   
-        <View style={styles.logoContainer}>
           <Image source={logo} style={styles.logo}/>
-        </View>
-       <Text style={styles.headerText}>Cadastro</Text>
+          <Text style={styles.headerText}>Novo Cadastro</Text>
     </View>
+   
     <View style={styles.inputArea}>
+   
        <InputField 
            iconProvider="AntDesign"
            iconName="user"
@@ -66,18 +116,29 @@ const SignUp = () => {
            onChangeText={t=>setPasswordConfirm(t)}
            password={true}
        />
-       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>CADASTRAR</Text>
+       <View style={styles.roleArea}>
+         <TouchableOpacity onPress={()=>setRole(0)} style={role===0?styles.roleButtonSelected:styles.roleButton}>
+           <Text style={role===0?styles.roleTextSelected:styles.roleText}>Sou Cliente</Text>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={()=>setRole(1)} style={role===1?styles.roleButtonSelected:styles.roleButton}>
+           <Text style={role===1?styles.roleTextSelected:styles.roleText}>Sou Profissional</Text>
+         </TouchableOpacity>
+       </View>
+
+       <TouchableOpacity onPress={onSignUpTouch} style={styles.button}>
+        <Text  style={styles.buttonText}>CADASTRAR</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.signUpMessage}>
          <Text style={styles.signUpMessageText}>Já tem uma conta?</Text>
          <Text style={styles.signUpMessageTextBold} > Entre!</Text>
        </TouchableOpacity>
-       
-        
+     
+      
     </View> 
+  
   </SafeAreaView>
-
+  </ScrollView>
+ 
   )
 }
 
@@ -85,29 +146,23 @@ export default SignUp
 
 const styles = StyleSheet.create({
     container: {
+      paddingTop: 30,
       flex:1,
-      backgroundColor: cores.azul,
+      backgroundColor: cores.amarelo,
       alignItems: 'center',
       justifyContent: 'center',
+      
     },
     header:{
-       flexGrow:1,
+     
        alignItems: 'center',
        justifyContent: 'flex-end',
         
     },
-    logoContainer:{
-        width: 170,
-        height: 170,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 110,
-        backgroundColor:'#fff',
-       
-    },
+   
     logo: {
-      width: 120,
-      height: 120,
+      width: 150,
+      height: 150,
      
     },
     headerText:{
@@ -119,19 +174,46 @@ const styles = StyleSheet.create({
 
     },
     inputArea:{
-      
+      flexGrow: 1,
      paddingTop: 40,
      paddingLeft: 20,
      paddingRight: 20,
      borderTopLeftRadius: 20,
      borderTopRightRadius: 20,
-      backgroundColor: '#fff',
-      paddingBottom: 40,
+     backgroundColor: '#fff',
+     paddingBottom: 40,
+    },
+    roleArea:{
+       flexDirection:'row',
+       justifyContent: 'space-around',
+       alignItems:'center',
+       marginBottom: 20,
+    },
+    roleButton:{
+       height:40,
+       width: 150,
+       borderWidth: 1,
+       borderColor: cores.amarelo,
+       alignItems: 'center',
+       justifyContent:'center',
+      
+    },
+    roleButtonSelected:{
+       height:40,
+       width:150,
+       backgroundColor: cores.amarelo,
+       alignItems: 'center',
+       justifyContent:'center',
+    },
+    roleText:{
+      color: cores.amarelo,
+    },
+    roleTextSelected:{
+       color: '#fff',
     },
     button:{
-     
       height: 50,
-      backgroundColor: cores.azul,
+      backgroundColor: cores.amarelo,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius:15,
@@ -154,7 +236,7 @@ const styles = StyleSheet.create({
 
     },
     signUpMessageTextBold:{
-      color: cores.azul,
+      color: cores.amarelo,
       fontWeight: 'bold',
     }
    

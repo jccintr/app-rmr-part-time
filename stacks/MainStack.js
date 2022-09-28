@@ -5,6 +5,10 @@ import Preload from "../screens/Preload";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
 
+import ClientTab from "./ClientTab";
+import WorkerTab from "./WorkerTab";
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +18,8 @@ const MainStack = () => {
         <Stack.Screen  name="Preload" component={Preload}/>
         <Stack.Screen name="SignIn" component={SignIn}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
+        <Stack.Screen name="ClientTab" component={ClientTab}/>
+        <Stack.Screen name="WorkerTab" component={WorkerTab}/>
       
     </Stack.Navigator>
   )
