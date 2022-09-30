@@ -4,7 +4,7 @@ import logo from '../assets/logo-rmr.png';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Api from '../Api';
-
+import { cores } from '../style/globalStyle';
 
 const Preload = () => {
     const navigation = useNavigation();
@@ -44,7 +44,7 @@ const Preload = () => {
             <TouchableOpacity onPress={() => navigation.navigate('SignIn')} >
                 <Image source={logo} style={styles.imagelogo}/>
             </TouchableOpacity>
-            <ActivityIndicator size="large" color="#000"/>
+            <ActivityIndicator size="large" color={cores.amarelo}/>
         </SafeAreaView>
        )
 }

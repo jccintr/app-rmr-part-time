@@ -1,5 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import { StyleSheet, Text, SafeAreaView,View,ScrollView} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { cores } from '../../style/globalStyle';
 import { StatusBar } from 'expo-status-bar';
@@ -9,6 +10,14 @@ import ServiceCard from '../../components/ServiceCard';
 const Home = () => {
     const [userName,setUserName] = useState('');
     const [services,setServices] = useState([]);
+    const navigation = useNavigation();
+
+
+    const onServicePress  = (servico) =>{
+  
+        navigation.navigate('Servico',{servico: servico})
+     }
+
 
 
     useEffect(()=>{
@@ -33,6 +42,7 @@ const Home = () => {
     return (
         
         <SafeAreaView style={styles.container}>
+             <StatusBar />
             <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.userNameArea}>
                         <Text style={styles.userNameText}>Olá {userName} !</Text>
@@ -41,7 +51,7 @@ const Home = () => {
                     <Text style={styles.title}>Serviços disponíveis</Text>
                     <View style={styles.servicesContainer}>
                     {services.map((service) => (
-                        <ServiceCard servico={service} key={service.id}/>
+                        <ServiceCard servico={service} key={service.id} onPress={onServicePress}/>
                     
                     ))}
                 
@@ -58,13 +68,13 @@ export default Home
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        paddingTop: 50,
+        paddingTop: 40,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#fff',
-        paddingHorizontal: 10,
-      
+        paddingHorizontal: 5,
+   
         
     },
     userNameArea:{
@@ -97,6 +107,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
       flexWrap: "wrap",
       justifyContent: 'flex-start',
+      width: '100%',
      
       
     }

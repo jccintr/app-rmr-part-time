@@ -2,15 +2,17 @@ import React, { useEffect,useState } from 'react';
 import { StyleSheet, Text, Image,View,TouchableOpacity} from 'react-native';
 import { cores } from '../style/globalStyle';
 
-const ServiceCard = ({servico}) => {
+const ServiceCard = ({servico,onPress}) => {
   return (
-    <TouchableOpacity style={styles.serviceCard}  key={servico.id}>
-                 <Image style={styles.serviceImage} source={{uri: servico.Imagem.url,}}/>
-                <Text style={styles.serviceName}>{servico.Nome}</Text>
-                <View style={styles.priceArea}>
-                <Text style={styles.serviceTitle}>A partir de </Text>
-                <Text style={styles.servicePrice}>€ {servico.Valor_Cliente}</Text>
-                </View>
+    <TouchableOpacity style={styles.serviceCard}  key={servico.id} onPress={()=>onPress(servico)}>
+                <Image style={styles.serviceImage} source={{uri: servico.Imagem.url,}}/>
+               
+                   <Text style={styles.serviceName}>{servico.Nome}</Text>
+                   <View style={styles.priceArea}>
+                      <Text style={styles.serviceTitle}>A partir de </Text>
+                      <Text style={styles.servicePrice}>{servico.Valor_Cliente} €</Text>
+                   </View>
+               
                
          </TouchableOpacity>
   )
@@ -27,18 +29,16 @@ const styles = StyleSheet.create({
         borderTopRightRadius:10,
         borderRadius:10,
         width: 160,
-        height: 140,
-        
+        height: 150,
+        minHeight: 150,
         minWidth: 160,
         flexDirection: 'column',
         alignItems:'center',
-        justifyContent:'flex-start',
+        justifyContent:'space-between',
         margin: 5,
         borderWidth: 1,
         borderColor: '#c1c1c1',
-       
-      
-  
+     
       },
       serviceImage:{
         borderTopLeftRadius:10,
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         paddingHorizontal: 5,
+        marginBottom: 5,
       },
       serviceTitle:{
         fontSize: 12,

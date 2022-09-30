@@ -78,6 +78,18 @@ export default {
         return json;
        
     },
+    getContratadosByService: async (idServico) => {
+        const req = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados?idServico=${idServico}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+           
+        });
+        const json = await req.json();        
+        return json;
+    },
 
     
 
