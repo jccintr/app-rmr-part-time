@@ -15,7 +15,7 @@ const Home = () => {
 
     const onServicePress  = (servico) =>{
   
-        navigation.navigate('Servico',{servico: servico})
+        navigation.navigate('ServicoClient',{servico: servico})
      }
 
 
@@ -51,7 +51,7 @@ const Home = () => {
                     <Text style={styles.title}>Serviços disponíveis</Text>
                     <View style={styles.servicesContainer}>
                     {services.map((service) => (
-                        <ServiceCard servico={service} key={service.id} onPress={onServicePress}/>
+                        <ServiceCard servico={service} role="client" key={service.id} onPress={onServicePress}/>
                     
                     ))}
                 

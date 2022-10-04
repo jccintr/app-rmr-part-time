@@ -1,12 +1,12 @@
 import React, { useEffect,useState } from 'react';
 import { StyleSheet,Image,Text, SafeAreaView,View,ScrollView, TouchableOpacity,ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { cores } from '../style/globalStyle';
-import Api from '../Api';
+import { cores } from '../../style/globalStyle';
+import Api from '../../Api';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import WorkerCard from '../components/WorkerCard';
+import WorkerCard from '../../components/WorkerCard';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 
@@ -15,7 +15,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 
 
-const Servico = ({route}) => {
+const ServicoClient = ({route}) => {
     const [contratados,setContratados] = useState([]);
     const {servico} = route.params;
     const [isLoading,setIsLoading] = useState(true);
@@ -49,7 +49,7 @@ const Servico = ({route}) => {
          </View>
          <View style={styles.horarioArea}>
             <FontAwesome5 name="clock" size={24} color={cores.amarelo} />
-            <Text style={styles.horarioText}>Das 8h a 17h</Text>
+            <Text style={styles.horarioText}>{servico.Horario}</Text>
          </View>
          <View style={styles.horarioArea}>
             <FontAwesome5 name="money-bill-alt" size={24} color={cores.amarelo} />
@@ -66,7 +66,7 @@ const Servico = ({route}) => {
   )
 }
 
-export default Servico
+export default ServicoClient
 
 
 const styles = StyleSheet.create({

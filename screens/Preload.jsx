@@ -16,6 +16,8 @@ const Preload = () => {
             if(token){
                 // pegar os dados do usuario
                 let jsonUser = await Api.getUser(token);
+                await AsyncStorage.setItem('userId', jsonUser.id.toString());
+                await AsyncStorage.setItem('userRole', jsonUser.role);
                 if (jsonUser.role === 'cliente')
                     navigation.reset({routes:[{name:'ClientTab'}]});
                 else

@@ -28,6 +28,8 @@ const SignIn = () => {
       await AsyncStorage.setItem('token', json.authToken);
       let jsonUser = await Api.getUser(json.authToken);
       await AsyncStorage.setItem('userName', jsonUser.name);
+      await AsyncStorage.setItem('userId', jsonUser.id.toString());
+      await AsyncStorage.setItem('userRole', jsonUser.role);
       if (jsonUser.role === 'cliente')
          navigation.reset({routes:[{name:'ClientTab'}]});
       else

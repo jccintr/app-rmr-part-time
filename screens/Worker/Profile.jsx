@@ -11,6 +11,8 @@ const Profile = () => {
     const onLogout = async () => {
 
         await AsyncStorage.setItem('token','');
+        await AsyncStorage.setItem('userId', '');
+        await AsyncStorage.setItem('userRole', '');
         navigation.reset({routes:[{name:'SignIn'}]});
     }
     

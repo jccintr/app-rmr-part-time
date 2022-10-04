@@ -2,15 +2,15 @@ import React, { useEffect,useState } from 'react';
 import { StyleSheet, Text, Image,View,TouchableOpacity} from 'react-native';
 import { cores } from '../style/globalStyle';
 
-const ServiceCard = ({servico,onPress}) => {
+const ServiceCard = ({servico,role,onPress}) => {
   return (
     <TouchableOpacity style={styles.serviceCard}  key={servico.id} onPress={()=>onPress(servico)}>
                 <Image style={styles.serviceImage} source={{uri: servico.Imagem.url,}}/>
                
                    <Text style={styles.serviceName}>{servico.Nome}</Text>
                    <View style={styles.priceArea}>
-                      <Text style={styles.serviceTitle}>A partir de </Text>
-                      <Text style={styles.servicePrice}>{servico.Valor_Cliente} €</Text>
+                      <Text style={styles.serviceTitle}>{role==="client" ? 'A partir de ': 'Receba a partir de '}</Text>
+                      <Text style={styles.servicePrice}>{role==="client" ? servico.Valor_Cliente:servico.Valor_Profissional} €</Text>
                    </View>
                
                
