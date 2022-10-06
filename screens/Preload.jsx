@@ -12,16 +12,30 @@ const Preload = () => {
     useEffect(()=>{
         const checkToken = async () => {
             const token = await AsyncStorage.getItem('token');
-
+            
             if(token){
-                // pegar os dados do usuario
-                let jsonUser = await Api.getUser(token);
-                await AsyncStorage.setItem('userId', jsonUser.id.toString());
-                await AsyncStorage.setItem('userRole', jsonUser.role);
-                if (jsonUser.role === 'cliente')
-                    navigation.reset({routes:[{name:'ClientTab'}]});
-                else
-                    navigation.reset({routes:[{name:'WorkerTab'}]});
+                
+                let response = await Api.getUser(token);
+                console.log("status="+response.status);
+                if (response.status===200){
+                    let jsonUser = await response.json(); 
+                   
+                    await AsyncStorage.setItem('userId', jsonUser.id.toString());
+                    await AsyncStorage.setItem('userRole', jsonUser.role);
+                    if (jsonUser.role === 'cliente')
+                        navigation.reset({routes:[{name:'ClientTab'}]});
+                    else
+                        navigation.reset({routes:[{name:'WorkerTab'}]});
+                } else
+                {
+                    navigation.reset({
+                        routes:[{name:'SignIn'}]
+                    });
+                }
+                
+                
+              
+               
 
             }
             else {

@@ -38,6 +38,7 @@ const ServicoClient = ({route}) => {
     return (
    <SafeAreaView style={styles.container}>
     <StatusBar />
+    <ScrollView showsVerticalScrollIndicator={false}>
     <TouchableOpacity style={styles.botaoVoltar} onPress={()=>navigation.goBack()}>
        <Ionicons name="chevron-back" size={30} color="#fff" />
     </TouchableOpacity>
@@ -57,11 +58,12 @@ const ServicoClient = ({route}) => {
          </View>
          <Text style={styles.subTitle}>Profissionais disponíveis</Text>
          {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.amarelo}/>}
-         {contratados.map((contratado) => (
+         {contratados.filter(contratado=>contratado.ativo==true).map((contratado) => (
                      
                        <WorkerCard key={contratado.id} contratado={contratado}/>
                     ))}
     </View>
+    </ScrollView>
    </SafeAreaView>
   )
 }

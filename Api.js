@@ -18,8 +18,11 @@ export default {
             },
             
         });
-        const json = await response.json();        
-        return json;
+       
+      // const json = await response.json();  
+       
+             
+        return response;
 
     },
 
@@ -90,9 +93,62 @@ export default {
         const json = await req.json();        
         return json;
     },
-
-    
-
+    subscribeService: async (idUser,idService) => {
+         const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({user_id: idUser,servicos_id: idService, ativo: true})
+        });
+        return response;
+    },
+    unSubscribeService: async (id) => {
+        const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados', {
+           method: 'POST',
+           headers: {
+               Accept: 'application/json',
+               'Content-Type': 'application/json'
+           },
+           body: JSON.stringify({user_id: idUser,servicos_id: idService})
+       });
+       return response;
+   },
+   activeService: async (id) => {
+    const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados/${id}`, {
+       method: 'POST',
+       headers: {
+           Accept: 'application/json',
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({ativo: true})
+   });
+   return response;
+},
+deActiveService: async (id) => {
+    const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados/${id}`, {
+       method: 'POST',
+       headers: {
+           Accept: 'application/json',
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({ativo: false})
+   });
+   return response;
+},
+updateUser: async (id,documento,endereco,bairro,cidade,token) => {
+    const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:32bM-PSO/user/${id}`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({documento,endereco,bairro,cidade})
+     });
+     return response.json();
+},
    
   
    

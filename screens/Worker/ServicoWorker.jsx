@@ -17,9 +17,13 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 const ServicoWorker = ({route}) => {
     const [contratados,setContratados] = useState([]);
+    const [idContrato,setIdContrato] = useState(0);
     const [inscrito,setInscrito] = useState(false);
+    const [cadastrado,setCadastrado] = useState(false);
     const {servico} = route.params;
+    const [userId,setUserId] = useState('');
     const [isLoading,setIsLoading] = useState(true);
+   
     const navigation = useNavigation();
 
 
@@ -27,16 +31,53 @@ const ServicoWorker = ({route}) => {
       const getContratados = async (idServico) => {
       let json = await Api.getContratadosByService(idServico);
       let userId = await AsyncStorage.getItem('userId');
+      setUserId(userId);
       for(let i=0;i<json.length;i++){
         
-         if (json[i].user_id==userId)
-             setInscrito(true);
+         if (json[i].user_id==userId){
+             setCadastrado(true);
+             setInscrito(json[i].ativo);
+             setIdContrato(json[i].id);
+         }
       }
       setIsLoading(false);
       setContratados(json);
       }
       getContratados(servico.id);
     }, []);
+
+   
+
+    const subscribeService = async (idServico) => {
+     
+      if (!cadastrado) {
+        let json = await Api.subscribeService(userId,idServico);
+        setInscrito(true);
+        setCadastrado(true);
+        
+      } else { // já cadastrado, apenas ativar o contrato
+        let json = await Api.activeService(idContrato);
+        setInscrito(true);
+        setCadastrado(true);
+      
+      }
+      let jsonContratados = await Api.getContratadosByService(idServico);
+      setContratados(jsonContratados);
+
+    }
+
+    const unSubscribeService = async (idServico) => {
+
+
+     if(cadastrado) { // já cadastrado, apenas desativar o contrato
+      let json = await Api.deActiveService(idContrato);
+      setInscrito(false);
+      setCadastrado(true);
+      let jsonContratados = await Api.getContratadosByService(idServico);
+      setContratados(jsonContratados);
+     }
+    
+    }
 
 
 
@@ -60,11 +101,19 @@ const ServicoWorker = ({route}) => {
          </View>
          <View style={styles.horarioArea}>
             <FontAwesome5 name="money-bill-alt" size={24} color={cores.amarelo} />
-            <Text style={styles.horarioText}>{servico.Valor_Profissional}€ por {servico.Unidade==='H'? 'hora': 'diária'} {servico.Periodo_Minimo?'(Mínimo '+servico.Periodo_Minimo +' horas)':''}</Text>
+            <Text style={styles.horarioText}>{servico.Valor_Profissional} € por {servico.Unidade==='H'? 'hora': 'diária'} {servico.Periodo_Minimo?'(Mínimo '+servico.Periodo_Minimo +' horas)':''}</Text>
          </View>
-         <TouchableOpacity style={styles.button}>
-             <Text style={styles.buttonText}>{!inscrito? 'INSCREVER NESTE SERVIÇO':'CANCELAR INSCRIÇÃO'}</Text>
-         </TouchableOpacity>
+
+         {cadastrado && inscrito &&  <Text style={styles.warningText}>Você já está inscrito neste serviço.</Text>}
+         {cadastrado & inscrito ? 
+             <TouchableOpacity style={styles.button} onPress={()=>unSubscribeService(servico.id)}>
+                  <Text style={styles.buttonText}>CANCELAR INSCRIÇÃO</Text>
+             </TouchableOpacity> : 
+             <TouchableOpacity style={styles.button} onPress={()=>subscribeService(servico.id)}>
+                <Text style={styles.buttonText}>INSCREVA-SE NESTE SERVIÇO</Text>
+             </TouchableOpacity>
+          }
+         
         
     </View>
    </SafeAreaView>
@@ -160,6 +209,11 @@ const styles = StyleSheet.create({
      
         fontWeight: 'bold',
       },
+      warningText:{
+        color: '#f00',
+        fontSize: 16,
+        marginTop: 10,
+      }
    
    
     

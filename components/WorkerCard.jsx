@@ -2,13 +2,14 @@ import React, { useEffect,useState } from 'react';
 import { StyleSheet, Text, Image,View,TouchableOpacity} from 'react-native';
 import { cores } from '../style/globalStyle';
 import Stars from './Stars';
+import avatar from '../assets/avatar.jpg';
 
 
 const WorkerCard = ({contratado}) => {
   return (
     <TouchableOpacity style={styles.workerCard}  key={contratado.id} >
          <View>
-           <Image style={styles.workerImage} source={{uri: contratado._user.foto.url,}}/>
+           <Image style={styles.workerImage} source={contratado._user.foto != null ? {uri: contratado._user.foto.url,} : avatar}/>
          </View>
          <View style={styles.detailArea}>
             <Text style={styles.workerName}>{contratado._user.name}</Text>

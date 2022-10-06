@@ -26,7 +26,8 @@ const SignIn = () => {
      const json = await response.json(); 
      if(json.authToken){
       await AsyncStorage.setItem('token', json.authToken);
-      let jsonUser = await Api.getUser(json.authToken);
+      let response = await Api.getUser(json.authToken);
+      let jsonUser = await response.json(); 
       await AsyncStorage.setItem('userName', jsonUser.name);
       await AsyncStorage.setItem('userId', jsonUser.id.toString());
       await AsyncStorage.setItem('userRole', jsonUser.role);
@@ -65,6 +66,7 @@ const SignIn = () => {
             value={email}
             onChangeText={t=>setEmail(t)}
             password={false}
+            keyboard="email-address"
         />
         <InputField 
             iconProvider="AntDesign"
@@ -73,6 +75,7 @@ const SignIn = () => {
             value={password}
             onChangeText={t=>setPassword(t)}
             password={true}
+            keyboard="default"
         />
         <TouchableOpacity onPress={onSignInTouch} style={styles.button}>
          <Text style={styles.buttonText}>ENTRAR</Text>

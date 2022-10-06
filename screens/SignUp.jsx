@@ -40,6 +40,8 @@ const SignUp = () => {
            
             await AsyncStorage.setItem('token', json.authToken);
             await AsyncStorage.setItem('userName', nome);
+            await AsyncStorage.setItem('userId', json.id.toString());
+            await AsyncStorage.setItem('userRole', json.role);
             if (role===0)
                navigation.reset({routes:[{name:'ClientTab'}]});
             else
@@ -83,6 +85,7 @@ const SignUp = () => {
            value={nome}
            onChangeText={t=>setNome(t)}
            password={false}
+           keyboard="default"
        />
        <InputField 
             iconProvider="FontAwesome"
@@ -91,6 +94,7 @@ const SignUp = () => {
            value={telefone}
            onChangeText={t=>setTelefone(t)}
            password={false}
+           keyboard="number-pad"
        />
        <InputField 
             iconProvider="AntDesign"
@@ -99,6 +103,7 @@ const SignUp = () => {
             value={email}
             onChangeText={t=>setEmail(t)}
             password={false}
+            keyboard="email-address"
         />
        <InputField 
            iconProvider="AntDesign"
@@ -107,6 +112,7 @@ const SignUp = () => {
            value={password}
            onChangeText={t=>setPassword(t)}
            password={true}
+           keyboard="default"
        />
        <InputField 
        iconProvider="AntDesign"
@@ -115,6 +121,7 @@ const SignUp = () => {
            value={passwordConfirm}
            onChangeText={t=>setPasswordConfirm(t)}
            password={true}
+           keyboard="default"
        />
        <View style={styles.roleArea}>
          <TouchableOpacity onPress={()=>setRole(0)} style={role===0?styles.roleButtonSelected:styles.roleButton}>
