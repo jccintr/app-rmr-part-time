@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
-const ModalCadastro= ({modalVisible,setModalVisible,userData,token,documento,setDocumento,endereco,setEndereco,bairro,setBairro,cidade,setCidade,updateCadastro}) => {
+const ModalCadastro2 = ({modalVisible,setModalVisible,userData,token,documento,setDocumento,endereco,setEndereco,bairro,setBairro,cidade,setCidade,updateCadastro}) => {
    
 /*
    useEffect(()=>{
@@ -82,7 +82,7 @@ const ModalCadastro= ({modalVisible,setModalVisible,userData,token,documento,set
   )
 }
 
-export default ModalCadastro
+export default ModalCadastro2
 
 
 const styles = StyleSheet.create({

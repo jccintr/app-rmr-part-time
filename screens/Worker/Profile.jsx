@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import { StyleSheet, Text, SafeAreaView, View,Image,} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View,Image,KeyboardAvoidingView, TextInput} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import MenuPerfil from '../../components/MenuPerfil';
@@ -16,6 +16,11 @@ const Profile = () => {
     const [userData,setUserData] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
     const [token,setToken] = useState(null);
+    const [documento,setDocumento] = useState('');
+    const [endereco,setEndereco] = useState('');
+    const [bairro,setBairro] = useState('');
+    const [cidade,setCidade] = useState('');
+  
 
     
 
@@ -32,18 +37,35 @@ const Profile = () => {
                     let jsonUser = await response.json(); 
                     
                     setUserData(jsonUser);
+                    setDocumento(jsonUser.documento);
+                    setEndereco(jsonUser.endereco);
+                    setBairro(jsonUser.bairro);
+                    setCidade(jsonUser.cidade);
                 }
-            }
+            } 
 
         }
         getUser();
     }, []);
 
 
+  const onCadastroPress = () => {
+    console.log('userData='+userData);
+    setModalVisible(true);
 
+  }
+
+  const updateCadastro = async () => {
+
+    let json = Api.updateUser(userData.id,documento,endereco,bairro,cidade,token)
+    setModalVisible(false);
+  
+}
     
             
-    
+    const onNada = () => {
+        alert("Ainda não disponível.");
+    }
 
 
 
@@ -55,9 +77,6 @@ const Profile = () => {
         navigation.reset({routes:[{name:'SignIn'}]});
     }
 
-    const onNada = () =>{
-
-    }
     
 
 
@@ -68,14 +87,30 @@ const Profile = () => {
                     <Text style={styles.userNameText}>{userData.name}</Text>
                     <Text style={styles.fraseHeader}>{userData==='cliente'?'Cliente':'Profissional'}</Text>
             </View>
+          
             <Image style={styles.avatar} source={userData.foto != null ? {uri: userData.foto.url,} : avatar}/>
+            
            <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
-           <MenuPerfil iconName="user-circle-o" iconProvider="FontAwesome" label="Meus Cadastro" onPress={()=>setModalVisible(true)}/>
+           <MenuPerfil iconName="user-circle-o" iconProvider="FontAwesome" label="Meus Cadastro" onPress={onCadastroPress}/>
            <MenuPerfil iconName="mail" iconProvider="AntDesign" label="Fale Conosco" onPress={onNada}/>
            <MenuPerfil iconName="checklist" iconProvider="Octicons" label="Termo de Uso" onPress={onNada}/>
            <MenuPerfil iconName="policy" iconProvider="MaterialIcons" label="Política de Privacidade" onPress={onNada}/>
            <MenuPerfil iconName="logout" iconProvider="MaterialIcons" label="Sair" onPress={onLogout}/>
-             <ModalCadastro modalVisible={modalVisible} setModalVisible={setModalVisible} user={userData} token={token}/>   
+             <ModalCadastro
+               modalVisible={modalVisible} 
+               setModalVisible={setModalVisible} 
+               userData={userData} 
+               token={token} 
+               documento={documento}
+               setDocumento={setDocumento}
+               endereco={endereco} 
+               setEndereco={setEndereco}
+               bairro={bairro}
+               setBairro={setBairro}
+               cidade={cidade}
+               setCidade={setCidade}
+               updateCadastro={updateCadastro}
+               />   
         </SafeAreaView>
        )
 }
