@@ -5,6 +5,7 @@ import Preload from "../screens/Preload";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
 import ServicoClient from "../screens/Client/ServicoClient";
+import NovoPedido from "../screens/Client/NovoPedido";
 import ServicoWorker from "../screens/Worker/ServicoWorker";
 
 import ClientTab from "./ClientTab";
@@ -21,6 +22,7 @@ const MainStack = () => {
         <Stack.Screen name="SignIn" component={SignIn}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
         <Stack.Screen name="ServicoClient" component={ServicoClient}/>
+        <Stack.Screen name="NovoPedido" component={NovoPedido}/>
         <Stack.Screen name="ServicoWorker" component={ServicoWorker}/>
         <Stack.Screen name="ClientTab" component={ClientTab}/>
         <Stack.Screen name="WorkerTab" component={WorkerTab}/>

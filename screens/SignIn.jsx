@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text,Image,TextInput, SafeAreaView,View,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text,Image,TextInput, SafeAreaView,View,TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { cores } from '../style/globalStyle';
 import logo from '../assets/logo-rmr-transparente-1080.png';
 import { useNavigation } from '@react-navigation/native';
@@ -53,7 +53,7 @@ const SignIn = () => {
  }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAvoidingView behavior='height' style={styles.container}>
      <View style={styles.header}>   
           <Image source={logo} style={styles.logo}/>
           <Text style={styles.headerText}>Bem-vindo ao RMR Part-Time</Text>
@@ -87,7 +87,7 @@ const SignIn = () => {
         
         
      </View> 
-   </SafeAreaView>
+   </KeyboardAvoidingView>
   )
 }
 

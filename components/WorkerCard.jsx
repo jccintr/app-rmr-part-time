@@ -5,16 +5,24 @@ import Stars from './Stars';
 import avatar from '../assets/avatar.jpg';
 
 
-const WorkerCard = ({contratado}) => {
+const WorkerCard = ({contratado,onPress}) => {
   return (
-    <TouchableOpacity style={styles.workerCard}  key={contratado.id} >
+    <TouchableOpacity style={styles.workerCard}  key={contratado.id} onPress={onPress}>
+         
          <View>
            <Image style={styles.workerImage} source={contratado._user.foto != null ? {uri: contratado._user.foto.url,} : avatar}/>
          </View>
+
          <View style={styles.detailArea}>
             <Text style={styles.workerName}>{contratado._user.name}</Text>
             <Text style={styles.localLine}>{contratado._user.bairro} - {contratado._user.cidade}</Text>
             <Stars stars={contratado._user.stars.toString()}/>
+         </View>
+        
+         <View style={styles.botaoContratar}>
+        
+               <Text style={{color:'#fff'}}>CONTRATAR</Text>
+           
          </View>
     </TouchableOpacity>
   )
@@ -37,6 +45,7 @@ const styles = StyleSheet.create({
      borderWidth: 1,
      borderColor: '#c1c1c1',
      justifyContent: 'flex-start',
+     alignItems: 'center',
   } ,
   workerImage: {
     width: 70,
@@ -50,6 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingLeft: 10,
+    height: 70,
   },
   workerName:{
       fontWeight: 'bold',
@@ -63,6 +73,16 @@ const styles = StyleSheet.create({
       width: '100%',
       textAlign: 'left',
       
+    },
+    botaoContratar:{
+      marginLeft: 40,
+      backgroundColor: cores.amarelo,
+      height: 30,
+      width: 100,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius:10,
+
     }
  
  

@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import { StyleSheet, Text, SafeAreaView,View,ScrollView} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { cores } from '../../style/globalStyle';
 import { StatusBar } from 'expo-status-bar';

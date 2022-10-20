@@ -85,7 +85,7 @@ const Profile = () => {
         
              <View style={styles.userNameArea}>
                     <Text style={styles.userNameText}>{userData.name}</Text>
-                    <Text style={styles.fraseHeader}>{userData==='cliente'?'Cliente':'Profissional'}</Text>
+                    <Text style={styles.fraseHeader}>{userData.role==='cliente'?'Cliente':'Profissional'}</Text>
             </View>
           
             <Image style={styles.avatar} source={userData.foto != null ? {uri: userData.foto.url,} : avatar}/>

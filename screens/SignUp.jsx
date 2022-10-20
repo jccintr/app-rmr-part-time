@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text,Image,ScrollView, SafeAreaView,View,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text,Image,ScrollView, SafeAreaView,View,TouchableOpacity,KeyboardAvoidingView} from 'react-native';
 import { cores } from '../style/globalStyle';
 import logo from '../assets/logo-rmr-transparente-1080.png';
 import Api from '../Api';
@@ -69,7 +69,7 @@ const SignUp = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-    <SafeAreaView style={styles.container}>
+    <KeyboardAvoidingView behavior='height' style={styles.container}>
   
     <View style={styles.header}>   
           <Image source={logo} style={styles.logo}/>
@@ -143,7 +143,7 @@ const SignUp = () => {
       
     </View> 
   
-  </SafeAreaView>
+  </KeyboardAvoidingView>
   </ScrollView>
  
   )

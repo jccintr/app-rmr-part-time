@@ -1,12 +1,11 @@
 {
   "expo": {
-    "name": "rmr",
+    "name": "RMR",
     "slug": "rmr",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icone-1080.png",
     "userInterfaceStyle": "light",
-    
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -20,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icone-1080.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.jccintr.rmr"
     },
     "web": {
       "favicon": "./assets/favicon.png"

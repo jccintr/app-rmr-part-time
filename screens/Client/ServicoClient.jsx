@@ -1,6 +1,5 @@
 import React, { useEffect,useState } from 'react';
 import { StyleSheet,Image,Text, SafeAreaView,View,ScrollView, TouchableOpacity,ActivityIndicator} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { cores } from '../../style/globalStyle';
 import Api from '../../Api';
 import { StatusBar } from 'expo-status-bar';
@@ -31,7 +30,10 @@ const ServicoClient = ({route}) => {
       getContratados(servico.id);
     }, []);
 
-
+    const onWorkerPress  = (servico) =>{
+  
+      navigation.navigate('NovoPedido',{servico: servico})
+   }
 
 
    
@@ -59,8 +61,9 @@ const ServicoClient = ({route}) => {
          <Text style={styles.subTitle}>Profissionais disponíveis</Text>
          {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.amarelo}/>}
          {contratados.filter(contratado=>contratado.ativo==true).map((contratado) => (
-                     
-                       <WorkerCard key={contratado.id} contratado={contratado}/>
+                      
+                       <WorkerCard key={contratado.id} contratado={contratado} onPress={onWorkerPress}/>
+                       
                     ))}
     </View>
     </ScrollView>
