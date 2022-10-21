@@ -149,6 +149,17 @@ updateUser: async (id,documento,endereco,bairro,cidade,token) => {
      });
      return response.json();
 },
+addContrato: async () => {
+    const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados', {
+       method: 'POST',
+       headers: {
+           Accept: 'application/json',
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({user_id: idUser,servicos_id: idService})
+   });
+   return response;
+},
    
   
    

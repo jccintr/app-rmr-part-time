@@ -7,33 +7,77 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import InputArea from '../../components/InputArea';
 import InputField2 from '../../components/InputField2';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-/*
-id cliente => pegar no storage
-id profissional => receber na rota
-id servico => receber na rota
 
-*/
 
 
 const NovoPedido = ({route}) => {
      const [idCliente,setIdCliente] = useState('');
      const {servico,contratado} = route.params;
      const navigation = useNavigation();
-     const [data,setData] = useState('25/10/2022');
+     const [data,setData] = useState(new Date());
      const [local,setLocal] = useState('Avenida dos Autonomistas, 345 - Centro - Osasco - SP');
-     const [quant,setQuant] = useState(2);
-     const [unidade,setUnidade] = useState('h');
-     const [valorUnitario,setValorUnitario] = useState(16);
-     const [total,setTotal] = useState(quant*valorUnitario);
+     const [quant,setQuant] = useState(1);
+     const [unidade,setUnidade] = useState(servico.Unidade);
+     const [valorUnitario,setValorUnitario] = useState(servico.Valor_Cliente);
+     const [total,setTotal] = useState(servico.Valor_Cliente);
      const [mensagem,setMensagem] = useState('Cuidado com o cachorro');
+     const [showDatePicker, setShowDatePicker] = useState(false);
     
 
-    useEffect(()=>{
+
+    useEffect(() => {
+      CalculaTotal();
+    }, [quant, valorUnitario]);
+
+/*
+    const LoadData = () => {
+
+      setUnidade(servico.Unidade);
+    }
+*/
+
+      const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setShowDatePicker(false);
+        setData(currentDate);
+      };
+
+      const showDatepicker = () => {
+         setShowDatePicker(true);
+      };
+
+      const formataData = (data) => {
+       
+        let dia = data.getDate().toString();
+        let mes = (data.getMonth()+1).toString();
+        let ano = data.getFullYear();
+        dia = (dia.length==1) ? "0"+dia : dia;
+        mes = (mes.length==1) ? "0"+mes : mes;
+       
+        return dia +"/"+mes+"/"+ano;
+      }
+
+      const buttonPlus = () => {
+     
+         setQuant(quant+1);
         
-      }, []);
+        
+      }
 
+      const buttonMinus = () => {
 
+        if (quant>1){
+            setQuant(quant-1);
+            
+        }
+      }
+
+      const CalculaTotal = () => {
+        let tt = quant * valorUnitario;
+        setTotal(tt);
+      };
 
 
   return (
@@ -53,14 +97,17 @@ const NovoPedido = ({route}) => {
         </View>
        
      </View>
+          <TouchableOpacity onPress={showDatepicker}>
           <InputField2 
            label="Data:"
            placeholder="Data da execução do serviço"
            password={false}
            keyboard="default"
-           value={data}
+           value={formataData(data)}
            onChangeText={t=>setData(t)}
+           editable={false}
           />
+          </TouchableOpacity>
           <InputArea 
           label="Local do Serviço:"
           placeholder="Informe onde o serviço será efetuado"
@@ -74,14 +121,14 @@ const NovoPedido = ({route}) => {
         
          <View style={styles.quantArea}>
             <View style={styles.quantAreaLeft}>
-              <TouchableOpacity style={styles.quantButton}>
+              <TouchableOpacity style={styles.quantButton} onPress={buttonMinus}>
                   <Text style={styles.quantButtonText}>-</Text>
               </TouchableOpacity>
               <View style={styles.labelQuantArea}>
                  <Text style={styles.labelQuant}>{quant} {unidade}</Text>
               </View>
              
-              <TouchableOpacity style={styles.quantButton}>
+              <TouchableOpacity style={styles.quantButton} onPress={buttonPlus}>
                   <Text style={styles.quantButtonText}>+</Text>
               </TouchableOpacity>
             </View>
@@ -104,7 +151,16 @@ const NovoPedido = ({route}) => {
      <TouchableOpacity style={styles.button} >
            <Text style={styles.buttonText}>CONTRATAR</Text>
        </TouchableOpacity> 
-   
+       {showDatePicker && (
+        <DateTimePicker
+         
+          value={data}
+          mode="date"
+          is24Hour={true}
+          onChange={onChange}
+          display="default"
+        />
+      )}
    
    </SafeAreaView>
   
@@ -136,23 +192,20 @@ const styles = StyleSheet.create({
       top: 30,
       left: 10,
       zIndex: 99,
-
-        width: '100%',
-        height: 50,
-       flexDirection: 'row',
-       justifyContent: 'flex-start',
-       alignItems: 'center',
-       paddingHorizontal: 5,
-       marginBottom: 10,
-      
+      width: '100%',
+      height: 50,
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      paddingHorizontal: 5,
+      marginBottom: 10,
 
     },
     titleText:{
-      fontWeight: 'bold',
-      fontSize: 18,
-      color: cores.amarelo,
-
-    },
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: cores.amarelo,
+   },
     body:{
       paddingHorizontal: 10,
     },
@@ -162,17 +215,14 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'flex-start',
       height:70,
-    
-      
-      marginBottom: 10,
-      
+     marginBottom: 10,
+  
     },
     contratadoAreaDetail:{
       flexDirection: 'column',
       alignItems: 'flex-start',
       justifyContent: 'space-around',
       height:70,
-     
       paddingLeft: 10,
     },
     
@@ -225,13 +275,13 @@ const styles = StyleSheet.create({
       fontSize: 22,
     },
     labelQuantArea:{
-      width: 40,
+      marginHorizontal: 3,
       height: 40,
       alignItems: 'center',
       justifyContent: 'center',
     },
     labelQuant:{
-       fontWeight: 'bold',
+      
        fontSize: 16,
     
     },

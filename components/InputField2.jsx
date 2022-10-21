@@ -5,7 +5,7 @@ import { StyleSheet, View,TextInput,Text} from 'react-native';
 
 
 
-const InputField2 = ( {label,placeholder, value, onChangeText, password,keyboard} ) => {
+const InputField2 = ( {label,placeholder, value, onChangeText, password,keyboard,editable} ) => {
   return (
     <>   
     <Text style={styles.labelText}>{label}</Text> 
@@ -17,6 +17,7 @@ const InputField2 = ( {label,placeholder, value, onChangeText, password,keyboard
          onChangeText={onChangeText}
          secureTextEntry={password}
          keyboardType={keyboard}
+         editable={editable}
        />
     </View>
     </>
