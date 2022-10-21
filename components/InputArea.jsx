@@ -5,18 +5,21 @@ import { StyleSheet, View,TextInput,Text} from 'react-native';
 
 
 
-const InputField2 = ( {label,placeholder, value, onChangeText, password,keyboard} ) => {
+const InputArea = ( {label,placeholder, value, onChangeText, password,keyboard,linhas} ) => {
   return (
     <>   
     <Text style={styles.labelText}>{label}</Text> 
     <View style={styles.inputArea}>
       
      <TextInput style={styles.input}
+         multiline
+         numberOfLines={linhas}
          placeholder={placeholder}
          value={value}
          onChangeText={onChangeText}
          secureTextEntry={password}
          keyboardType={keyboard}
+         
        />
     </View>
     </>
@@ -24,14 +27,14 @@ const InputField2 = ( {label,placeholder, value, onChangeText, password,keyboard
   )
 }
 
-export default InputField2
+export default InputArea
 
 
 const styles = StyleSheet.create({
     inputArea: {
 
         width: '100%',
-        height: 50,
+        height: 80,
       
         flexDirection: 'row',
        borderColor: '#c1c1c1',

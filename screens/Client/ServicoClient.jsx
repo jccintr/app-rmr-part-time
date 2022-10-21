@@ -9,7 +9,7 @@ import WorkerCard from '../../components/WorkerCard';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 
-
+ 
 
 
 
@@ -30,9 +30,9 @@ const ServicoClient = ({route}) => {
       getContratados(servico.id);
     }, []);
 
-    const onWorkerPress  = (servico) =>{
-  
-      navigation.navigate('NovoPedido',{servico: servico})
+    const onWorkerPress  = (contratado) =>{
+      console.log(contratado.id);
+      navigation.navigate('NovoPedido',{servico: servico,contratado: contratado})
    }
 
 
@@ -62,7 +62,7 @@ const ServicoClient = ({route}) => {
          {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.amarelo}/>}
          {contratados.filter(contratado=>contratado.ativo==true).map((contratado) => (
                       
-                       <WorkerCard key={contratado.id} contratado={contratado} onPress={onWorkerPress}/>
+                       <WorkerCard key={contratado.id} contratado={contratado} onPress={()=>onWorkerPress(contratado)}/>
                        
                     ))}
     </View>

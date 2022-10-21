@@ -1,9 +1,12 @@
 import React, {useState,useEffect} from 'react'
-import { SafeAreaView, StyleSheet,Text,View} from 'react-native';
+import { SafeAreaView, StyleSheet,Text,View,TouchableOpacity,Image} from 'react-native';
 import { cores } from '../../style/globalStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StatusBar } from 'expo-status-bar';
-
+import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import InputArea from '../../components/InputArea';
+import InputField2 from '../../components/InputField2';
 
 /*
 id cliente => pegar no storage
@@ -15,7 +18,16 @@ id servico => receber na rota
 
 const NovoPedido = ({route}) => {
      const [idCliente,setIdCliente] = useState('');
-   
+     const {servico,contratado} = route.params;
+     const navigation = useNavigation();
+     const [data,setData] = useState('25/10/2022');
+     const [local,setLocal] = useState('Avenida dos Autonomistas, 345 - Centro - Osasco - SP');
+     const [quant,setQuant] = useState(2);
+     const [unidade,setUnidade] = useState('h');
+     const [valorUnitario,setValorUnitario] = useState(16);
+     const [total,setTotal] = useState(quant*valorUnitario);
+     const [mensagem,setMensagem] = useState('Cuidado com o cachorro');
+    
 
     useEffect(()=>{
         
@@ -26,9 +38,74 @@ const NovoPedido = ({route}) => {
 
   return (
    <SafeAreaView style={styles.container}>
-    <View style={styles.titleArea}>
-            <Text style={styles.titleText}>Novo Pedido</Text>
-    </View>
+      <StatusBar />
+     <Image style={styles.serviceImage} source={{uri: servico.Imagem.url,}}/>
+     <TouchableOpacity style={styles.titleArea} onPress={()=>navigation.goBack()}>
+       <Ionicons name="chevron-back" size={30} color={cores.amarelo} />
+       <Text style={styles.titleText}>Novo Pedido</Text>
+     </TouchableOpacity>
+     <View style={styles.body}>
+     <View style={styles.contratadoArea}>
+        <Image style={styles.workerImage} source={{uri: contratado._user.foto.url,}}/>
+        <View style={styles.contratadoAreaDetail}>
+             <Text style={styles.contratadoNameText}>{contratado._user.name}</Text>
+             <Text>{servico.Nome}</Text>
+        </View>
+       
+     </View>
+          <InputField2 
+           label="Data:"
+           placeholder="Data da execução do serviço"
+           password={false}
+           keyboard="default"
+           value={data}
+           onChangeText={t=>setData(t)}
+          />
+          <InputArea 
+          label="Local do Serviço:"
+          placeholder="Informe onde o serviço será efetuado"
+          password={false}
+          keyboard="default"
+          value={local}
+          onChangeText={t=>setLocal(t)}
+          linhas={2}
+          
+         />
+        
+         <View style={styles.quantArea}>
+            <View style={styles.quantAreaLeft}>
+              <TouchableOpacity style={styles.quantButton}>
+                  <Text style={styles.quantButtonText}>-</Text>
+              </TouchableOpacity>
+              <View style={styles.labelQuantArea}>
+                 <Text style={styles.labelQuant}>{quant} {unidade}</Text>
+              </View>
+             
+              <TouchableOpacity style={styles.quantButton}>
+                  <Text style={styles.quantButtonText}>+</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.quantAreaRight}>
+              <Text style={styles.totalText}>Total: {total} €</Text>
+            </View>
+         </View>
+
+         <InputArea 
+          label="Mensagem:"
+          placeholder="Informações adicionais ao contratado"
+          password={false}
+          keyboard="default"
+          value={mensagem}
+          onChangeText={t=>setMensagem(t)}
+          linhas={4}
+         />
+     
+     </View>
+     <TouchableOpacity style={styles.button} >
+           <Text style={styles.buttonText}>CONTRATAR</Text>
+       </TouchableOpacity> 
+   
+   
    </SafeAreaView>
   
   )
@@ -40,19 +117,31 @@ export default NovoPedido
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        paddingTop: 40,
+       
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#fff',
-        paddingHorizontal:5,
+      
      
     },
+    serviceImage:{
+      width: '100%',
+      height: 200,
+      marginBottom: 10,
+      
+    },
     titleArea:{
+      position: 'absolute',
+      top: 30,
+      left: 10,
+      zIndex: 99,
+
         width: '100%',
         height: 50,
        flexDirection: 'row',
-       justifyContent: 'space-between',
+       justifyContent: 'flex-start',
+       alignItems: 'center',
        paddingHorizontal: 5,
        marginBottom: 10,
       
@@ -64,6 +153,111 @@ const styles = StyleSheet.create({
       color: cores.amarelo,
 
     },
+    body:{
+      paddingHorizontal: 10,
+    },
+    contratadoArea: {
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      height:70,
+    
+      
+      marginBottom: 10,
+      
+    },
+    contratadoAreaDetail:{
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'space-around',
+      height:70,
+     
+      paddingLeft: 10,
+    },
+    
+    workerImage: {
+      width: 70,
+      height: 70,
+     borderRadius:10,
+      
+    },
+    contratadoNameText:{
+      fontWeight: 'bold',
+      fontSize: 16,
+     
+    },
+    serviceNameText:{
+      fontSize: 16,
+     
+    },
+    quantArea:{
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 10,
+    },
+    quantAreaLeft:{
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    quantAreaRight:{
+       backgroundColor: cores.vermelho,
+       height: 40,
+       width: 150,
+       borderRadius: 10,
+       backgroundColor: cores.amarelo,
+       alignItems: 'center',
+       justifyContent: 'center',
+    },
+    quantButton:{
+      backgroundColor: cores.amarelo,
+      width: 40,
+      height: 40,
+      justifyContent:'center',
+      alignItems: 'center',
+      borderRadius: 10,
+    },
+    quantButtonText:{
+      color: '#fff',
+      fontWeight: 'bold',
+      fontSize: 22,
+    },
+    labelQuantArea:{
+      width: 40,
+      height: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    labelQuant:{
+       fontWeight: 'bold',
+       fontSize: 16,
+    
+    },
+    totalText:{
+      color: '#fff',
+      fontWeight: 'bold',
+      fontSize: 14,
+    },
+    button:{
+     width:'90%',
+      height: 50,
+      backgroundColor: cores.amarelo,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius:10,
+      marginTop: 20,
+      
+    
+    },
+    buttonText:{
+      color: '#fff',
+      fontSize: 16,
+   
+      fontWeight: 'bold',
+    },
+
    
    
     
