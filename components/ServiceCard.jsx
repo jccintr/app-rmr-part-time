@@ -9,8 +9,8 @@ const ServiceCard = ({servico,role,onPress}) => {
                
                    <Text style={styles.serviceName}>{servico.Nome}</Text>
                    <View style={styles.priceArea}>
-                      <Text style={styles.serviceTitle}>{role==="client" ? 'A partir de ': 'Receba a partir de '}</Text>
-                      <Text style={styles.servicePrice}>{role==="client" ? servico.Valor_Cliente:servico.Valor_Profissional} €</Text>
+                     
+                      <Text style={styles.servicePrice}>Acesse aqui</Text>
                    </View>
                
                

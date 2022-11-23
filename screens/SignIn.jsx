@@ -16,18 +16,18 @@ const SignIn = () => {
 
 
 
- 
+
 
  const onSignInTouch = async () => {
 
   if(email != '' && password != ''){
 
      let response = await Api.signIn(email, password);
-     const json = await response.json(); 
+     const json = await response.json();
      if(json.authToken){
       await AsyncStorage.setItem('token', json.authToken);
       let response = await Api.getUser(json.authToken);
-      let jsonUser = await response.json(); 
+      let jsonUser = await response.json();
       await AsyncStorage.setItem('userName', jsonUser.name);
       await AsyncStorage.setItem('userId', jsonUser.id.toString());
       await AsyncStorage.setItem('userRole', jsonUser.role);
@@ -42,7 +42,7 @@ const SignIn = () => {
   } else {
     alert("Por favor, informe o seu email e a sua senha.");
   }
- 
+
 
  }
 
@@ -54,12 +54,12 @@ const SignIn = () => {
 
   return (
     <KeyboardAvoidingView behavior='height' style={styles.container}>
-     <View style={styles.header}>   
+     <View style={styles.header}>
           <Image source={logo} style={styles.logo}/>
           <Text style={styles.headerText}>Bem-vindo ao RMR Part-Time</Text>
      </View>
      <View style={styles.inputArea}>
-        <InputField 
+        <InputField
             iconProvider="AntDesign"
             iconName="mail"
             placeholder="Digite o seu e-mail"
@@ -68,7 +68,7 @@ const SignIn = () => {
             password={false}
             keyboard="email-address"
         />
-        <InputField 
+        <InputField
             iconProvider="AntDesign"
             iconName="lock1"
             placeholder="Digite a sua senha"
@@ -84,9 +84,9 @@ const SignIn = () => {
           <Text style={styles.signUpMessageText}>Não tem uma conta?</Text>
           <Text style={styles.signUpMessageTextBold} > Cadastre-se!</Text>
         </TouchableOpacity>
-        
-        
-     </View> 
+
+
+     </View>
    </KeyboardAvoidingView>
   )
 }
@@ -104,9 +104,9 @@ const styles = StyleSheet.create({
        flexGrow:1,
        alignItems: 'center',
        justifyContent: 'center',
-        
+
     },
-   
+
     logo: {
       width: 150,
       height: 150,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 
     },
     inputArea:{
-      
+
      paddingTop: 40,
      paddingLeft: 20,
      paddingRight: 20,
@@ -131,18 +131,18 @@ const styles = StyleSheet.create({
       paddingBottom: 40,
     },
     button:{
-     
+
       height: 50,
       backgroundColor: cores.amarelo,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius:15,
-    
+
     },
     buttonText:{
       color: '#fff',
       fontSize: 16,
-   
+
       fontWeight: 'bold',
     },
     signUpMessage:{
@@ -159,8 +159,6 @@ const styles = StyleSheet.create({
       color: cores.amarelo,
       fontWeight: 'bold',
     },
-    
-   
-  });
 
-  
+
+  });
