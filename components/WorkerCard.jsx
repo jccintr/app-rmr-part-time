@@ -7,23 +7,19 @@ import avatar from '../assets/avatar.jpg';
 
 const WorkerCard = ({contratado,onPress}) => {
   return (
-    <TouchableOpacity style={styles.workerCard}  key={contratado.id} onPress={onPress}>
+    <TouchableOpacity style={styles.workerCardContainer}  key={contratado.id} onPress={onPress}>
          
-         <View>
-           <Image style={styles.workerImage} source={contratado._user.foto != null ? {uri: contratado._user.foto.url,} : avatar}/>
-         </View>
-
-         <View style={styles.detailArea}>
-            <Text style={styles.workerName}>{contratado._user.name}</Text>
-            <Text style={styles.localLine}>{contratado._user.bairro} - {contratado._user.cidade}</Text>
-            <Stars stars={contratado._user.stars.toString()}/>
-         </View>
-        
-         <View style={styles.botaoContratar}>
-        
-               <Text style={{color:'#fff'}}>CONTRATAR</Text>
-           
-         </View>
+         
+            <View>
+              <Image style={styles.workerImage} source={contratado._user.foto != null ? {uri: contratado._user.foto.url,} : avatar}/>
+            </View>
+            <View style={styles.detailArea}>
+                <Text style={styles.workerName}>{contratado._user.name}</Text>
+                <Text style={styles.localLine}>{contratado._user.bairro} - {contratado._user.cidade}</Text>
+                <Stars stars={contratado._user.stars.toString()}/>
+            </View>
+       
+         
     </TouchableOpacity>
   )
 }
@@ -33,25 +29,25 @@ export default WorkerCard
 
 
 const styles = StyleSheet.create({
-  workerCard:{
+  workerCardContainer:{
      flexDirection: 'row',
-     
      width: '100%',
      height: 70,
      marginBottom: 10,
      backgroundColor: cores.cinzaClaro,
     elevation: 3,
-    borderRadius: 10,
+    borderRadius: 5,
      borderWidth: 1,
      borderColor: '#c1c1c1',
      justifyContent: 'flex-start',
      alignItems: 'center',
   } ,
+ 
   workerImage: {
     width: 70,
     height: 69,
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
     
   },
   detailArea:{
@@ -60,6 +56,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingLeft: 10,
     height: 70,
+   
   },
   workerName:{
       fontWeight: 'bold',
@@ -75,13 +72,13 @@ const styles = StyleSheet.create({
       
     },
     botaoContratar:{
-      marginLeft: 40,
+     
       backgroundColor: cores.amarelo,
       height: 30,
-      width: 100,
+      width: 90,
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius:10,
+      borderRadius:5,
 
     }
  
