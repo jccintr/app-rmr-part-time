@@ -13,18 +13,18 @@ const ClientTabBar = ({state,navigation}) => {
     <View style={styles.TabArea}>
 
             <TouchableOpacity style={styles.TabItem} onPress={()=>goTo('Home')}>
-              <Entypo style={{color:state.index===0? cores.amarelo:cores.menuItem}} name="home" size={24}  />
-              <Text style={state.index===0 ? styles.TabItemTextSelected:styles.TabItemText}>Inicio</Text>
+              <Entypo style={{color:state.index === 0 ? cores.amarelo:cores.menuItem}} name="home" size={24}  />
+              <Text style={state.index === 0 ? styles.TabItemTextSelected:styles.TabItemText}>Inicio</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.TabItem} onPress={()=>goTo('Home')}>
-              <AntDesign style={{color:state.index===1? cores.amarelo:cores.menuItem}} name="shoppingcart" size={24}  />
-              <Text style={state.index===1 ? styles.TabItemTextSelected:styles.TabItemText}>Pedidos</Text>
+            <TouchableOpacity style={styles.TabItem} onPress={()=>goTo('Pedidos')}>
+              <AntDesign style={{color:state.index === 1 ? cores.amarelo:cores.menuItem}} name="shoppingcart" size={24}  />
+              <Text style={state.index === 1 ? styles.TabItemTextSelected:styles.TabItemText}>Pedidos</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.TabItem} onPress={()=>goTo('Profile')}>
-              <FontAwesome style={{color:state.index===2? cores.amarelo:cores.menuItem}} name="user-circle-o" size={24}  />
-              <Text style={state.index===2 ? styles.TabItemTextSelected:styles.TabItemText}>Perfil</Text>
+              <FontAwesome style={{color:state.index === 2 ? cores.amarelo:cores.menuItem}} name="user-circle-o" size={24}  />
+              <Text style={state.index === 2 ? styles.TabItemTextSelected:styles.TabItemText}>Perfil</Text>
             </TouchableOpacity>
     </View>
   )

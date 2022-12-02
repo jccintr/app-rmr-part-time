@@ -44,27 +44,26 @@ const ServicoClient = ({route}) => {
     <TouchableOpacity style={styles.botaoVoltar} onPress={()=>navigation.goBack()}>
        <Ionicons name="chevron-back" size={30} color="#fff" />
     </TouchableOpacity>
-    <Image style={styles.serviceImage} source={{uri: servico.Imagem.url,}}/>
+    <Image style={styles.serviceImage} source={{uri: `${Api.base_storage}/${servico.imagem}`,}}/>
     <View style={styles.body}>
-         <Text style={styles.serviceName}>{servico.Nome}</Text>
+         <Text style={styles.serviceName}>{servico.nome}</Text>
          <View style={styles.textArea}>
-            <Text style={styles.serviceDescription}>{servico.Descricao}</Text>
+            <Text style={styles.serviceDescription}>{servico.descricao}</Text>
          </View>
          <View style={styles.horarioArea}>
             <FontAwesome5 name="clock" size={24} color={cores.amarelo} />
-            <Text style={styles.horarioText}>{servico.Horario}</Text>
+            <Text style={styles.horarioText}>{servico.horario}</Text>
          </View>
          <View style={styles.horarioArea}>
             <FontAwesome5 name="money-bill-alt" size={24} color={cores.amarelo} />
-            <Text style={styles.horarioText}>{servico.Valor_Cliente}€ por {servico.Unidade==='H'? 'hora': 'diária'} {servico.Periodo_Minimo?'(Mínimo '+servico.Periodo_Minimo +' horas)':''}</Text>
+            <Text style={styles.horarioText}>{servico.valor_cliente/100}€ por {servico.unidade==='H'? 'hora': 'diária'} {servico.periodo_minimo!=='0'?'(Mínimo '+servico.periodo_minimo +' horas)':''}</Text>
          </View>
-         <Text style={styles.subTitle}>Profissionais disponíveis</Text>
+         {contratados.length > 0 ? <Text style={styles.subTitle}>Profissionais disponíveis</Text>: ''}
          {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.amarelo}/>}
+         {!contratados.length && <Text style={{color:'red'}}>Nenhum profissional encontrado.</Text>}
          {contratados.filter(contratado=>contratado.ativo==true).map((contratado) => (
-                      
-                       <WorkerCard key={contratado.id} contratado={contratado} onPress={()=>onWorkerPress(contratado)}/>
-                       
-                    ))}
+             <WorkerCard key={contratado.id} contratado={contratado} onPress={()=>onWorkerPress(contratado)}/>
+             ))}
     </View>
     </ScrollView>
    </SafeAreaView>

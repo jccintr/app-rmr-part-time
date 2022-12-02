@@ -30,16 +30,16 @@ const SignUp = () => {
           if (role===0)
               roleString = 'cliente'
           else
-          roleString = 'profissional'
+             roleString = 'profissional'
           //console.log(email);
           let json = await Api.signUp(nome,email,telefone, password,roleString);
          
         
           
-          if(json.authToken){
+          if(json.token){
            
-            await AsyncStorage.setItem('token', json.authToken);
-            await AsyncStorage.setItem('userName', nome);
+            await AsyncStorage.setItem('token', json.token);
+            await AsyncStorage.setItem('userName', json.name);
             await AsyncStorage.setItem('userId', json.id.toString());
             await AsyncStorage.setItem('userRole', json.role);
             if (role===0)

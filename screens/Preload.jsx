@@ -12,7 +12,7 @@ const Preload = () => {
     useEffect(()=>{
         const checkToken = async () => {
             const token = await AsyncStorage.getItem('token');
-            
+            console.log('token salvo='+token);
             if(token){
                 
                 let response = await Api.getUser(token);
@@ -29,7 +29,7 @@ const Preload = () => {
                 } else
                 {
                     navigation.reset({
-                        routes:[{name:'SignIn'}]
+                        routes:[{name:'SignIn'}] 
                     });
                 }
                 

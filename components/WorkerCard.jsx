@@ -11,12 +11,12 @@ const WorkerCard = ({contratado,onPress}) => {
          
          
             <View>
-              <Image style={styles.workerImage} source={contratado._user.foto != null ? {uri: contratado._user.foto.url,} : avatar}/>
+              <Image style={styles.workerImage} source={contratado.user.imagem != null ? {uri: contratado.user.imagem,} : avatar}/>
             </View>
             <View style={styles.detailArea}>
-                <Text style={styles.workerName}>{contratado._user.name}</Text>
-                <Text style={styles.localLine}>{contratado._user.bairro} - {contratado._user.cidade}</Text>
-                <Stars stars={contratado._user.stars.toString()}/>
+                <Text style={styles.workerName}>{contratado.user.name}</Text>
+                <Text style={styles.localLine}>{contratado.user.bairro} - {contratado.user.cidade}</Text>
+                <Stars stars={contratado.user.stars.toString()}/>
             </View>
        
          

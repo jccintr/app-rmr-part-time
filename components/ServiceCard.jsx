@@ -1,13 +1,14 @@
 import React, { useEffect,useState } from 'react';
 import { StyleSheet, Text, Image,View,TouchableOpacity} from 'react-native';
 import { cores } from '../style/globalStyle';
+import Api from '../Api';
 
 const ServiceCard = ({servico,role,onPress}) => {
   return (
     <TouchableOpacity style={styles.serviceCard}  key={servico.id} onPress={()=>onPress(servico)}>
-                <Image style={styles.serviceImage} source={{uri: servico.Imagem.url,}}/>
+                <Image style={styles.serviceImage} source={{uri: `${Api.base_storage}/${servico.imagem}`,}}/>
                
-                   <Text style={styles.serviceName}>{servico.Nome}</Text>
+                   <Text style={styles.serviceName}>{servico.nome}</Text>
                    <View style={styles.priceArea}>
                      
                       <Text style={styles.servicePrice}>Acesse aqui</Text>

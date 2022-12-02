@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const SignIn = () => {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
-  const navigation = useNavigation();
+  const navigation = useNavigation(); 
 
 
 
@@ -24,10 +24,11 @@ const SignIn = () => {
 
      let response = await Api.signIn(email, password);
      const json = await response.json();
-     if(json.authToken){
-      await AsyncStorage.setItem('token', json.authToken);
-      let response = await Api.getUser(json.authToken);
+     if(json.token){
+      await AsyncStorage.setItem('token', json.token);
+      let response = await Api.getUser(json.token);
       let jsonUser = await response.json();
+      console.log('nome='+jsonUser.name);
       await AsyncStorage.setItem('userName', jsonUser.name);
       await AsyncStorage.setItem('userId', jsonUser.id.toString());
       await AsyncStorage.setItem('userRole', jsonUser.role);

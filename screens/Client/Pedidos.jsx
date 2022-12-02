@@ -1,8 +1,12 @@
 import React from 'react'
-import { StyleSheet} from 'react-native';
+import { StyleSheet,Text} from 'react-native';
+
+
+
+
 const Pedidos = () => {
   return (
-    <div>Pedidos</div>
+    <Text>Pedidos</Text>
   )
 }
 

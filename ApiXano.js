@@ -1,7 +1,7 @@
 // --host=192.168.0.107
 //const BASE_API = 'localhost:8000/api';
-const BASE_API = 'http://192.168.0.107:8000/api';
-///const BASE_API = 'https://x8ki-letl-twmt.n7.xano.io/api:32bM-PSO'   //    /auth/login
+//const BASE_API = 'http://192.168.0.107:8000/api';
+const BASE_API = 'https://x8ki-letl-twmt.n7.xano.io/api:32bM-PSO'   //    /auth/login
 
 
 export default {
@@ -9,21 +9,27 @@ export default {
     base_storage: 'http://192.168.0.107:8000/storage',
     
     getUser: async (token)=> {
-        const response = await fetch(`${BASE_API}/user/${token}`, {
+        const response = await fetch(`${BASE_API}/auth/me`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             },
             
         });
-       return response;
+       
+      // const json = await response.json();  
+       
+             
+        return response;
+
     },
 
    
 
     signIn: async (email, password) => {
-        const response = await fetch(`${BASE_API}/signin`, {
+        const response = await fetch(`${BASE_API}/auth/login`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -36,7 +42,7 @@ export default {
     },
 
     signUp: async (name, email,telefone,password,role) => {
-        const response = await fetch(`${BASE_API}/signup`, {
+        const response = await fetch(`${BASE_API}/auth/signup`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -63,8 +69,8 @@ export default {
         return json;
     },
     getServices: async () => {
-        const req = await fetch(`${BASE_API}/servicos`, {
-            method: 'GET', 
+        const req = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/servicos', {
+            method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
@@ -76,7 +82,7 @@ export default {
        
     },
     getContratadosByService: async (idServico) => {
-        const req = await fetch(`${BASE_API}/contratados/${idServico}`, {
+        const req = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados?idServico=${idServico}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',

@@ -46,7 +46,7 @@ const Profile = () => {
     }, []);
 
     const onCadastroPress = () => {
-        console.log('userData='+userData);
+        
         setModalVisible(true);
     
       }
@@ -67,10 +67,14 @@ const Profile = () => {
 
 
     const onLogout = async () => {
+        await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('userId');
+        await AsyncStorage.removeItem('userRole');
+        
 
-        await AsyncStorage.setItem('token','');
-        await AsyncStorage.setItem('userId', '');
-        await AsyncStorage.setItem('userRole', '');
+        //await AsyncStorage.setItem('token','');
+        //await AsyncStorage.setItem('userId', '');
+       // await AsyncStorage.setItem('userRole', '');
         navigation.reset({routes:[{name:'SignIn'}]});
     }
     
