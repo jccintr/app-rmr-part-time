@@ -87,14 +87,14 @@ export default {
         const json = await req.json();        
         return json;
     },
-    subscribeService: async (idUser,idService) => {
-         const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados', {
+    subscribeService: async (user_id,servico_id) => {
+         const response = await fetch(`${BASE_API}/contratados`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({user_id: idUser,servicos_id: idService, ativo: true})
+            body: JSON.stringify({user_id,servico_id, ativo: true})
         });
         return response;
     },

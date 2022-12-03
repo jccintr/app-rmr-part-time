@@ -22,7 +22,7 @@ const ServicoWorker = ({route}) => {
     const [cadastrado,setCadastrado] = useState(false);
     const {servico} = route.params;
     const [userId,setUserId] = useState('');
-    const [isLoading,setIsLoading] = useState(true);
+    //const [isLoading,setIsLoading] = useState(true);
    
     const navigation = useNavigation();
 
@@ -39,6 +39,7 @@ const ServicoWorker = ({route}) => {
              setInscrito(json[i].ativo);
              setIdContrato(json[i].id);
          }
+
       }
       setIsLoading(false);
       setContratados(json);
@@ -89,19 +90,19 @@ const ServicoWorker = ({route}) => {
     <TouchableOpacity style={styles.botaoVoltar} onPress={()=>navigation.goBack()}>
        <Ionicons name="chevron-back" size={30} color="#fff" />
     </TouchableOpacity>
-    <Image style={styles.serviceImage} source={{uri: servico.Imagem.url,}}/>
+    <Image style={styles.serviceImage} source={{uri: `${Api.base_storage}/${servico.imagem}`,}}/>
     <View style={styles.body}>
-         <Text style={styles.serviceName}>{servico.Nome}</Text>
+         <Text style={styles.serviceName}>{servico.nome}</Text>
          <View style={styles.textArea}>
-            <Text style={styles.serviceDescription}>{servico.Descricao}</Text>
+            <Text style={styles.serviceDescription}>{servico.descricao}</Text>
          </View>
          <View style={styles.horarioArea}>
             <FontAwesome5 name="clock" size={24} color={cores.amarelo} />
-            <Text style={styles.horarioText}>{servico.Horario}</Text>
+            <Text style={styles.horarioText}>{servico.horario}</Text>
          </View>
          <View style={styles.horarioArea}>
             <FontAwesome5 name="money-bill-alt" size={24} color={cores.amarelo} />
-            <Text style={styles.horarioText}>{servico.Valor_Profissional} € por {servico.Unidade==='H'? 'hora': 'diária'} {servico.Periodo_Minimo?'(Mínimo '+servico.Periodo_Minimo +' horas)':''}</Text>
+            <Text style={styles.horarioText}>{servico.valor_profissional} € por {servico.unidade==='H'? 'hora': 'diária'} {servico.periodo_minimo?'(Mínimo '+servico.periodo_minimo +' horas)':''}</Text>
          </View>
 
          {cadastrado && inscrito &&  <Text style={styles.warningText}>Você já está inscrito neste serviço.</Text>}

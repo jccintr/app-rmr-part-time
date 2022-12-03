@@ -14,7 +14,6 @@ const Home = () => {
 
 
     const onServicePress  = (servico) =>{
-  
         navigation.navigate('ServicoWorker',{servico: servico})
      }
 
@@ -50,11 +49,10 @@ const Home = () => {
                     </View>
                     <Text style={styles.title}>Serviços disponíveis</Text>
                     <View style={styles.servicesContainer}>
-                    {services.map((service) => (
-                        <ServiceCard servico={service} role="worker" key={service.id} onPress={onServicePress}/>
-                    
-                    ))}
-                
+                        {services.map((service) => (
+                            <ServiceCard servico={service} role="worker" key={service.id} onPress={onServicePress}/>
+                        
+                        ))}
                     </View>
              </ScrollView> 
         </SafeAreaView>
