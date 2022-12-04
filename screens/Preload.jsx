@@ -12,11 +12,11 @@ const Preload = () => {
     useEffect(()=>{
         const checkToken = async () => {
             const token = await AsyncStorage.getItem('token');
-            console.log('token salvo='+token);
+           
             if(token){
                 
                 let response = await Api.getUser(token);
-                console.log("status="+response.status);
+                
                 if (response.status===200){
                     let jsonUser = await response.json(); 
                    

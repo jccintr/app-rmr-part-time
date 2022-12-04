@@ -10,11 +10,6 @@ import { useNavigation } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 
-
-
-
-
-
 const ServicoWorker = ({route}) => {
     const [contratados,setContratados] = useState([]);
     const [idContrato,setIdContrato] = useState(0);
@@ -22,7 +17,7 @@ const ServicoWorker = ({route}) => {
     const [cadastrado,setCadastrado] = useState(false);
     const {servico} = route.params;
     const [userId,setUserId] = useState('');
-    //const [isLoading,setIsLoading] = useState(true);
+    const [isLoading,setIsLoading] = useState(true);
    
     const navigation = useNavigation();
 
@@ -71,7 +66,8 @@ const ServicoWorker = ({route}) => {
 
 
      if(cadastrado) { // já cadastrado, apenas desativar o contrato
-      let json = await Api.deActiveService(idContrato);
+      console.log('idContratado='+idContrato);
+      let json = await Api.deactiveService(idContrato);
       setInscrito(false);
       setCadastrado(true);
       let jsonContratados = await Api.getContratadosByService(idServico);

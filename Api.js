@@ -98,6 +98,7 @@ export default {
         });
         return response;
     },
+    /*
     unSubscribeService: async (id) => {
         const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados', {
            method: 'POST',
@@ -108,40 +109,48 @@ export default {
            body: JSON.stringify({user_id: idUser,servicos_id: idService})
        });
        return response;
-   },
-   activeService: async (id) => {
-    const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados/${id}`, {
+   },*/
+   activeService: async (contratado_id) => {
+    const response = await fetch(`${BASE_API}/contratados/active`, {
        method: 'POST',
        headers: {
            Accept: 'application/json',
            'Content-Type': 'application/json'
        },
-       body: JSON.stringify({ativo: true})
+       body: JSON.stringify({contratado_id})
    });
    return response;
 },
-deActiveService: async (id) => {
-    const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados/${id}`, {
+deactiveService: async (contratado_id) => {
+    const response = await fetch(`${BASE_API}/contratados/deactive`, {
        method: 'POST',
        headers: {
            Accept: 'application/json',
            'Content-Type': 'application/json'
        },
-       body: JSON.stringify({ativo: false})
+       body: JSON.stringify({contratado_id})
    });
    return response;
 },
-updateUser: async (id,documento,endereco,bairro,cidade,token) => {
-    const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:32bM-PSO/user/${id}`, {
+updateUser: async (usuario_id,documento,endereco,bairro,cidade,token) => {
+    const response = await fetch(`${BASE_API}/user/update`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({documento,endereco,bairro,cidade})
+        body: JSON.stringify({usuario_id,documento,endereco,bairro,cidade})
      });
      return response.json();
+},
+
+updateAvatar: async (fd) => {
+    const response = await fetch(`${BASE_API}/avatar`, {
+        method: 'POST',
+        body: fd
+    });
+   return response;
 },
 addContrato: async () => {
     const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados', {

@@ -17,16 +17,13 @@ const Home = () => {
         navigation.navigate('ServicoWorker',{servico: servico})
      }
 
-
-
-    useEffect(()=>{
+     useEffect(()=>{
         const getUserName = async () => {
             const user = await AsyncStorage.getItem('userName');
             setUserName(user) 
         }
         getUserName();
     }, []);
-
 
     useEffect(()=>{
         const getServices = async () => {
