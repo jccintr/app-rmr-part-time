@@ -7,7 +7,7 @@ import { cores } from '../../style/globalStyle';
 
 import * as ImagePicker from 'expo-image-picker';
 import Api from '../../Api';
-import avatar from '../../assets/avatar.jpg';
+import ImgAvatar from '../../assets/avatar.jpg';
 import ModalCadastro from '../../components/ModalCadastro';
 
 const Profile = () => {
@@ -16,11 +16,12 @@ const navigation = useNavigation();
 const [userData,setUserData] = useState([]);
 const [modalVisible,setModalVisible] = useState(false);
 const [token,setToken] = useState(null);
+const [userId,setUserId] = useState(null);
 const [documento,setDocumento] = useState('');
 const [endereco,setEndereco] = useState('');
 const [bairro,setBairro] = useState('');
 const [cidade,setCidade] = useState('');
-const [avatar,setAvatar] = useState('');
+const [avatar,setAvatar] = useState(null);
 
 useEffect(()=>{
     const getUser = async () => {
@@ -29,15 +30,15 @@ useEffect(()=>{
         if(token){
             setToken(token);
             let response = await Api.getUser(token);
-
             if (response.status===200){
                 let jsonUser = await response.json(); 
-                
                 setUserData(jsonUser);
+                setUserId(jsonUser.id);
                 setDocumento(jsonUser.documento);
                 setEndereco(jsonUser.endereco);
                 setBairro(jsonUser.bairro);
                 setCidade(jsonUser.cidade);
+                setAvatar(jsonUser.imagem);
             }
         } 
 
@@ -55,14 +56,33 @@ const selectAvatar = async () =>{
       quality: 1,
     });
 
+
   
 
     if (!result.cancelled) {
-      setAvatar(result.uri);
+     
       const fd = new FormData();
-      fd.append('imagem',imagem);
-      let response = await Api.updateAvatar(fd);
-   
+      
+      fd.append('userId',userId);
+      fd.append('imagem',{uri: result.uri,type: 'image/jpg',name: 'image.jpg',});
+      
+      let responseAvatar = await Api.updateAvatar(fd);
+     
+      let ret = await responseAvatar.json();
+     
+      if (responseAvatar.status===200){
+        let response = await Api.getUser(token);
+            if (response.status===200){
+                let jsonUser = await response.json(); 
+                setUserData(jsonUser);
+                setDocumento(jsonUser.documento);
+                setEndereco(jsonUser.endereco);
+                setBairro(jsonUser.bairro);
+                setCidade(jsonUser.cidade);
+                setAvatar(jsonuser.imagem);
+            }
+
+      }
 
   }
 }
@@ -105,7 +125,7 @@ return (
         </View>
         
         <TouchableOpacity  onPress={selectAvatar}>
-            <Image style={styles.avatar} source={userData.imagem != null ? {uri: userData.imagem,} : avatar}/>
+            <Image style={styles.avatar} source={avatar !== null ? {uri:`${Api.base_storage}/${avatar}`,} : ImgAvatar}/>
         </TouchableOpacity>
         
         <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
@@ -115,19 +135,19 @@ return (
         <MenuPerfil iconName="policy" iconProvider="MaterialIcons" label="Política de Privacidade" onPress={onNada}/>
         <MenuPerfil iconName="logout" iconProvider="MaterialIcons" label="Sair" onPress={onLogout}/>
             <ModalCadastro
-            modalVisible={modalVisible} 
-            setModalVisible={setModalVisible} 
-            userData={userData} 
-            token={token} 
-            documento={documento}
-            setDocumento={setDocumento}
-            endereco={endereco} 
-            setEndereco={setEndereco}
-            bairro={bairro}
-            setBairro={setBairro}
-            cidade={cidade}
-            setCidade={setCidade}
-            updateCadastro={updateCadastro}
+                modalVisible={modalVisible} 
+                setModalVisible={setModalVisible} 
+                userData={userData} 
+                token={token} 
+                documento={documento}
+                setDocumento={setDocumento}
+                endereco={endereco} 
+                setEndereco={setEndereco}
+                bairro={bairro}
+                setBairro={setBairro}
+                cidade={cidade}
+                setCidade={setCidade}
+                updateCadastro={updateCadastro}
             />   
     </SafeAreaView>
 )

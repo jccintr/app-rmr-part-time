@@ -107,7 +107,7 @@ const ServicoWorker = ({route}) => {
                   <Text style={styles.buttonText}>CANCELAR INSCRIÇÃO</Text>
              </TouchableOpacity> : 
              <TouchableOpacity style={styles.button} onPress={()=>subscribeService(servico.id)}>
-                <Text style={styles.buttonText}>INSCREVA-SE NESTE SERVIÇO</Text>
+                <Text style={styles.buttonText}>INSCREVA-SE NESTE SERVIÇO</Text> 
              </TouchableOpacity>
           }
          

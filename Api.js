@@ -148,7 +148,11 @@ updateUser: async (usuario_id,documento,endereco,bairro,cidade,token) => {
 updateAvatar: async (fd) => {
     const response = await fetch(`${BASE_API}/avatar`, {
         method: 'POST',
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
         body: fd
+
     });
    return response;
 },
