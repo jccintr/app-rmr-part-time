@@ -4,7 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import MenuPerfil from '../../components/MenuPerfil';
 import { cores } from '../../style/globalStyle';
-
 import * as ImagePicker from 'expo-image-picker';
 import Api from '../../Api';
 import ImgAvatar from '../../assets/avatar.jpg';
@@ -56,9 +55,6 @@ const selectAvatar = async () =>{
       quality: 1,
     });
 
-
-  
-
     if (!result.cancelled) {
      
       const fd = new FormData();
@@ -79,12 +75,11 @@ const selectAvatar = async () =>{
                 setEndereco(jsonUser.endereco);
                 setBairro(jsonUser.bairro);
                 setCidade(jsonUser.cidade);
-                setAvatar(jsonuser.imagem);
+                setAvatar(jsonUser.imagem);
             }
-
       }
-
   }
+
 }
 
 const onCadastroPress = () => {

@@ -1,12 +1,12 @@
 import React, { useState,useEffect } from 'react'
-import { StyleSheet, Text, SafeAreaView, View,Image} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View,Image,TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import MenuPerfil from '../../components/MenuPerfil';
 import { cores } from '../../style/globalStyle';
-import { StatusBar } from 'expo-status-bar';
+import * as ImagePicker from 'expo-image-picker';
 import Api from '../../Api';
-import avatar from '../../assets/avatar.jpg';
+import ImgAvatar from '../../assets/avatar.jpg';
 import ModalCadastro from '../../components/ModalCadastro';
 
 
@@ -15,10 +15,12 @@ const Profile = () => {
     const [userData,setUserData] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
     const [token,setToken] = useState(null);
+    const [userId,setUserId] = useState(null);
     const [documento,setDocumento] = useState('');
     const [endereco,setEndereco] = useState('');
     const [bairro,setBairro] = useState('');
     const [cidade,setCidade] = useState('');
+    const [avatar,setAvatar] = useState(null);
 
 
 
@@ -29,21 +31,60 @@ const Profile = () => {
             if(token){
                 setToken(token);
                 let response = await Api.getUser(token);
-
                 if (response.status===200){
                     let jsonUser = await response.json(); 
-                    
                     setUserData(jsonUser);
+                    setUserId(jsonUser.id);
                     setDocumento(jsonUser.documento);
                     setEndereco(jsonUser.endereco);
                     setBairro(jsonUser.bairro);
                     setCidade(jsonUser.cidade);
+                    setAvatar(jsonUser.imagem);
                 }
             } 
 
         }
         getUser();
     }, []);
+
+
+    const selectAvatar = async () =>{
+    
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: false,
+          aspect: [4, 4],
+          quality: 1,
+        });
+    
+        if (!result.cancelled) {
+         
+          const fd = new FormData();
+          
+          fd.append('userId',userId);
+          fd.append('imagem',{uri: result.uri,type: 'image/jpg',name: 'image.jpg',});
+          
+          let responseAvatar = await Api.updateAvatar(fd);
+         
+          let ret = await responseAvatar.json();
+         
+          if (responseAvatar.status===200){
+            let response = await Api.getUser(token);
+                if (response.status===200){
+                    let jsonUser = await response.json(); 
+                    setUserData(jsonUser);
+                    setDocumento(jsonUser.documento);
+                    setEndereco(jsonUser.endereco);
+                    setBairro(jsonUser.bairro);
+                    setCidade(jsonUser.cidade);
+                    setAvatar(jsonUser.imagem);
+                }
+          }
+      }
+      
+    }
+
+
 
     const onCadastroPress = () => {
         
@@ -88,8 +129,9 @@ const Profile = () => {
                     <Text style={styles.userNameText}>{userData.name}</Text>
                     <Text style={styles.fraseHeader}>{userData.role==='cliente'?'Cliente':'Profissional'}</Text>
             </View>
-          
-            <Image style={styles.avatar} source={userData.foto != null ? {uri: userData.foto.url,} : avatar}/>
+            <TouchableOpacity  onPress={selectAvatar}>
+               <Image style={styles.avatar} source={avatar !== null ? {uri:`${Api.base_storage}/${avatar}`,} : ImgAvatar}/>
+            </TouchableOpacity>
             
            <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
            <MenuPerfil iconName="user-circle-o" iconProvider="FontAwesome" label="Meus Cadastro" onPress={onCadastroPress}/>

@@ -3,30 +3,25 @@ import { StyleSheet, Text, Image,View,TouchableOpacity} from 'react-native';
 import { cores } from '../style/globalStyle';
 import Stars from './Stars';
 import avatar from '../assets/avatar.jpg';
+import Api from '../Api';
 
 
 const WorkerCard = ({contratado,onPress}) => {
   return (
     <TouchableOpacity style={styles.workerCardContainer}  key={contratado.id} onPress={onPress}>
-         
-         
-            <View>
-              <Image style={styles.workerImage} source={contratado.user.imagem != null ? {uri: contratado.user.imagem,} : avatar}/>
-            </View>
-            <View style={styles.detailArea}>
-                <Text style={styles.workerName}>{contratado.user.name}</Text>
-                <Text style={styles.localLine}>{contratado.user.bairro} - {contratado.user.cidade}</Text>
-                <Stars stars={contratado.user.stars.toString()}/>
-            </View>
-       
-         
+        <View>
+          <Image style={styles.workerImage} source={contratado.user.imagem != null ? {uri: `${Api.base_storage}/${contratado.user.imagem}`,} : avatar}/>
+        </View>
+        <View style={styles.detailArea}>
+            <Text style={styles.workerName}>{contratado.user.name}</Text>
+            <Text style={styles.localLine}>{contratado.user.bairro} - {contratado.user.cidade}</Text>
+            <Stars stars={contratado.user.stars.toString()}/>
+        </View>
     </TouchableOpacity>
   )
 }
 
 export default WorkerCard
-
-
 
 const styles = StyleSheet.create({
   workerCardContainer:{

@@ -157,7 +157,7 @@ updateAvatar: async (fd) => {
    return response;
 },
 addContrato: async () => {
-    const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:v3PxHsGU/contratados', {
+    const response = await fetch(`${BASE_API}/contratos`, {
        method: 'POST',
        headers: {
            Accept: 'application/json',
@@ -166,6 +166,18 @@ addContrato: async () => {
        body: JSON.stringify({user_id: idUser,servicos_id: idService})
    });
    return response;
+},
+getContratosBycliente: async (idCliente) => {
+    const req = await fetch(`${BASE_API}/contratos/cliente/${idCliente}`, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+       
+    });
+    const json = await req.json();        
+    return json;
 },
    
   

@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { SafeAreaView, StyleSheet,Text,View,TouchableOpacity,Image} from 'react-native';
+import { SafeAreaView, StyleSheet,Text,View,TouchableOpacity,Image,ScrollView,Dimensions} from 'react-native';
 import { cores } from '../../style/globalStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
@@ -8,20 +8,23 @@ import { useNavigation } from '@react-navigation/native';
 import InputArea from '../../components/InputArea';
 import InputField2 from '../../components/InputField2';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Api from '../../Api';
 
 
 
 
 const NovoPedido = ({route}) => {
+     const screenWidth = Dimensions.get('window').width;
      const [idCliente,setIdCliente] = useState('');
      const {servico,contratado} = route.params;
      const navigation = useNavigation();
      const [data,setData] = useState(new Date());
-     const [local,setLocal] = useState('Avenida dos Autonomistas, 345 - Centro - Osasco - SP');
+     const [descricao,setDescricao] = useState('');
+     const [local,setLocal] = useState('');
      const [quant,setQuant] = useState(1);
-     const [unidade,setUnidade] = useState(servico.Unidade);
-     const [valorUnitario,setValorUnitario] = useState(servico.Valor_Cliente);
-     const [total,setTotal] = useState(servico.Valor_Cliente);
+     const [unidade,setUnidade] = useState(servico.unidade);
+     const [valorUnitario,setValorUnitario] = useState(servico.valor_cliente/100);
+     const [total,setTotal] = useState(servico.valor_cliente/100);
      const [mensagem,setMensagem] = useState('Cuidado com o cachorro');
      const [showDatePicker, setShowDatePicker] = useState(false);
     
@@ -38,130 +41,141 @@ const NovoPedido = ({route}) => {
     }
 */
 
-      const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setShowDatePicker(false);
-        setData(currentDate);
-      };
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate;
+  setShowDatePicker(false);
+  setData(currentDate);
+};
 
-      const showDatepicker = () => {
-         setShowDatePicker(true);
-      };
+const showDatepicker = () => {
+    setShowDatePicker(true);
+};
 
-      const formataData = (data) => {
-       
-        let dia = data.getDate().toString();
-        let mes = (data.getMonth()+1).toString();
-        let ano = data.getFullYear();
-        dia = (dia.length==1) ? "0"+dia : dia;
-        mes = (mes.length==1) ? "0"+mes : mes;
-       
-        return dia +"/"+mes+"/"+ano;
-      }
+const formataData = (data) => {
+  
+  let dia = data.getDate().toString();
+  let mes = (data.getMonth()+1).toString();
+  let ano = data.getFullYear();
+  dia = (dia.length==1) ? "0"+dia : dia;
+  mes = (mes.length==1) ? "0"+mes : mes;
+  
+  return dia +"/"+mes+"/"+ano;
+}
 
-      const buttonPlus = () => {
-     
-         setQuant(quant+1);
-        
-        
-      }
+const buttonPlus = () => {
 
-      const buttonMinus = () => {
+    setQuant(quant+1);
+    
+}
 
-        if (quant>1){
-            setQuant(quant-1);
-            
-        }
-      }
+const buttonMinus = () => {
 
-      const CalculaTotal = () => {
-        let tt = quant * valorUnitario;
-        setTotal(tt);
-      };
+  if (quant>1){
+      setQuant(quant-1);
+      
+  }
+}
+
+const CalculaTotal = () => {
+  let tt = quant * valorUnitario;
+  setTotal(tt);
+};
 
 
   return (
    <SafeAreaView style={styles.container}>
       <StatusBar />
-     <Image style={styles.serviceImage} source={{uri: servico.Imagem.url,}}/>
-     <TouchableOpacity style={styles.titleArea} onPress={()=>navigation.goBack()}>
-       <Ionicons name="chevron-back" size={30} color={cores.amarelo} />
-       <Text style={styles.titleText}>Novo Pedido</Text>
-     </TouchableOpacity>
-     <View style={styles.body}>
-     <View style={styles.contratadoArea}>
-        <Image style={styles.workerImage} source={{uri: contratado._user.foto.url,}}/>
-        <View style={styles.contratadoAreaDetail}>
-             <Text style={styles.contratadoNameText}>{contratado._user.name}</Text>
-             <Text>{servico.Nome}</Text>
-        </View>
-       
-     </View>
-          <TouchableOpacity onPress={showDatepicker}>
-          <InputField2 
-           label="Data:"
-           placeholder="Data da execução do serviço"
-           password={false}
-           keyboard="default"
-           value={formataData(data)}
-           onChangeText={t=>setData(t)}
-           editable={false}
-          />
-          </TouchableOpacity>
-          <InputArea 
-          label="Local do Serviço:"
-          placeholder="Informe onde o serviço será efetuado"
-          password={false}
-          keyboard="default"
-          value={local}
-          onChangeText={t=>setLocal(t)}
-          linhas={2}
-          
-         />
-        
-         <View style={styles.quantArea}>
-            <View style={styles.quantAreaLeft}>
-              <TouchableOpacity style={styles.quantButton} onPress={buttonMinus}>
-                  <Text style={styles.quantButtonText}>-</Text>
-              </TouchableOpacity>
-              <View style={styles.labelQuantArea}>
-                 <Text style={styles.labelQuant}>{quant} {unidade}</Text>
-              </View>
-             
-              <TouchableOpacity style={styles.quantButton} onPress={buttonPlus}>
-                  <Text style={styles.quantButtonText}>+</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.quantAreaRight}>
-              <Text style={styles.totalText}>Total: {total} €</Text>
-            </View>
-         </View>
+      <ScrollView style={{width: screenWidth}} showsVerticalScrollIndicator={false}>
+            <Image style={styles.serviceImage} source={{uri: `${Api.base_storage}/${servico.imagem}`,}}/>
+            <TouchableOpacity style={styles.titleArea} onPress={()=>navigation.goBack()}>
+              <Ionicons name="chevron-back" size={30} color={cores.amarelo} />
+              <Text style={styles.titleText}>Novo Pedido</Text>
+            </TouchableOpacity>
+            
+            <View style={styles.body}>
+            
+                  <View style={styles.contratadoArea}>
+                      <Image style={styles.workerImage} source={{uri: `${Api.base_storage}/${contratado.user.imagem}`,}}/>
+                      <View style={styles.contratadoAreaDetail}>
+                          <Text style={styles.contratadoNameText}>{contratado.user.name}</Text>
+                          <Text>{servico.nome}</Text>
+                      </View>
+                  </View>
+                  <TouchableOpacity onPress={showDatepicker}>
+                  <InputField2 
+                  label="Data da Execução do Serviço:"
+                  placeholder="Data da execução do serviço"
+                  password={false}
+                  keyboard="default"
+                  value={formataData(data)}
+                  onChangeText={t=>setData(t)}
+                  editable={false}
+                  />
+                  </TouchableOpacity>
+                  <InputArea 
+                  label="Descreva o serviço:"
+                  placeholder="Informe os detalhes do serviço"
+                  password={false}
+                  keyboard="default"
+                  value={descricao}
+                  onChangeText={t=>setDescricao(t)}
+                  linhas={2}
+                  
+                />
+                  <InputArea 
+                  label="Local do Serviço:"
+                  placeholder="Informe onde o serviço será efetuado"
+                  password={false}
+                  keyboard="default"
+                  value={local}
+                  onChangeText={t=>setLocal(t)}
+                  linhas={2}
+                  
+                />
+                
+                <View style={styles.quantArea}>
+                    <View style={styles.quantAreaLeft}>
+                      <TouchableOpacity style={styles.quantButton} onPress={buttonMinus}>
+                          <Text style={styles.quantButtonText}>-</Text>
+                      </TouchableOpacity>
+                      <View style={styles.labelQuantArea}>
+                        <Text style={styles.labelQuant}>{quant} {unidade}</Text>
+                      </View>
+                    
+                      <TouchableOpacity style={styles.quantButton} onPress={buttonPlus}>
+                          <Text style={styles.quantButtonText}>+</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.quantAreaRight}>
+                      <Text style={styles.totalText}>Total: {total} €</Text>
+                    </View>
+                </View>
 
-         <InputArea 
-          label="Mensagem:"
-          placeholder="Informações adicionais ao contratado"
-          password={false}
-          keyboard="default"
-          value={mensagem}
-          onChangeText={t=>setMensagem(t)}
-          linhas={4}
-         />
-     
-     </View>
-     <TouchableOpacity style={styles.button} >
-           <Text style={styles.buttonText}>CONTRATAR</Text>
-       </TouchableOpacity> 
-       {showDatePicker && (
-        <DateTimePicker
-         
-          value={data}
-          mode="date"
-          is24Hour={true}
-          onChange={onChange}
-          display="default"
-        />
-      )}
-   
+                <InputArea 
+                  label="Mensagem:"
+                  placeholder="Informações adicionais ao contratado"
+                  password={false}
+                  keyboard="default"
+                  value={mensagem}
+                  onChangeText={t=>setMensagem(t)}
+                  linhas={4}
+                />
+            
+            </View>
+            <TouchableOpacity style={styles.button} >
+                  <Text style={styles.buttonText}>CONTRATAR</Text>
+            </TouchableOpacity> 
+              {showDatePicker && (
+                <DateTimePicker
+                
+                  value={data}
+                  mode="date"
+                  is24Hour={true}
+                  onChange={onChange}
+                  display="default"
+                />
+              )}
+   </ScrollView>
    </SafeAreaView>
   
   )
@@ -173,19 +187,16 @@ export default NovoPedido
 const styles = StyleSheet.create({
     container: {
         flex:1,
-       
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#fff',
-      
-     
+        
     },
     serviceImage:{
       width: '100%',
       height: 200,
       marginBottom: 10,
-      
     },
     titleArea:{
       position: 'absolute',
@@ -197,9 +208,8 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'flex-start',
       alignItems: 'center',
-      paddingHorizontal: 5,
       marginBottom: 10,
-
+      
     },
     titleText:{
     fontWeight: 'bold',
@@ -207,7 +217,10 @@ const styles = StyleSheet.create({
     color: cores.amarelo,
    },
     body:{
+      flex:1,
+      width:'100%',
       paddingHorizontal: 10,
+      
     },
     contratadoArea: {
       width: '100%',
@@ -297,7 +310,9 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius:10,
-      marginTop: 20,
+      marginTop: 5,
+      marginBottom: 20,
+      alignSelf: 'center',
       
     
     },
