@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { SafeAreaView, StyleSheet,Text,View,TouchableOpacity,Image,ScrollView,Dimensions} from 'react-native';
+import { SafeAreaView, StyleSheet,Text,View,TouchableOpacity,Image,ScrollView,Dimensions,ToastAndroid} from 'react-native';
 import { cores } from '../../style/globalStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
@@ -9,6 +9,7 @@ import InputArea from '../../components/InputArea';
 import InputField2 from '../../components/InputField2';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Api from '../../Api';
+
 
 
 
@@ -59,9 +60,18 @@ const formataData = (data) => {
   dia = (dia.length==1) ? "0"+dia : dia;
   mes = (mes.length==1) ? "0"+mes : mes;
   
-  return dia +"/"+mes+"/"+ano;
+  return dia + "/" + mes + "/" + ano;
 }
 
+const formataDataApi = (data) => {
+  let dia = data.getDate().toString();
+  let mes = (data.getMonth()+1).toString();
+  let ano = data.getFullYear();
+  dia = (dia.length==1) ? "0"+dia : dia;
+  mes = (mes.length==1) ? "0"+mes : mes;
+  
+  return ano + "/"+ mes +"/"+ dia;
+}
 const buttonPlus = () => {
 
     setQuant(quant+1);
@@ -80,6 +90,25 @@ const CalculaTotal = () => {
   let tt = quant * valorUnitario;
   setTotal(tt);
 };
+
+const addContrato = async () => {
+  let servico_id = servico.id;
+  let cliente_id  = await AsyncStorage.getItem('userId');
+  let profissional_id = contratado.user.id;
+  let valor_unitario_cliente = valorUnitario;
+  let valor_unitario_profissional  = servico.valor_profissional;
+  let total_cliente = total;
+  let total_profissional = quant * servico.valor_profissional;
+  let data_servico = formataDataApi(data);
+  let data_criacao = formataDataApi(new Date());
+ 
+   let response = await Api.addContrato(servico_id,cliente_id,profissional_id, data_criacao,data_servico,local,descricao,quant,valor_unitario_cliente,valor_unitario_profissional,total_cliente,total_profissional);
+  
+   if (response.status===201) {
+    ToastAndroid.show('Pedido enviado ao profissional.', ToastAndroid.SHORT);
+    navigation.navigate('Pedidos')
+  }
+}
 
 
   return (
@@ -162,7 +191,7 @@ const CalculaTotal = () => {
                 />
             
             </View>
-            <TouchableOpacity style={styles.button} >
+            <TouchableOpacity style={styles.button} onPress={addContrato}>
                   <Text style={styles.buttonText}>CONTRATAR</Text>
             </TouchableOpacity> 
               {showDatePicker && (

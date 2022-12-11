@@ -31,7 +31,7 @@ const ServicoClient = ({route}) => {
     }, []);
 
     const onWorkerPress  = (contratado) =>{
-      console.log(contratado.id);
+      //console.log(contratado.id);
       navigation.navigate('NovoPedido',{servico: servico,contratado: contratado})
    }
 

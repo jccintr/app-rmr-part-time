@@ -156,14 +156,14 @@ updateAvatar: async (fd) => {
     });
    return response;
 },
-addContrato: async () => {
+addContrato: async (servico_id,cliente_id,profissional_id,data,data_servico,descricao,local,quant,valor_unitario_cliente,valor_unitario_profissional,total_cliente,total_profissional) => {
     const response = await fetch(`${BASE_API}/contratos`, {
        method: 'POST',
        headers: {
            Accept: 'application/json',
            'Content-Type': 'application/json'
        },
-       body: JSON.stringify({user_id: idUser,servicos_id: idService})
+       body: JSON.stringify({servico_id,cliente_id,profissional_id,data,data_servico,descricao,local,quant,valor_unitario_cliente,valor_unitario_profissional,total_cliente,total_profissional})
    });
    return response;
 },

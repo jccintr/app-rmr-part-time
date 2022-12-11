@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet,Text} from 'react-native';
 import { cores } from '../../style/globalStyle';
 import Api from '../../Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ContratoCard from '../../components/ContratoCard';
 
 
 
@@ -16,7 +17,7 @@ const Pedidos = () => {
         setUserId(userId);
         
         json = await Api.getContratosBycliente(userId);
-        console.log(json.length);
+        console.log('pedidos length= ' + json.length);
         setPedidos(json);
     }
     getUser();
@@ -27,8 +28,8 @@ const Pedidos = () => {
     <SafeAreaView style={styles.container}>
        <Text style={styles.title}>Meus Pedidos</Text>
        {pedidos.map((pedido) => (
-                       <Text style={{color: '#000'}}key={pedido.id}>{pedido.profissional.name}</Text>
-                      
+                       
+                      <ContratoCard key={pedido.id} contrato={pedido}/>
                     
                     ))}
     </SafeAreaView>
@@ -53,6 +54,7 @@ title:{
   fontSize: 18,
   color: cores.amarelo,
   width: '100%',
+  marginBottom: 10,
 },
 
    
