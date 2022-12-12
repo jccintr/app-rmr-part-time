@@ -167,8 +167,20 @@ addContrato: async (servico_id,cliente_id,profissional_id,data,data_servico,desc
    });
    return response;
 },
-getContratosBycliente: async (idCliente) => {
+getContratosByCliente: async (idCliente) => {
     const req = await fetch(`${BASE_API}/contratos/cliente/${idCliente}`, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+       
+    });
+    const json = await req.json();        
+    return json;
+},
+getContratosByProfissional: async (idProfissional) => {
+    const req = await fetch(`${BASE_API}/contratos/profissional/${idProfissional}`, {
         method: 'GET',
         headers: {
             Accept: 'application/json',

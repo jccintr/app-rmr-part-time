@@ -96,9 +96,9 @@ const addContrato = async () => {
   let cliente_id  = await AsyncStorage.getItem('userId');
   let profissional_id = contratado.user.id;
   let valor_unitario_cliente = valorUnitario;
-  let valor_unitario_profissional  = servico.valor_profissional;
+  let valor_unitario_profissional  = servico.valor_profissional * 100;
   let total_cliente = total;
-  let total_profissional = quant * servico.valor_profissional;
+  let total_profissional = quant * servico.valor_profissional * 100;
   let data_servico = formataDataApi(data);
   let data_criacao = formataDataApi(new Date());
  
@@ -168,7 +168,7 @@ const addContrato = async () => {
                           <Text style={styles.quantButtonText}>-</Text>
                       </TouchableOpacity>
                       <View style={styles.labelQuantArea}>
-                        <Text style={styles.labelQuant}>{quant} {unidade}</Text>
+                        <Text style={styles.labelQuant}>{quant} {unidade}{quant>1?'s':''} </Text>
                       </View>
                     
                       <TouchableOpacity style={styles.quantButton} onPress={buttonPlus}>
