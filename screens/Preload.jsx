@@ -14,29 +14,32 @@ const Preload = () => {
             const token = await AsyncStorage.getItem('token');
            
             if(token){
-                
-                let response = await Api.getUser(token);
-                
-                if (response.status===200){
-                    let jsonUser = await response.json(); 
-                   
-                    await AsyncStorage.setItem('userId', jsonUser.id.toString());
-                    await AsyncStorage.setItem('userRole', jsonUser.role);
-                    if (jsonUser.role === 'cliente')
-                        navigation.reset({routes:[{name:'ClientTab'}]});
-                    else
-                        navigation.reset({routes:[{name:'WorkerTab'}]});
-                } else
-                {
-                    navigation.reset({
-                        routes:[{name:'SignIn'}] 
-                    });
-                }
-                
-                
                
                
+                try {
 
+                    let response = await Api.getUser(token);
+                    if (response.status===200){
+                       let jsonUser = await response.json(); 
+                       await AsyncStorage.setItem('userId', jsonUser.id.toString());
+                       await AsyncStorage.setItem('userRole', jsonUser.role);
+                       if (jsonUser.role === 'cliente')
+                         navigation.reset({routes:[{name:'ClientTab'}]});
+                       else
+                         navigation.reset({routes:[{name:'WorkerTab'}]});
+                    } else
+                    {
+                      navigation.reset({
+                        routes:[{name:'SignIn'}] 
+                      });
+                    }
+
+
+                }  catch (e){
+                    console.log(e)
+                    alert("Impossível conectar ao servidor.");
+                  }
+                
             }
             else {
                 navigation.reset({

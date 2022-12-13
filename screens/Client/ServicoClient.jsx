@@ -9,7 +9,7 @@ import WorkerCard from '../../components/WorkerCard';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 
- 
+
 
 
 
@@ -31,12 +31,12 @@ const ServicoClient = ({route}) => {
     }, []);
 
     const onWorkerPress  = (contratado) =>{
-      console.log(contratado.id);
+    //  console.log(contratado.id);
       navigation.navigate('NovoPedido',{servico: servico,contratado: contratado})
    }
 
 
-   
+
     return (
    <SafeAreaView style={styles.container}>
     <StatusBar />
@@ -76,12 +76,12 @@ export default ServicoClient
 const styles = StyleSheet.create({
     container: {
         flex:1,
-      
+
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: "#fff",
-     
+
     },
     botaoVoltar:{
        position: 'absolute',
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     serviceImage:{
       width: '100%',
       height: 200,
-      
+
     },
     body:{
         flex:1,
@@ -113,9 +113,9 @@ const styles = StyleSheet.create({
       paddingTop: 10,
       flexDirection: 'row',
       alignItems: 'center',
-     
+
        width:'100%',
-     
+
     },
     horarioText: {
        fontSize: 16,
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
       }
-   
-   
-    
+
+
+
   });

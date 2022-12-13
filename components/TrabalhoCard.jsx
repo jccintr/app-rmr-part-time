@@ -2,7 +2,7 @@ import React, { useEffect,useState } from 'react';
 import { StyleSheet, Text, Image,View,TouchableOpacity} from 'react-native';
 import { cores } from '../style/globalStyle';
 
-const ContratoCard = ({trabalho,onPress}) => {
+const TrabalhoCard = ({trabalho,onPress}) => {
   const statusText = ['','Serviço solicitado pelo cliente'];
 
 
@@ -31,7 +31,7 @@ const ContratoCard = ({trabalho,onPress}) => {
   )
 }
 
-export default ContratoCard
+export default TrabalhoCard
 
 
 const styles = StyleSheet.create({

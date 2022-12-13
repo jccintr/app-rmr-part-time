@@ -9,36 +9,40 @@ import ModalTrabalho from '../../components/ModalTrabalho';
 
 
 const Trabalhos = () => {
-  const [userId,setUserId] = useState(null);
+  //const [userId,setUserId] = useState(null);
   const [trabalhos,setTrabalhos] = useState([]);
   const [trabalhoSelecionado,setTrabalhoSelecionado] = useState(null);
   const [modalVisible,setModalVisible] = useState(false);
 
   useEffect(()=>{
-    const getUser = async () => {
+    const getTrabalhos = async () => {
         const userId = await AsyncStorage.getItem('userId');
-        setUserId(userId);
-        json = await Api.getContratosByProfissional(userId);
+        //setUserId(userId);
+        console.log('userid='+userId);
+        let json = await Api.getContratosByProfissional(userId);
+        setTrabalhoSelecionado(json[0]);
+        console.log('trabalhos='+json.length);
         setTrabalhos(json);
     }
-    getUser();
+    getTrabalhos();
 }, []);
 
+
+
 const abreModalTrabalho = (trabalho) => {
- // console.log('cliente='+trabalho.cliente.name);
+ console.log('tocou no trabalho card');
   setTrabalhoSelecionado(trabalho);
-  setModalVisible(true);
+  console.log(trabalhoSelecionado.cliente.name);
+ setModalVisible(true);
 }
 
   return (
     <SafeAreaView style={styles.container}>
        <Text style={styles.title}>Meus Trabalhos</Text>
        {trabalhos.map((trabalho) => (
-                     
-                          <TrabalhoCard  trabalho={trabalho} onPress={()=>abreModalTrabalho(trabalho)}/>
-                     
-                    ))}
-           <ModalTrabalho trabalho={trabalhoSelecionado} modalVisible={modalVisible} setModalVisible={setModalVisible} />      
+           <TrabalhoCard  key={trabalho.id} trabalho={trabalho} onPress={()=>abreModalTrabalho(trabalho)}/>
+        ))}
+        {trabalhoSelecionado &&<ModalTrabalho trabalho={trabalhoSelecionado} modalVisible={modalVisible} setModalVisible={setModalVisible} /> }
     </SafeAreaView>
   )
 }

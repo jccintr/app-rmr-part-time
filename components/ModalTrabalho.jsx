@@ -8,13 +8,21 @@ const ModalItem = ({subTitle,valor}) => {
     <View style={styles.modalItemArea}>    
         <Text style={styles.subTitleText}>{subTitle}</Text>
         <View style={styles.valueArea}>
-            <Text style={styles.descriptionText}>{valor}</Text>
+            <Text style={styles.descriptionText}>{valor} </Text>
         </View>
     </View>
     )
 }
 
 const ModalTrabalho = ({modalVisible,setModalVisible,trabalho}) => {
+   
+    const formataData = (data) => {
+   
+        const arrData = data.split("-");
+        return arrData[2]+'/'+arrData[1] + '/'+arrData[0];
+    
+      }
+
   return (
     <Modal visible={modalVisible} animationType="slide" transparent={true} onRequestClose={()=>setModalVisible(false)}>
         <View style={styles.container}>
@@ -25,14 +33,13 @@ const ModalTrabalho = ({modalVisible,setModalVisible,trabalho}) => {
                  </TouchableOpacity>
               </View>
               <View style={styles.body}>
+                  <ModalItem subTitle='Servico:' valor={trabalho.servico.nome}/>
                   <ModalItem subTitle='Solicitante:' valor={trabalho.cliente.name}/>
-                  <ModalItem subTitle='Data da execução do trabalho:' valor={trabalho.data_servico}/>
+                  <ModalItem subTitle='Data da execução do trabalho:' valor={formataData(trabalho.data_servico)}/>
                   <ModalItem subTitle='Descrição do trabalho:' valor={trabalho.descricao}/>
                   <ModalItem subTitle='Local do Trabalho:' valor={trabalho.local}/>
-                  <ModalItem subTitle='Você receberá:' valor={trabalho.total_profissional/100}/>
-                 
-                
-
+                  <ModalItem subTitle='Você receberá:' valor={trabalho.total_profissional + ' € por ' + trabalho.quant + ' ' + trabalho.servico.unidade + (trabalho.quant > 1?'s':'')} />
+               
               </View>
               
         </View>

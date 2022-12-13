@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 export default () => (
     <Tab.Navigator screenOptions={{ headerShown: false}} tabBar={props=><WorkerTabBar {...props} />}>
         <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Trabalhos" component={Trabalhos} />
+        <Tab.Screen name="Trabalhos" component={Trabalhos} options={{unmountOnBlur: true}}/>
         <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
 );
