@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View,Text,TouchableOpacity} from 'react-native';
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -8,9 +8,8 @@ import { Octicons } from '@expo/vector-icons';
 
 
 const Icone = ({iconName,iconProvider}) => {
-    
-    //return <AntDesign name={icon} size={22} color="#c1c1c1" />
 
+  
     switch (iconProvider) {
         case 'AntDesign':
             return <AntDesign name={iconName} size={22} color="#c1c1c1" />;
@@ -31,7 +30,7 @@ const Icone = ({iconName,iconProvider}) => {
         default:
           console.log(`icone não encontrado`);
       }
-      
+
 
 
 
@@ -53,7 +52,7 @@ export default MenuPerfil
 
 
 const styles = StyleSheet.create({
-    
+
     menuArea:{
        width: '90%',
        height: 50,
@@ -63,9 +62,9 @@ const styles = StyleSheet.create({
     },
    labelText:{
       fontSize: 16,
-     
+
    }
-    
-    
-   
+
+
+
   });

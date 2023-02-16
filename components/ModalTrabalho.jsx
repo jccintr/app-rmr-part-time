@@ -39,6 +39,12 @@ const ModalTrabalho = ({modalVisible,setModalVisible,trabalho}) => {
                   <ModalItem subTitle='Descrição do trabalho:' valor={trabalho.descricao}/>
                   <ModalItem subTitle='Local do Trabalho:' valor={trabalho.local}/>
                   <ModalItem subTitle='Você receberá:' valor={trabalho.total_profissional + ' € por ' + trabalho.quant + ' ' + trabalho.servico.unidade + (trabalho.quant > 1?'s':'')} />
+                  <TouchableOpacity style={styles.button} onPress={()=>{}}>
+                     <Text style={styles.buttonText}>ACEITAR ESTE TRABALHO</Text>
+                  </TouchableOpacity> 
+                  <TouchableOpacity style={styles.buttonReject} onPress={()=>{}}>
+                     <Text style={styles.buttonText}>REJEITAR ESTE TRABALHO</Text>
+                  </TouchableOpacity> 
                
               </View>
               
@@ -108,6 +114,16 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         backgroundColor: cores.amarelo,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius:10,
+        marginTop: 20,
+      
+      },
+      buttonReject:{
+        width: '100%',
+        height: 50,
+        backgroundColor: cores.vermelho,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius:10,
