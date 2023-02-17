@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text,Image,TextInput, SafeAreaView,View,TouchableOpacity, KeyboardAvoidingView} from 'react-native';
+import { StyleSheet, Text,Image,ActivityIndicator, SafeAreaView,View,TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { cores } from '../style/globalStyle';
 import logo from '../assets/logo-rmr-transparente-1080.png';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const SignIn = () => {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
+  const [isLoading,setIsLoading] = useState(false);
   const navigation = useNavigation(); 
 
 
@@ -21,7 +22,7 @@ const SignIn = () => {
  const onSignInTouch = async () => {
 
   if(email != '' && password != ''){
-
+     setIsLoading(true);
      let response = await Api.signIn(email, password);
      const json = await response.json();
      if(json.token){
@@ -39,7 +40,7 @@ const SignIn = () => {
       } else {
       alert("Email e ou senha inválidos.");
      }
-
+     setIsLoading(false);
   } else {
     alert("Por favor, informe o seu email e a sua senha.");
   }
@@ -79,7 +80,7 @@ const SignIn = () => {
             keyboard="default"
         />
         <TouchableOpacity onPress={onSignInTouch} style={styles.button}>
-         <Text style={styles.buttonText}>ENTRAR</Text>
+         {!isLoading?<Text style={styles.buttonText}>ENTRAR</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
        </TouchableOpacity>
        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.signUpMessage}>
           <Text style={styles.signUpMessageText}>Não tem uma conta?</Text>

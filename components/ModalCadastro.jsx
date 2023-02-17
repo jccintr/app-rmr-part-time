@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import { StyleSheet, Text,TouchableOpacity, Modal,View} from 'react-native';
+import { StyleSheet, Text,TouchableOpacity, Modal,View,ActivityIndicator} from 'react-native';
 import { cores } from '../style/globalStyle';
 import InputField2 from '../components/InputField2';
 import { AntDesign } from '@expo/vector-icons';
@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
-const ModalCadastro= ({modalVisible,setModalVisible,userData,token,documento,setDocumento,endereco,setEndereco,bairro,setBairro,cidade,setCidade,updateCadastro}) => {
+const ModalCadastro= ({isLoading,modalVisible,setModalVisible,userData,token,documento,setDocumento,endereco,setEndereco,bairro,setBairro,cidade,setCidade,updateCadastro}) => {
    
 /*
    useEffect(()=>{
@@ -71,7 +71,7 @@ const ModalCadastro= ({modalVisible,setModalVisible,userData,token,documento,set
                             />
                     </View>
                         <TouchableOpacity style={styles.button} onPress={updateCadastro}>
-                          <Text style={styles.buttonText}>SALVAR</Text>
+                          {!isLoading?<Text style={styles.buttonText}>SALVAR</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
                         </TouchableOpacity> 
               </View>
            </View>

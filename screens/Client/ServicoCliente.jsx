@@ -56,7 +56,7 @@ const ServicoClient = ({route}) => {
          </View>
          <View style={styles.horarioArea}>
             <FontAwesome5 name="money-bill-alt" size={24} color={cores.amarelo} />
-            <Text style={styles.horarioText}>{servico.valor_cliente/100}€ por {servico.unidade==='H'? 'hora': 'diária'} {servico.periodo_minimo!=='0'?'(Mínimo '+servico.periodo_minimo +' horas)':''}</Text>
+            <Text style={styles.horarioText}>{servico.valor_cliente}€ por {servico.unidade==='H'? 'hora': 'diária'} {servico.periodo_minimo!=='0'?'(Mínimo '+servico.periodo_minimo +' horas)':''}</Text>
          </View>
          {contratados.length > 0 ? <Text style={styles.subTitle}>Profissionais disponíveis</Text>: ''}
          {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.amarelo}/>}

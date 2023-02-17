@@ -21,6 +21,7 @@ const [endereco,setEndereco] = useState('');
 const [bairro,setBairro] = useState('');
 const [cidade,setCidade] = useState('');
 const [avatar,setAvatar] = useState(null);
+const [isLoading,setIsLoading] = useState(false);
 
 useEffect(()=>{
     const getUser = async () => {
@@ -89,8 +90,9 @@ const onCadastroPress = () => {
 }
 
 const updateCadastro = async () => {
-
-    let json = Api.updateUser(userData.id,documento,endereco,bairro,cidade,token);
+    setIsLoading(true);
+    let json = await Api.updateUser(userData.id,documento,endereco,bairro,cidade,token);
+    setIsLoading(false);
     setModalVisible(false);
 
 }
@@ -130,6 +132,7 @@ return (
         <MenuPerfil iconName="policy" iconProvider="MaterialIcons" label="Política de Privacidade" onPress={onNada}/>
         <MenuPerfil iconName="logout" iconProvider="MaterialIcons" label="Sair" onPress={onLogout}/>
             <ModalCadastro
+                isLoading={isLoading}
                 modalVisible={modalVisible} 
                 setModalVisible={setModalVisible} 
                 userData={userData} 

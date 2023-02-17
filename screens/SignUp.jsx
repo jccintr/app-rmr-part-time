@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text,Image,ScrollView, SafeAreaView,View,TouchableOpacity,KeyboardAvoidingView} from 'react-native';
+import { StyleSheet, Text,Image,ScrollView, SafeAreaView,View,TouchableOpacity,KeyboardAvoidingView,ActivityIndicator} from 'react-native';
 import { cores } from '../style/globalStyle';
 import logo from '../assets/logo-rmr-transparente-1080.png';
 import Api from '../Api';
@@ -19,6 +19,7 @@ const SignUp = () => {
     const [role,setRole] = useState(0);  // 0->cliente 1->profissional
     const [password,setPassword] = useState('');
     const [passwordConfirm,setPasswordConfirm] = useState('');
+    const [isLoading,setIsLoading] = useState(false);
     const navigation = useNavigation();
 
 
@@ -31,7 +32,8 @@ const SignUp = () => {
               roleString = 'cliente'
           else
              roleString = 'profissional'
-          //console.log(email);
+          
+          setIsLoading(true);   
           let json = await Api.signUp(nome,email,telefone, password,roleString);
          
         
@@ -55,6 +57,7 @@ const SignUp = () => {
           alert("As senhas informadas são diferentes.");
 
         }
+        setIsLoading(false);
       } else {
 
         alert("Preencha todos os campos por favor.");
@@ -133,7 +136,7 @@ const SignUp = () => {
        </View>
 
        <TouchableOpacity onPress={onSignUpTouch} style={styles.button}>
-        <Text  style={styles.buttonText}>CADASTRAR</Text>
+        {!isLoading?<Text style={styles.buttonText}>CADASTRAR</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.signUpMessage}>
          <Text style={styles.signUpMessageText}>Já tem uma conta?</Text>
