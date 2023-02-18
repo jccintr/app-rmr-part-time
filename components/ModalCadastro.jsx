@@ -9,26 +9,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ModalCadastro= ({isLoading,modalVisible,setModalVisible,userData,token,documento,setDocumento,endereco,setEndereco,bairro,setBairro,cidade,setCidade,updateCadastro}) => {
    
-/*
-   useEffect(()=>{
-    const getData =  () => {
-    setDocumento(userData.documento);
-    setBairro(userData.bairro);
-    setCidade(userData.cidade);
-    setEndereco(userData.endereco);
-    }
-    getData();
-}, []);
-
-*/
-
-
-
 
 
   return (
-    <Modal visible={modalVisible} animationType="slide" transparent={true} onRequestClose={()=>setModalVisible(false)}>
-           <View style={styles.container}>
+    <Modal  visible={modalVisible} animationType="slide" transparent={true} onRequestClose={()=>setModalVisible(false)}>
+          <View style={styles.container}>
               <View style={styles.header}>
                  <Text style={styles.titleText}>Meu Cadastro</Text>
                  <TouchableOpacity onPress={()=>setModalVisible(false)}>
@@ -93,7 +78,7 @@ const styles = StyleSheet.create({
         justifyContent:'flex-start',
         alignItems: 'center',
         paddingHorizontal: 5,
-        paddingTop: 20,
+        paddingTop: 10,
         paddingBottom: 20,
         
     },

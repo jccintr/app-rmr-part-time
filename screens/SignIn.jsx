@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text,Image,ActivityIndicator, SafeAreaView,View,TouchableOpacity, KeyboardAvoidingView} from 'react-native';
+import { StyleSheet, Text,Image,ActivityIndicator, SafeAreaView,View,TouchableOpacity, KeyboardAvoidingView,StatusBar} from 'react-native';
 import { cores } from '../style/globalStyle';
 import logo from '../assets/logo-rmr-transparente-1080.png';
 import { useNavigation } from '@react-navigation/native';
@@ -56,6 +56,11 @@ const SignIn = () => {
 
   return (
     <KeyboardAvoidingView behavior='height' style={styles.container}>
+     <StatusBar
+                animated={true}
+                backgroundColor={cores.amarelo}
+                barStyle="dark-content"
+      /> 
      <View style={styles.header}>
           <Image source={logo} style={styles.logo}/>
           <Text style={styles.headerText}>Bem-vindo ao RMR Part-Time</Text>

@@ -1,9 +1,9 @@
 import React, { useEffect,useState } from 'react';
-import { StyleSheet, Text, SafeAreaView,View,ScrollView} from 'react-native';
+import { StyleSheet, Text, SafeAreaView,View,ScrollView,StatusBar} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { cores } from '../../style/globalStyle';
-import { StatusBar } from 'expo-status-bar';
+//import { StatusBar } from 'expo-status-bar';
 import Api from '../../Api';
 import ServiceCard from '../../components/ServiceCard';
 
@@ -38,7 +38,11 @@ const Home = () => {
     return (
         
         <SafeAreaView style={styles.container}>
-             <StatusBar />
+            <StatusBar
+                animated={true}
+                backgroundColor={cores.branco}
+                barStyle="dark-content"
+            />
             <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.userNameArea}>
                         <Text style={styles.userNameText}>Olá {userName} !</Text>
@@ -46,10 +50,7 @@ const Home = () => {
                     </View>
                     <Text style={styles.title}>Serviços disponíveis</Text>
                     <View style={styles.servicesContainer}>
-                        {services.map((service) => (
-                            <ServiceCard servico={service} role="worker" key={service.id} onPress={onServicePress}/>
-                        
-                        ))}
+                        {services.map((service) => (<ServiceCard servico={service} role="worker" key={service.id} onPress={onServicePress}/>))}
                     </View>
              </ScrollView> 
         </SafeAreaView>
@@ -63,7 +64,7 @@ export default Home
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        paddingTop: 40,
+       
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',

@@ -1,14 +1,15 @@
 import React, {useState,useEffect} from 'react'
-import { SafeAreaView, StyleSheet,Text,View,TouchableOpacity,Image,ScrollView,Dimensions,ToastAndroid} from 'react-native';
+import { SafeAreaView, StyleSheet,Text,View,TouchableOpacity,Image,ScrollView,Dimensions,ToastAndroid,StatusBar} from 'react-native';
 import { cores } from '../../style/globalStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
+//import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import InputArea from '../../components/InputArea';
 import InputField2 from '../../components/InputField2';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Api from '../../Api';
+import Avatar from '../../assets/avatar.jpg';
 
 
 
@@ -24,8 +25,8 @@ const NovoPedido = ({route}) => {
      const [local,setLocal] = useState('');
      const [quant,setQuant] = useState(1);
      const [unidade,setUnidade] = useState(servico.unidade);
-     const [valorUnitario,setValorUnitario] = useState(servico.valor_cliente/100);
-     const [total,setTotal] = useState(servico.valor_cliente/100);
+     const [valorUnitario,setValorUnitario] = useState(servico.valor_cliente);
+     const [total,setTotal] = useState(servico.valor_cliente);
      const [mensagem,setMensagem] = useState('Cuidado com o cachorro');
      const [showDatePicker, setShowDatePicker] = useState(false);
     
@@ -35,12 +36,7 @@ const NovoPedido = ({route}) => {
       CalculaTotal();
     }, [quant, valorUnitario]);
 
-/*
-    const LoadData = () => {
 
-      setUnidade(servico.Unidade);
-    }
-*/
 
 const onChange = (event, selectedDate) => {
   const currentDate = selectedDate;
@@ -113,7 +109,11 @@ const addContrato = async () => {
 
   return (
    <SafeAreaView style={styles.container}>
-      <StatusBar />
+      <StatusBar
+                animated={true}
+                backgroundColor={cores.branco}
+                barStyle="dark-content"
+            />
       <ScrollView style={{width: screenWidth}} showsVerticalScrollIndicator={false}>
             <Image style={styles.serviceImage} source={{uri: `${Api.base_storage}/${servico.imagem}`,}}/>
             <TouchableOpacity style={styles.titleArea} onPress={()=>navigation.goBack()}>
@@ -124,7 +124,7 @@ const addContrato = async () => {
             <View style={styles.body}>
             
                   <View style={styles.contratadoArea}>
-                      <Image style={styles.workerImage} source={{uri: `${Api.base_storage}/${contratado.user.imagem}`,}}/>
+                      <Image style={styles.workerImage} source={contratado.user.umagem != null ?{uri: `${Api.base_storage}/${contratado.user.imagem}`,}:Avatar}/>
                       <View style={styles.contratadoAreaDetail}>
                           <Text style={styles.contratadoNameText}>{contratado.user.name}</Text>
                           <Text>{servico.nome}</Text>

@@ -25,6 +25,7 @@ const ModalTrabalho = ({modalVisible,setModalVisible,trabalho}) => {
 
   return (
     <Modal visible={modalVisible} animationType="slide" transparent={true} onRequestClose={()=>setModalVisible(false)}>
+        
         <View style={styles.container}>
              <View style={styles.header}>
                  <Text style={styles.titleText}>Detalhes do Trabalho</Text>
@@ -39,10 +40,10 @@ const ModalTrabalho = ({modalVisible,setModalVisible,trabalho}) => {
                   <ModalItem subTitle='Descrição do trabalho:' valor={trabalho.descricao}/>
                   <ModalItem subTitle='Local do Trabalho:' valor={trabalho.local}/>
                   <ModalItem subTitle='Você receberá:' valor={trabalho.total_profissional + ' € por ' + trabalho.quant + ' ' + trabalho.servico.unidade + (trabalho.quant > 1?'s':'')} />
-                  <TouchableOpacity style={styles.button} onPress={()=>{}}>
+                  <TouchableOpacity style={styles.button} onPress={()=>{alert("Ainda não disponível !")}}>
                      <Text style={styles.buttonText}>ACEITAR ESTE TRABALHO</Text>
                   </TouchableOpacity> 
-                  <TouchableOpacity style={styles.buttonReject} onPress={()=>{}}>
+                  <TouchableOpacity style={styles.buttonReject} onPress={()=>{alert("Ainda não disponível !")}}>
                      <Text style={styles.buttonText}>REJEITAR ESTE TRABALHO</Text>
                   </TouchableOpacity> 
                
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
         justifyContent:'flex-start',
         alignItems: 'center',
         paddingHorizontal: 5,
-        paddingTop: 20,
+        paddingTop: 10,
         paddingBottom: 20,
         
     },

@@ -1,8 +1,8 @@
 import React, { useEffect,useState } from 'react';
-import { StyleSheet,Image,Text, SafeAreaView,View,ScrollView, TouchableOpacity,ActivityIndicator} from 'react-native';
+import { StyleSheet,Image,Text, SafeAreaView,View,ScrollView, TouchableOpacity,ActivityIndicator,StatusBar} from 'react-native';
 import { cores } from '../../style/globalStyle';
 import Api from '../../Api';
-import { StatusBar } from 'expo-status-bar';
+//import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import WorkerCard from '../../components/WorkerCard';
@@ -39,7 +39,11 @@ const ServicoClient = ({route}) => {
 
     return (
    <SafeAreaView style={styles.container}>
-    <StatusBar />
+    <StatusBar
+                animated={true}
+                backgroundColor={cores.branco}
+                barStyle="dark-content"
+            />
     <ScrollView showsVerticalScrollIndicator={false}>
     <TouchableOpacity style={styles.botaoVoltar} onPress={()=>navigation.goBack()}>
        <Ionicons name="chevron-back" size={30} color="#fff" />
@@ -59,16 +63,11 @@ const ServicoClient = ({route}) => {
             <Text style={styles.horarioText}>{servico.valor_cliente}€ por {servico.unidade==='hora'? 'hora': 'diária'} {servico.periodo_minimo!=='0'?'(Mínimo '+servico.periodo_minimo +' horas)':''}</Text>
          </View>
 
-         {/*isLoading ? <ActivityIndicator style={styles.loading} size="large" color={cores.amarelo}/> : 
-         (contratados.length > 0 ? 
-         <Text style={styles.subTitle}>Profissionais disponíveis</Text>
-         
-         :
-         <Text style={{color:'red'}}>Nenhum profissional encontrado.</Text>)
-         */}
-         {contratados.length > 0 ? <Text style={styles.subTitle}>Profissionais disponíveis</Text>: ''}
+        
          {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.amarelo}/>}
-         {!contratados.length && <Text style={{color:'red'}}>Nenhum profissional encontrado.</Text>}
+
+         {(contratados.length > 0 && !isLoading)? <Text style={styles.subTitle}>Profissionais encontrados</Text>: <Text style={{color:'red',marginTop:100}}>Nenhum profissional encontrado.</Text>}
+        
          {contratados.filter(contratado=>contratado.ativo==true).map((contratado) => (
              <WorkerCard key={contratado.id} contratado={contratado} onPress={()=>onWorkerPress(contratado)}/>
              ))}
@@ -84,23 +83,20 @@ export default ServicoClient
 const styles = StyleSheet.create({
     container: {
         flex:1,
-
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: "#fff",
-
-    },
+   },
     botaoVoltar:{
        position: 'absolute',
-       top: 30,
+       top: 10,
        left: 10,
        zIndex: 99,
     },
     serviceImage:{
       width: '100%',
       height: 200,
-
     },
     body:{
         flex:1,
@@ -115,15 +111,12 @@ const styles = StyleSheet.create({
         borderRadius:15,
         padding:10,
         marginTop:10,
-
-    },
+   },
     horarioArea:{
       paddingTop: 10,
       flexDirection: 'row',
       alignItems: 'center',
-
-       width:'100%',
-
+      width:'100%',
     },
     horarioText: {
        fontSize: 16,
@@ -150,7 +143,4 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
       }
-
-
-
   });

@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
      height: 70,
      marginBottom: 10,
      backgroundColor: cores.cinzaClaro,
-    elevation: 3,
-    borderRadius: 5,
+     elevation: 3,
+     borderRadius: 5,
      borderWidth: 1,
      borderColor: '#c1c1c1',
      justifyContent: 'flex-start',
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     height: 69,
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
-    
+       
   },
   detailArea:{
     flexDirection: 'column',

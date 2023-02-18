@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import { StyleSheet, Text, SafeAreaView, View,Image,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View,Image,TouchableOpacity,StatusBar} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import MenuPerfil from '../../components/MenuPerfil';
@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Api from '../../Api';
 import ImgAvatar from '../../assets/avatar.jpg';
 import ModalCadastro from '../../components/ModalCadastro';
+//import { StatusBar } from 'expo-status-bar';
 
 const Profile = () => {
 
@@ -116,6 +117,11 @@ const onLogout = async () => {
   
 return (
     <SafeAreaView style={styles.container}>
+        <StatusBar
+                animated={true}
+                backgroundColor={cores.branco}
+                barStyle="dark-content"
+            />
         <View style={styles.userNameArea}>
              <Text style={styles.userNameText}>{userData.name}</Text>
              <Text style={styles.fraseHeader}>{userData.role==='cliente'?'Cliente':'Profissional'}</Text>
@@ -127,6 +133,7 @@ return (
         
         <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
         <MenuPerfil iconName="user-circle-o" iconProvider="FontAwesome" label="Meus Cadastro" onPress={onCadastroPress}/>
+        <MenuPerfil iconName="lock1" iconProvider="AntDesign" label="Alterar minha senha" onPress={onNada}/>
         <MenuPerfil iconName="mail" iconProvider="AntDesign" label="Fale Conosco" onPress={onNada}/>
         <MenuPerfil iconName="checklist" iconProvider="Octicons" label="Termo de Uso" onPress={onNada}/>
         <MenuPerfil iconName="policy" iconProvider="MaterialIcons" label="Política de Privacidade" onPress={onNada}/>
@@ -162,7 +169,7 @@ export default Profile
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        paddingTop: 40,
+       
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',

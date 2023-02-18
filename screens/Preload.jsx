@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Image, SafeAreaView,ActivityIndicator,TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, SafeAreaView,ActivityIndicator,TouchableOpacity,StatusBar } from 'react-native';
 import logo from '../assets/logo-rmr.png';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,12 +12,9 @@ const Preload = () => {
     useEffect(()=>{
         const checkToken = async () => {
             const token = await AsyncStorage.getItem('token');
-           
+          
             if(token){
-               
-               
-                try {
-
+               try {
                     let response = await Api.getUser(token);
                     if (response.status===200){
                        let jsonUser = await response.json(); 
@@ -52,14 +49,13 @@ const Preload = () => {
     }, []);
 
 
-
-
-
-
-
-
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar
+                animated={true}
+                backgroundColor={cores.branco}
+                barStyle="dark-content"
+            />
             <TouchableOpacity onPress={() => navigation.navigate('SignIn')} >
                 <Image source={logo} style={styles.imagelogo}/>
             </TouchableOpacity>

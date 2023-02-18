@@ -1,9 +1,9 @@
 import React, { useEffect,useState } from 'react';
-import { StyleSheet,Image,Text, SafeAreaView,View,ScrollView, TouchableOpacity,ActivityIndicator} from 'react-native';
+import { StyleSheet,Image,Text, SafeAreaView,View,ScrollView, TouchableOpacity,ActivityIndicator,StatusBar} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { cores } from '../../style/globalStyle';
 import Api from '../../Api';
-import { StatusBar } from 'expo-status-bar';
+//import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -45,7 +45,7 @@ const ServicoWorker = ({route}) => {
    
 
     const subscribeService = async (idServico) => {
-     
+      setIsLoading(true);
       if (!cadastrado) {
         let json = await Api.subscribeService(userId,idServico);
         setInscrito(true);
@@ -59,21 +59,21 @@ const ServicoWorker = ({route}) => {
       }
       let jsonContratados = await Api.getContratadosByService(idServico);
       setContratados(jsonContratados);
-
+      setIsLoading(false);
     }
 
     const unSubscribeService = async (idServico) => {
 
-
+     setIsLoading(true);
      if(cadastrado) { // já cadastrado, apenas desativar o contrato
-      console.log('idContratado='+idContrato);
+      //console.log('idContratado='+idContrato);
       let json = await Api.deactiveService(idContrato);
       setInscrito(false);
       setCadastrado(true);
       let jsonContratados = await Api.getContratadosByService(idServico);
       setContratados(jsonContratados);
      }
-    
+     setIsLoading(false);
     }
 
 
@@ -101,13 +101,13 @@ const ServicoWorker = ({route}) => {
             <Text style={styles.horarioText}>{servico.valor_profissional} € por {servico.unidade==='H'? 'hora': 'diária'} {servico.periodo_minimo?'(Mínimo '+servico.periodo_minimo +' horas)':''}</Text>
          </View>
 
-         {cadastrado && inscrito &&  <Text style={styles.warningText}>Você já está inscrito neste serviço.</Text>}
+         {/*cadastrado && inscrito &&  <Text style={styles.warningText}>Você já está inscrito neste serviço.</Text>*/}
          {cadastrado & inscrito ? 
              <TouchableOpacity style={styles.button} onPress={()=>unSubscribeService(servico.id)}>
-                  <Text style={styles.buttonText}>CANCELAR INSCRIÇÃO</Text>
+                  {!isLoading?<Text style={styles.buttonText}>CANCELAR INSCRIÇÃO</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
              </TouchableOpacity> : 
              <TouchableOpacity style={styles.button} onPress={()=>subscribeService(servico.id)}>
-                <Text style={styles.buttonText}>INSCREVA-SE NESTE SERVIÇO</Text> 
+                {!isLoading?<Text style={styles.buttonText}>INSCREVA-SE NESTE SERVIÇO</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>} 
              </TouchableOpacity>
           }
          
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     },
     botaoVoltar:{
        position: 'absolute',
-       top: 30,
+       top: 10,
        left: 10,
        zIndex: 99,
     },

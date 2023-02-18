@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { SafeAreaView, StyleSheet,Text} from 'react-native';
+import { SafeAreaView, StyleSheet,Text,StatusBar,ActivityIndicator} from 'react-native';
 import { cores } from '../../style/globalStyle';
 import Api from '../../Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,14 +10,16 @@ import PedidoCard from '../../components/PedidoCard';
 const Pedidos = () => {
   const [userId,setUserId] = useState(null);
   const [pedidos,setPedidos] = useState([]);
+  const [isLoading,setIsLoading] = useState(false);
 
   useEffect(()=>{
     const getUser = async () => {
+        setIsLoading(true);
         const userId = await AsyncStorage.getItem('userId');
         setUserId(userId);
-        
         json = await Api.getContratosByCliente(userId);
         console.log('pedidos length= ' + json.length);
+        setIsLoading(false);
         setPedidos(json);
     }
     getUser();
@@ -26,7 +28,13 @@ const Pedidos = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+                animated={true}
+                backgroundColor={cores.branco}
+                barStyle="dark-content"
+            />
        <Text style={styles.title}>Meus Pedidos</Text>
+       {isLoading&&<ActivityIndicator  size="large" color={cores.amarelo}/>}
        {pedidos.map((pedido) => (
                        
                       <PedidoCard key={pedido.id} contrato={pedido}/>
@@ -42,7 +50,7 @@ export default Pedidos
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    paddingTop: 40,
+    
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -57,7 +65,4 @@ title:{
   marginBottom: 10,
 },
 
-   
-   
-    
   });

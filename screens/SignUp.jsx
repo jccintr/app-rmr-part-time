@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text,Image,ScrollView, SafeAreaView,View,TouchableOpacity,KeyboardAvoidingView,ActivityIndicator} from 'react-native';
+import { StyleSheet, Text,Image,ScrollView, SafeAreaView,View,TouchableOpacity,KeyboardAvoidingView,ActivityIndicator,StatusBar} from 'react-native';
 import { cores } from '../style/globalStyle';
 import logo from '../assets/logo-rmr-transparente-1080.png';
 import Api from '../Api';
@@ -72,6 +72,11 @@ const SignUp = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
+    <StatusBar
+                animated={true}
+                backgroundColor={cores.amarelo}
+                barStyle="dark-content"
+            />  
     <KeyboardAvoidingView behavior='height' style={styles.container}>
   
     <View style={styles.header}>   

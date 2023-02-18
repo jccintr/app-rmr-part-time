@@ -58,12 +58,13 @@ const ServicoClient = ({route}) => {
             <FontAwesome5 name="money-bill-alt" size={24} color={cores.amarelo} />
             <Text style={styles.horarioText}>{servico.valor_cliente}€ por {servico.unidade==='H'? 'hora': 'diária'} {servico.periodo_minimo!=='0'?'(Mínimo '+servico.periodo_minimo +' horas)':''}</Text>
          </View>
-         {contratados.length > 0 ? <Text style={styles.subTitle}>Profissionais disponíveis</Text>: ''}
-         {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.amarelo}/>}
-         {!contratados.length && <Text style={{color:'red'}}>Nenhum profissional encontrado.</Text>}
+         {contratados.length > 0 ? <Text style={styles.subTitle}>Profissionais encontrados</Text>: ''}
          {contratados.filter(contratado=>contratado.ativo==true).map((contratado) => (
-             <WorkerCard key={contratado.id} contratado={contratado} onPress={()=>onWorkerPress(contratado)}/>
-             ))}
+            <WorkerCard key={contratado.id} contratado={contratado} onPress={()=>onWorkerPress(contratado)}/>
+            ))}
+         {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.amarelo}/>}
+         {contratados.length===0 && !isLoading && <Text style={{color:'red'}}>Nenhum profissional encontrado.</Text>}
+         
     </View>
     </ScrollView>
    </SafeAreaView>
