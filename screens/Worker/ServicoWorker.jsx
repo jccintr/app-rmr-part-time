@@ -133,7 +133,16 @@ const styles = StyleSheet.create({
     },
     botaoVoltar:{
        position: 'absolute',
-       top: 10,
+       ...Platform.select({
+        android: {
+          top: 10,
+        },
+        ios: {
+          top:30,
+        },
+        
+      }),
+       
        left: 10,
        zIndex: 99,
     },

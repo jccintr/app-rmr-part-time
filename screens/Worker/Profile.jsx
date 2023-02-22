@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import { StyleSheet, Text, SafeAreaView, View,Image,TouchableOpacity,StatusBar} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View,Image,TouchableOpacity,StatusBar,Platform} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import MenuPerfil from '../../components/MenuPerfil';
@@ -122,14 +122,12 @@ return (
                 backgroundColor={cores.branco}
                 barStyle="dark-content"
             />
-        <View style={styles.userNameArea}>
-             <Text style={styles.userNameText}>{userData.name}</Text>
-             <Text style={styles.fraseHeader}>{userData.role==='cliente'?'Cliente':'Profissional'}</Text>
-        </View>
-        
+       
         <TouchableOpacity  onPress={selectAvatar}>
             <Image style={styles.avatar} source={avatar !== null ? {uri:`${Api.base_storage}/${avatar}`,} : ImgAvatar}/>
         </TouchableOpacity>
+        <Text style={styles.userNameText}>{userData.name}</Text>
+        <Text style={styles.fraseHeader}>{userData.role==='cliente'?'Cliente':'Profissional'}</Text>
         
         <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
         <MenuPerfil iconName="user-circle-o" iconProvider="FontAwesome" label="Meus Cadastro" onPress={onCadastroPress}/>
@@ -169,7 +167,6 @@ export default Profile
 const styles = StyleSheet.create({
     container: {
         flex:1,
-       
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -177,16 +174,12 @@ const styles = StyleSheet.create({
         paddingHorizontal:5,
        
     },
-    userNameArea:{
-        width: '100%',
-        height: 50,
-       flexDirection: 'row',
-       justifyContent: 'space-between',
-       paddingHorizontal: 5,
-       marginBottom: 10,
-      
-
-    },
+    avatar:{
+        marginTop: 10,
+        height: 100,
+        width: 100,
+        borderRadius:50,
+     },
     userNameText:{
       fontWeight: 'bold',
       fontSize: 18,
@@ -195,15 +188,10 @@ const styles = StyleSheet.create({
     },
     fraseHeader:{
         fontSize: 18,
-        color: '#d1d1d1',
+        color: '#a1a1a1',
         fontStyle: 'italic',
     },
-    avatar:{
-        height: 100,
-        width: 100,
-        borderRadius:50,
-        marginBottom: 10,
-    }
+   
     
   });
 

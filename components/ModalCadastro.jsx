@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import { StyleSheet, Text,TouchableOpacity, Modal,View,ActivityIndicator} from 'react-native';
+import { StyleSheet, Text,TouchableOpacity, Modal,View,ActivityIndicator,StatusBar} from 'react-native';
 import { cores } from '../style/globalStyle';
 import InputField2 from '../components/InputField2';
 import { AntDesign } from '@expo/vector-icons';
@@ -12,8 +12,14 @@ const ModalCadastro= ({isLoading,modalVisible,setModalVisible,userData,token,doc
 
 
   return (
-    <Modal  visible={modalVisible} animationType="slide" transparent={true} onRequestClose={()=>setModalVisible(false)}>
+    <Modal  visible={modalVisible} animationType="slide" transparent={false} onRequestClose={()=>setModalVisible(false)}>
           <View style={styles.container}>
+          <StatusBar
+                animated={true}
+               
+                backgroundColor={cores.branco}
+                barStyle="dark-content"
+            />
               <View style={styles.header}>
                  <Text style={styles.titleText}>Meu Cadastro</Text>
                  <TouchableOpacity onPress={()=>setModalVisible(false)}>
@@ -88,6 +94,7 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       width: '100%',
       paddingHorizontal: 5,
+      marginTop:5,
       marginBottom: 10,
     },
     titleText:{

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { StyleSheet, Image, SafeAreaView,ActivityIndicator,TouchableOpacity,StatusBar } from 'react-native';
 import logo from '../assets/logo-rmr.png';
 import { useNavigation } from '@react-navigation/native';
@@ -8,9 +8,11 @@ import { cores } from '../style/globalStyle';
 
 const Preload = () => {
     const navigation = useNavigation();
+    const [isLoading,setIsLoading] = useState(false);
 
     useEffect(()=>{
         const checkToken = async () => {
+            setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
           
             if(token){
@@ -33,8 +35,8 @@ const Preload = () => {
 
 
                 }  catch (e){
-                    console.log(e)
-                    alert("Impossível conectar ao servidor.");
+                    setIsLoading(false);
+                    alert("Falha ao obter dados.");
                   }
                 
             }
@@ -43,6 +45,7 @@ const Preload = () => {
                     routes:[{name:'SignIn'}]
                 });
             }
+
 
         }
         checkToken();
@@ -59,7 +62,7 @@ const Preload = () => {
             <TouchableOpacity onPress={() => navigation.navigate('SignIn')} >
                 <Image source={logo} style={styles.imagelogo}/>
             </TouchableOpacity>
-            <ActivityIndicator size="large" color={cores.amarelo}/>
+            {isLoading&&<ActivityIndicator size="large" color={cores.amarelo}/>}
         </SafeAreaView>
        )
 }
