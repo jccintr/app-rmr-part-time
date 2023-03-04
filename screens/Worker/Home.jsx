@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     },
     fraseHeader:{
         fontSize: 18,
-        color: '#d1d1d1',
+        color: '#000',
         fontStyle: 'italic',
     },
     title:{

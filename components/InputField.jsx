@@ -38,6 +38,7 @@ const InputField = ( {iconProvider,iconName,placeholder, value, onChangeText, pa
          onChangeText={onChangeText}
          secureTextEntry={password}
          keyboardType={keyboard}
+         placeholderTextColor="#c1c1c1" 
        />
     </View>
   )
@@ -48,26 +49,23 @@ export default InputField
 
 const styles = StyleSheet.create({
     inputArea: {
-
         width: '100%',
         height: 50,
-      
         flexDirection: 'row',
-       borderColor: '#c1c1c1',
+        borderColor: '#c1c1c1',
         borderWidth: 1,
         paddingLeft: 15,
         alignItems: 'center',
         marginBottom: 15,
         borderRadius: 15,
-        
     },
-    
-    input: {
+     input: {
       flex: 1,
       fontSize: 16,
       paddingHorizontal: 4,
-      color: '#c1c1c1',
+      color: '#000',
       marginLeft: 10,
+     
     },
    
   });
