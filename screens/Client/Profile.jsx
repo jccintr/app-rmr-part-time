@@ -8,12 +8,14 @@ import * as ImagePicker from 'expo-image-picker';
 import Api from '../../Api';
 import ImgAvatar from '../../assets/avatar.jpg';
 import ModalCadastro from '../../components/ModalCadastro';
+import ModalSenha from '../../components/ModalSenha';
 
 
 const Profile = () => {
     const navigation = useNavigation();
     const [userData,setUserData] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
+    const [modalSenhaVisible,setModalSenhaVisible] = useState(false);
     const [token,setToken] = useState(null);
     const [userId,setUserId] = useState(null);
     const [documento,setDocumento] = useState('');
@@ -21,6 +23,8 @@ const Profile = () => {
     const [bairro,setBairro] = useState('');
     const [cidade,setCidade] = useState('');
     const [avatar,setAvatar] = useState(null);
+    const [novaSenha,setNovaSenha] = useState('');
+    const [confirmeNovaSenha,setConfirmeNovaSenha] = useState('');
 
 
 
@@ -89,10 +93,19 @@ const Profile = () => {
 const onCadastroPress = () => {
     setModalVisible(true);
 }
+
+
+const onSenhaPress = () => {
+    setModalSenhaVisible(true);
+}
     
 const updateCadastro = async () => {
     let json = Api.updateUser(userData.id,documento,endereco,bairro,cidade,token)
     setModalVisible(false);
+}
+
+const updateSenha = async () => {
+  setModalSenhaVisible(false);
 }
        
 const onNada = () => {
@@ -122,7 +135,7 @@ const onLogout = async () => {
             
            <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
            <MenuPerfil iconName="user-circle-o" iconProvider="FontAwesome" label="Meus Cadastro" onPress={onCadastroPress}/>
-           <MenuPerfil iconName="lock1" iconProvider="AntDesign" label="Alterar minha senha" onPress={onNada}/>
+           <MenuPerfil iconName="lock1" iconProvider="AntDesign" label="Alterar minha senha" onPress={onSenhaPress}/>
            <MenuPerfil iconName="mail" iconProvider="AntDesign" label="Fale Conosco" onPress={onNada}/>
            <MenuPerfil iconName="checklist" iconProvider="Octicons" label="Termo de Uso" onPress={onNada}/>
            <MenuPerfil iconName="policy" iconProvider="MaterialIcons" label="Política de Privacidade" onPress={onNada}/>
@@ -141,7 +154,16 @@ const onLogout = async () => {
                cidade={cidade}
                setCidade={setCidade}
                updateCadastro={updateCadastro}
-               />   
+               />  
+               <ModalSenha
+               modalVisible={modalSenhaVisible} 
+               setModalVisible={setModalSenhaVisible} 
+               novaSenha={novaSenha}
+               setNovaSenha={setNovaSenha}
+               confirmeNovaSenha={confirmeNovaSenha}
+               setConfirmeNovaSenha={setConfirmeNovaSenha}
+               updateSenha={updateSenha}
+                /> 
         </SafeAreaView>
        )
 }

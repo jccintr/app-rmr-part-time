@@ -5,63 +5,46 @@ import InputField2 from '../components/InputField2';
 import { AntDesign } from '@expo/vector-icons';
 
 
+const ModalSenha = ({isLoading,modalVisible,setModalVisible,novaSenha,setNovaSenha,confirmeNovaSenha,setConfirmeNovaSenha,updateSenha}) => {
 
-
-const ModalCadastro= ({isLoading,modalVisible,setModalVisible,userData,token,documento,setDocumento,endereco,setEndereco,bairro,setBairro,cidade,setCidade,updateCadastro}) => {
    
-
-
   return (
     <Modal  visible={modalVisible} animationType="slide" transparent={false} onRequestClose={()=>setModalVisible(false)}>
           <View style={styles.container}>
           <StatusBar
                 animated={true}
-               
                 backgroundColor={cores.branco}
                 barStyle="dark-content"
             />
               <View style={styles.header}>
-                 <Text style={styles.titleText}>Meu Cadastro</Text>
+                 <Text style={styles.titleText}>Alteração de Senha</Text>
                  <TouchableOpacity onPress={()=>setModalVisible(false)}>
                     <AntDesign name="close" size={26} color="black" />
                  </TouchableOpacity>
               </View>
+             
               <View style={styles.body}>
                     <View style={styles.inputArea}>
                             <InputField2 
-                            label="Documento de Identificação:"
-                            placeholder="Digite o seu documento"
-                            password={false}
+                            label="Nova senha:"
+                            placeholder="Informe a sua nova senha"
+                            password={true}
                             keyboard="default"
-                            value={documento}
-                            onChangeText={t=>setDocumento(t)}
-                            />
-                            <InputField2 
-                            label="Endereço:"
-                            placeholder="Digite o seu endereço"
-                            password={false}
-                            keyboard="default"
-                            value={endereco}
-                            onChangeText={t=>setEndereco(t)}
-                            />
-                            <InputField2 
-                            label="Bairro:"
-                            placeholder="Digite o seu bairro"
-                            password={false}
-                            keyboard="default"
-                            value={bairro}
-                            onChangeText={t=>setBairro(t)}
-                            />
-                            <InputField2 
-                            label="Cidade:"
-                            placeholder="Digite a sua cidade"
-                            password={false}
-                            keyboard="default"
-                            value={cidade}
-                            onChangeText={t=>setCidade(t)}
+                            value={novaSenha}
+                            onChangeText={t=>setNovaSenha(t)}
                             />
                     </View>
-                        <TouchableOpacity style={styles.button} onPress={updateCadastro}>
+                    <View style={styles.inputArea}>
+                            <InputField2 
+                            label="Confirme a nova senha:"
+                            placeholder="Confirme a sua nova senha"
+                            password={true}
+                            keyboard="default"
+                            value={confirmeNovaSenha}
+                            onChangeText={t=>setConfirmeNovaSenha(t)}
+                            />
+                    </View>
+                        <TouchableOpacity style={styles.button} onPress={updateSenha}>
                           {!isLoading?<Text style={styles.buttonText}>SALVAR</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
                         </TouchableOpacity> 
               </View>
@@ -70,11 +53,11 @@ const ModalCadastro= ({isLoading,modalVisible,setModalVisible,userData,token,doc
 
           
     </Modal>
+  
   )
 }
 
-export default ModalCadastro
-
+export default ModalSenha
 
 const styles = StyleSheet.create({
     container:{
@@ -106,7 +89,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         width: '100%',
         paddingHorizontal: 5,
     },
