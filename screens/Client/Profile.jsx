@@ -61,12 +61,12 @@ const Profile = () => {
           quality: 1,
         });
     
-        if (!result.cancelled) {
+        if (!result.canceled) {
          
           const fd = new FormData();
           
           fd.append('userId',userId);
-          fd.append('imagem',{uri: result.uri,type: 'image/jpg',name: 'image.jpg',});
+          fd.append('imagem',{uri: result.assets[0].uri,type: 'image/jpg',name: 'image.jpg',});
           
           let responseAvatar = await Api.updateAvatar(fd);
          

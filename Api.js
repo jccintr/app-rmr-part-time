@@ -1,26 +1,27 @@
 // --host=192.168.0.107
-//const BASE_API = 'localhost:8000/api';
-const BASE_API = 'https://rmr-api.js-software.tech/api';
-///const BASE_API = 'https://x8ki-letl-twmt.n7.xano.io/api:32bM-PSO'   //    /auth/login
+const BASE_API = 'http://192.168.0.117:8000/api';
+//const BASE_API = 'https://rmr-api.js-software.tech/api';
+
 
 
 export default {
    
-    base_storage: 'https://rmr-api.js-software.tech/storage',
+    //base_storage: 'https://rmr-api.js-software.tech/storage',
+    base_storage: 'http://192.168.0.117:8000/storage',
     
-    getUser: async (token)=> {
-        const response = await fetch(`${BASE_API}/user/${token}`, {
+    
+
+    getUser: async (token) => {
+        const response = await fetch(`${BASE_API}/user`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
             },
-            
         });
-       return response;
+        return response;
     },
-
-   
 
     signIn: async (email, password) => {
         const response = await fetch(`${BASE_API}/signin`, {
@@ -44,8 +45,8 @@ export default {
             },
             body: JSON.stringify({name,telefone,email,password,role})
         });
-        const json = await response.json();        
-        return json;
+        //const json = await response.json();        
+        return response;
     },
 
     logout: async () => {

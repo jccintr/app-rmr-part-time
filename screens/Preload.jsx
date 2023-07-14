@@ -1,27 +1,30 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect,useState,useContext } from 'react';
 import { StyleSheet, Image, SafeAreaView,ActivityIndicator,TouchableOpacity,StatusBar } from 'react-native';
 import logo from '../assets/logo-rmr.png';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Api from '../Api';
 import { cores } from '../style/globalStyle';
+import DataContext from './context/DataContext';
 
 const Preload = () => {
     const navigation = useNavigation();
     const [isLoading,setIsLoading] = useState(false);
+    const {setLoggedUser,setApiToken} = useContext(DataContext);
 
     useEffect(()=>{
         const checkToken = async () => {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
-          
+            
             if(token){
+                
                try {
                     let response = await Api.getUser(token);
                     if (response.status===200){
                        let jsonUser = await response.json(); 
-                       await AsyncStorage.setItem('userId', jsonUser.id.toString());
-                       await AsyncStorage.setItem('userRole', jsonUser.role);
+                       setApiToken(token);
+                       setLoggedUser(jsonUser);
                        if (jsonUser.role === 'cliente')
                          navigation.reset({routes:[{name:'ClientTab'}]});
                        else
@@ -36,6 +39,7 @@ const Preload = () => {
 
                 }  catch (e){
                     setIsLoading(false);
+                    console.log(e);
                     alert("Falha ao obter dados.");
                   }
                 
@@ -59,9 +63,9 @@ const Preload = () => {
                 backgroundColor={cores.branco}
                 barStyle="dark-content"
             />
-            <TouchableOpacity onPress={() => navigation.navigate('SignIn')} >
+            
                 <Image source={logo} style={styles.imagelogo}/>
-            </TouchableOpacity>
+            
             {isLoading&&<ActivityIndicator size="large" color={cores.amarelo}/>}
         </SafeAreaView>
        )

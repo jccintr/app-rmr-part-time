@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { StyleSheet, Text,Image,ActivityIndicator, SafeAreaView,View,TouchableOpacity, KeyboardAvoidingView,StatusBar} from 'react-native';
 import { cores } from '../style/globalStyle';
 import logo from '../assets/logo-rmr-transparente-1080.png';
@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import InputField from '../components/InputField';
 import Api from '../Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DataContext from './context/DataContext';
 
 
 
@@ -14,12 +15,39 @@ const SignIn = () => {
   const [password,setPassword] = useState('');
   const [isLoading,setIsLoading] = useState(false);
   const navigation = useNavigation(); 
+  const {setLoggedUser,setApiToken} = useContext(DataContext);
 
 
+  const login = async () => {
+    setIsLoading(true);
+    if(email != '' && password != ''){
+        
+        let response = await Api.signIn(email, password);
+        if(response.status===200){
+            const jsonUser = await response.json();
+            if (jsonUser.token) await AsyncStorage.setItem('token', jsonUser.token);
+            setApiToken(jsonUser.token);
+            setLoggedUser(jsonUser);
+            if (jsonUser.role === 'cliente')
+               navigation.reset({routes:[{name:'ClientTab'}]});
+            else
+               navigation.reset({routes:[{name:'WorkerTab'}]});
+        } else {
+            setEmail('');
+            setPassword('');  
+            alert('Email e ou usuário inválidos!');
+        }
+  
+      } else {
+        alert('Informe o seu e-mail e a sua senha por favor!');
+        
+      }
+    setIsLoading(false);
+  
+  }
 
-
-
- const onSignInTouch = async () => {
+/*
+ const onSignIn = async () => {
 
   if(email != '' && password != ''){
      setIsLoading(true);
@@ -29,7 +57,7 @@ const SignIn = () => {
       await AsyncStorage.setItem('token', json.token);
       let response = await Api.getUser(json.token);
       let jsonUser = await response.json();
-      console.log('nome='+jsonUser.name);
+      
       await AsyncStorage.setItem('userName', jsonUser.name);
       await AsyncStorage.setItem('userId', jsonUser.id.toString());
       await AsyncStorage.setItem('userRole', jsonUser.role);
@@ -47,13 +75,8 @@ const SignIn = () => {
 
 
  }
-
- const onGuest = () => {
-
-  alert('tocou no entrar como convidado');
-
- }
-
+*/
+ 
   return (
     <KeyboardAvoidingView behavior='height' style={styles.container}>
      <StatusBar
@@ -84,7 +107,7 @@ const SignIn = () => {
             password={true}
             keyboard="default"
         />
-        <TouchableOpacity onPress={onSignInTouch} style={styles.button}>
+        <TouchableOpacity onPress={login} style={styles.button}>
          {!isLoading?<Text style={styles.buttonText}>ENTRAR</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
        </TouchableOpacity>
        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.signUpMessage}>

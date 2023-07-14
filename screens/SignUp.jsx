@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { StyleSheet, Text,Image,ScrollView, SafeAreaView,View,TouchableOpacity,KeyboardAvoidingView,ActivityIndicator,StatusBar} from 'react-native';
 import { cores } from '../style/globalStyle';
 import logo from '../assets/logo-rmr-transparente-1080.png';
@@ -6,6 +6,7 @@ import Api from '../Api';
 import { useNavigation } from '@react-navigation/native';
 import InputField from '../components/InputField';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DataContext from './context/DataContext';
 
 
 
@@ -21,49 +22,47 @@ const SignUp = () => {
     const [passwordConfirm,setPasswordConfirm] = useState('');
     const [isLoading,setIsLoading] = useState(false);
     const navigation = useNavigation();
+    const {setLoggedUser,loggedUser,apiToken,setApiToken} = useContext(DataContext);
 
 
     const onSignUpTouch = async () => {
 
-      if(nome != '' && telefone != '' && email != '' && password != '' && passwordConfirm != ''){
-        if(password===passwordConfirm){
-        
-          if (role===0)
-              roleString = 'cliente'
-          else
-             roleString = 'profissional'
-          
-          setIsLoading(true);   
-          let json = await Api.signUp(nome,email,telefone, password,roleString);
-         
-        
-          
-          if(json.token){
-           
-            await AsyncStorage.setItem('token', json.token);
-            await AsyncStorage.setItem('userName', json.name);
-            await AsyncStorage.setItem('userId', json.id.toString());
-            await AsyncStorage.setItem('userRole', json.role);
-            if (role===0)
-               navigation.reset({routes:[{name:'ClientTab'}]});
-            else
-               navigation.reset({routes:[{name:'WorkerTab'}]});
-
-          } else {
-            alert("Email já utilizado.");
-          }
-        } else {
-
-          alert("As senhas informadas são diferentes.");
-
-        }
-        setIsLoading(false);
-      } else {
-
-        alert("Preencha todos os campos por favor.");
-
+      if(nome.trim().length === 0 || telefone.trim().length === 0 || email.trim().length === 0 || password.trim().length === 0 || passwordConfirm.trim().length === 0){
+        alert('Preencha todos os campos por favor.');
+        return
       }
-    
+
+      if(password!=passwordConfirm){
+        alert('As senhas informadas são diferentes.');
+        return
+      }
+
+      if (role===0) {
+        roleString = 'cliente'
+      } else {
+       roleString = 'profissional'
+      }  
+
+      setIsLoading(true);   
+      let response = await Api.signUp(nome,email,telefone, password,roleString);
+
+      if(response.status===201){
+        
+        const jsonUser = await response.json();
+        await AsyncStorage.setItem('token', jsonUser.token);
+        setApiToken(jsonUser.token);
+        setLoggedUser(jsonUser);
+
+        if (role===0)
+           navigation.reset({routes:[{name:'ClientTab'}]});
+        else
+           navigation.reset({routes:[{name:'WorkerTab'}]});
+
+      } else {
+        alert("Email já utilizado.");
+      }
+
+         
     }
 
 

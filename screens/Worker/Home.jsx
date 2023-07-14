@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect,useState,useContext } from 'react';
 import { StyleSheet, Text, SafeAreaView,View,ScrollView,StatusBar} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -6,17 +6,19 @@ import { cores } from '../../style/globalStyle';
 //import { StatusBar } from 'expo-status-bar';
 import Api from '../../Api';
 import ServiceCard from '../../components/ServiceCard';
+import DataContext from '../context/DataContext';
 
 const Home = () => {
     const [userName,setUserName] = useState('');
     const [services,setServices] = useState([]);
     const navigation = useNavigation();
+    const {loggedUser} = useContext(DataContext);
 
 
     const onServicePress  = (servico) =>{
         navigation.navigate('ServicoWorker',{servico: servico})
      }
-
+/*
      useEffect(()=>{
         const getUserName = async () => {
             const user = await AsyncStorage.getItem('userName');
@@ -24,7 +26,7 @@ const Home = () => {
         }
         getUserName();
     }, []);
-
+*/
     useEffect(()=>{
         const getServices = async () => {
         let json = await Api.getServices();
@@ -45,7 +47,7 @@ const Home = () => {
             />
             <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.userNameArea}>
-                        <Text style={styles.userNameText}>Olá {userName} !</Text>
+                        <Text style={styles.userNameText}>Olá {loggedUser.name} !</Text>
                         <Text style={styles.fraseHeader}>Qual é a sua especialidade ?</Text>
                     </View>
                     <Text style={styles.title}>Serviços disponíveis</Text>
