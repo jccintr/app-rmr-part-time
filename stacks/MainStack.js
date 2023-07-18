@@ -7,6 +7,7 @@ import SignUp from "../screens/SignUp";
 import ServicoClient from "../screens/Client/ServicoClient";
 import NovoPedido from "../screens/Client/NovoPedido";
 import ServicoWorker from "../screens/Worker/ServicoWorker";
+import Categoria from "../screens/Client/Categoria";
 
 import ClientTab from "./ClientTab";
 import WorkerTab from "./WorkerTab";
@@ -26,6 +27,7 @@ const MainStack = () => {
         <Stack.Screen name="ServicoWorker" component={ServicoWorker}/>
         <Stack.Screen name="ClientTab" component={ClientTab}/>
         <Stack.Screen name="WorkerTab" component={WorkerTab}/>
+        <Stack.Screen name="Categoria" component={Categoria}/>
       
     </Stack.Navigator>
   )

@@ -1,42 +1,36 @@
 import React, { useEffect,useState,useContext } from 'react';
 import { StyleSheet, Text, SafeAreaView,View,ScrollView,StatusBar} from 'react-native';
 import { useNavigation } from '@react-navigation/native'; 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 import { cores } from '../../style/globalStyle';
-//import { StatusBar } from 'expo-status-bar';
 import Api from '../../Api';
-import ServiceCard from '../../components/ServiceCard';
+import CategoriaCard from '../../components/CategoriaCard';
 import DataContext from '../context/DataContext';
+import SearchField from '../../components/SearchField';
 
 const Home = () => {
-    const [userName,setUserName] = useState('');
-    const [services,setServices] = useState([]);
+    const [search,setSearch] = useState('');
+    const [categorias,setCategorias] = useState([]);
     const navigation = useNavigation();
     const {loggedUser} = useContext(DataContext);
+    
 
 
-    const onServicePress  = (servico) =>{
-  
-        navigation.navigate('ServicoClient',{servico: servico})
+    const onCategoriaPress  = (categoria) =>{
+        navigation.navigate('Categoria',{categoria: categoria})
+     }
+
+     const onSearch = (t) => {
+        setSearch(t);
      }
 
 
-/*
     useEffect(()=>{
-        const getUserName = async () => {
-            const user = await AsyncStorage.getItem('userName');
-            setUserName(user) 
+        const getCategorias = async () => {
+        let json = await Api.getCategorias();
+        setCategorias(json);
         }
-        getUserName();
-    }, []);
-*/
-
-    useEffect(()=>{
-        const getServices = async () => {
-        let json = await Api.getServices();
-        setServices(json);
-        }
-        getServices();
+        getCategorias();
     }, []);
 
 
@@ -51,16 +45,15 @@ const Home = () => {
             />
             <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.userNameArea}>
-                        <Text style={styles.userNameText}>Olá {loggedUser.name} !</Text>
+                        <Text style={styles.userNameText}>Olá {loggedUser===null?'Visitante':loggedUser.name} !</Text>
                         <Text style={styles.fraseHeader}>Qual serviço você precisa para hoje ?</Text>
                     </View>
-                    <Text style={styles.title}>Serviços disponíveis</Text>
-                    <View style={styles.servicesContainer}>
-                    {services.map((service) => (
-                        <ServiceCard servico={service} role="client" key={service.id} onPress={onServicePress}/>
+                    <SearchField value={search} setValue={setSearch} onChangeText={onSearch} placeholder="Encontre serviços"/>
                     
-                    ))}
-                
+                    <View style={styles.categoriasContainer}>
+                        {categorias.map((categoria) => (
+                            <CategoriaCard categoria={categoria} key={categoria.id} onPress={onCategoriaPress}/>
+                        ))}
                     </View>
              </ScrollView> 
         </SafeAreaView>
@@ -74,22 +67,20 @@ export default Home
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#fff',
         paddingHorizontal: 5,
-   
+        paddingTop: 10,
         
-    },
+   },
     userNameArea:{
-        width: '100%',
-        height: 50,
        flexDirection: 'column',
        justifyContent: 'space-between',
-       marginBottom: 20,
-
+       marginBottom: 10,
+       
+       paddingHorizontal: 5,
     },
     userNameText:{
       fontWeight: 'bold',
@@ -107,15 +98,12 @@ const styles = StyleSheet.create({
         color: '#000',
         fontWeight: 'bold',
         marginBottom: 5,
-
     },
-    servicesContainer:{
-        flexDirection: "row",
+    categoriasContainer:{
+      flexDirection: "row",
       flexWrap: "wrap",
       justifyContent: 'flex-start',
       width: '100%',
-     
-      
     }
    
     

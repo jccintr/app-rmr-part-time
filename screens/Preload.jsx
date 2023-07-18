@@ -25,7 +25,7 @@ const Preload = () => {
                        let jsonUser = await response.json(); 
                        setApiToken(token);
                        setLoggedUser(jsonUser);
-                       if (jsonUser.role === 'cliente')
+                       if (jsonUser.role === 1) // 0-admin 1-cliente 2-profissional
                          navigation.reset({routes:[{name:'ClientTab'}]});
                        else
                          navigation.reset({routes:[{name:'WorkerTab'}]});

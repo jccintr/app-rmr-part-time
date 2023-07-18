@@ -3,7 +3,7 @@ import { StyleSheet,View,Text } from 'react-native';
 import { cores } from '../style/globalStyle';
 import { FontAwesome } from '@expo/vector-icons';
 
-const Stars = ({stars}) => {
+const Stars = ({stars,showNumber}) => {
     let s = [0, 0, 0, 0, 0];
     let floor = Math.floor(stars);
     let left = stars - floor;
@@ -25,7 +25,7 @@ const Stars = ({stars}) => {
                 {i === 2 && <FontAwesome name="star" size={16} color={cores.amarelo} />}
             </View>
         ))}
-         <Text style={styles.starText}>{stars.length === 1 ? stars+'.0':stars}</Text>
+        {showNumber&& <Text style={styles.starText}>{stars.length === 1 ? stars+'.0':stars}</Text>}
         
    </View>
   )

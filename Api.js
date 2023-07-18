@@ -63,6 +63,30 @@ export default {
         const json = await req.json();        
         return json;
     },
+    getCategorias: async () => {
+        const req = await fetch(`${BASE_API}/categorias`, {
+            method: 'GET', 
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+           
+        });
+        const json = await req.json();        
+        return json;
+    },
+    getCategoria: async (id) => {
+        const req = await fetch(`${BASE_API}/categorias/${id}`, {
+            method: 'GET', 
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+           
+        });
+        const json = await req.json();        
+        return json;
+    },
     getServices: async () => {
         const req = await fetch(`${BASE_API}/servicos`, {
             method: 'GET', 
@@ -74,7 +98,6 @@ export default {
         });
         const json = await req.json();        
         return json;
-       
     },
     getContratadosByService: async (idServico) => {
         const req = await fetch(`${BASE_API}/contratados/${idServico}`, {

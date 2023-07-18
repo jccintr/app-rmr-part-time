@@ -7,4 +7,6 @@ export const cores = {
     cinzaClaro: '#fafafa',
     branco: '#fff',
     azul: '#247BA0',
+    fundoSearchfield: '#f3f3f3',
+    iconeSearchField: '#5b5b5b',
  };

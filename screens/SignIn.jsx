@@ -46,6 +46,10 @@ const SignIn = () => {
   
   }
 
+  const onGuest  = () => {
+    navigation.reset({routes:[{name:'ClientTab'}]});
+  }
+
 /*
  const onSignIn = async () => {
 
@@ -114,7 +118,9 @@ const SignIn = () => {
           <Text style={styles.signUpMessageText}>Não tem uma conta?</Text>
           <Text style={styles.signUpMessageTextBold} > Cadastre-se!</Text>
         </TouchableOpacity>
-
+        <TouchableOpacity onPress={onGuest} style={styles.signUpMessage}>
+          <Text style={styles.signUpMessageTextBold} >Entrar como visitante</Text>
+        </TouchableOpacity>
 
      </View>
    </KeyboardAvoidingView>
