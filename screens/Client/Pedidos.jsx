@@ -1,17 +1,23 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState,useEffect,useContext} from 'react'
 import { SafeAreaView, StyleSheet,Text,StatusBar,ActivityIndicator} from 'react-native';
 import { cores } from '../../style/globalStyle';
 import Api from '../../Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PedidoCard from '../../components/PedidoCard';
+import DataContext from '../context/DataContext';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 const Pedidos = () => {
+  const navigation = useNavigation();
   const [userId,setUserId] = useState(null);
+  const {loggedUser} = useContext(DataContext)
   const [pedidos,setPedidos] = useState([]);
   const [isLoading,setIsLoading] = useState(false);
 
+
+  /*
   useEffect(()=>{
     const getUser = async () => {
         setIsLoading(true);
@@ -23,6 +29,13 @@ const Pedidos = () => {
         setPedidos(json);
     }
     getUser();
+}, []);
+*/
+
+useEffect(()=>{
+  if(!loggedUser) {
+   navigation.navigate('Login');
+  }
 }, []);
 
 

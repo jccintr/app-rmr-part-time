@@ -17,7 +17,7 @@ const Home = () => {
 
 
     const onCategoriaPress  = (categoria) =>{
-        navigation.navigate('Categoria',{categoria: categoria})
+        navigation.navigate('DetCategoria',{categoria: categoria})
      }
 
      const onSearch = (t) => {
@@ -38,11 +38,7 @@ const Home = () => {
     return (
         
         <SafeAreaView style={styles.container}>
-             <StatusBar
-                animated={true}
-                backgroundColor={cores.branco}
-                barStyle="dark-content"
-            />
+             <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content"/>
             <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.userNameArea}>
                         <Text style={styles.userNameText}>Olá {loggedUser===null?'Visitante':loggedUser.name} !</Text>
@@ -70,7 +66,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: cores.branco,
         paddingHorizontal: 5,
         paddingTop: 10,
         
@@ -79,13 +75,12 @@ const styles = StyleSheet.create({
        flexDirection: 'column',
        justifyContent: 'space-between',
        marginBottom: 10,
-       
        paddingHorizontal: 5,
     },
     userNameText:{
       fontWeight: 'bold',
       fontSize: 18,
-      color: cores.amarelo,
+      color: cores.azulEscuro,
     },
     fraseHeader:{
         fontSize: 18,

@@ -9,4 +9,16 @@ export const cores = {
     azul: '#247BA0',
     fundoSearchfield: '#f3f3f3',
     iconeSearchField: '#5b5b5b',
+    azulClaro: '#effafe',
+    azulEscuro: '#4499d0',
+    amareloClaro: '#fed94d',
+    amareloEscuro: '#e8b736',
  };
+
+ // azul claro effafe
+
+ // azul escuro 4499d0
+
+ // amarelo claro fed94d
+
+ //amarelo escuro e8b736

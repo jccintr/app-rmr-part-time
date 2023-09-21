@@ -10,7 +10,8 @@ const WorkerCard2 = ({worker}) => {
         <Image style={styles.avatar} source={{uri: `${Api.base_storage}/${worker.user.avatar}`,}}/>
         <Stars stars={worker.user.stars} showNumber={false}/>
         <Text style={styles.name}>{worker.user.name}</Text>
-        <Text style={styles.price}>€ {worker.valor} p/{worker.unidade}</Text>
+        {/*<Text style={styles.price}>€ {worker.valor} p/{worker.unidade}</Text>*/}
+        <Text style={styles.price}>{worker.user.concelho.nome}</Text>
     </TouchableOpacity>
   )
 }
@@ -24,34 +25,38 @@ const styles = StyleSheet.create({
         borderTopLeftRadius:10,
         borderTopRightRadius:10,
         borderRadius:10,
-        width: 160,
-        minWidth: 160,
+        width: 120,
+        height: 130,
+        minWidth: 120,
         flexDirection: 'column',
         alignItems:'center',
         justifyContent:'space-between',
         margin: 5,
         borderColor: '#c1c1c1',
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingTop: 5,
+        paddingBottom: 5,
         borderWidth: 1,
-        backgroundColor: 'whitesmoke',
+        backgroundColor: cores.azulClaro,
         
      },
      avatar:{
         borderRadius: 30,
-        width: 70,
-        height: 70,
-        marginBottom: 5,
+        width: 50,
+        height: 50,
+        
       },
       name:{
         marginTop:5,
         fontWeight: 'bold',
         fontSize: 14,
         paddingHorizontal: 5,
+        textAlign: 'center'
       },
       price: {
-        color: cores.amarelo,
+        color: cores.azulEscuro,
         fontWeight: 'bold',
+        fontSize: 12,
+        textAlign: 'center'
       }
 
 })

@@ -1,6 +1,6 @@
 import React, { useEffect,useState,useContext } from 'react';
-import { StyleSheet, Image, SafeAreaView,ActivityIndicator,TouchableOpacity,StatusBar } from 'react-native';
-import logo from '../assets/logo-rmr.png';
+import { StyleSheet, Image, SafeAreaView,ActivityIndicator,StatusBar } from 'react-native';
+import logo from '../assets/logo-500.png';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Api from '../Api';
@@ -32,7 +32,7 @@ const Preload = () => {
                     } else
                     {
                       navigation.reset({
-                        routes:[{name:'SignIn'}] 
+                        routes:[{name:'Login'}] 
                       });
                     }
 
@@ -46,7 +46,7 @@ const Preload = () => {
             }
             else {
                 navigation.reset({
-                    routes:[{name:'SignIn'}]
+                    routes:[{name:'Login'}]
                 });
             }
 
@@ -58,15 +58,9 @@ const Preload = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar
-                animated={true}
-                backgroundColor={cores.branco}
-                barStyle="dark-content"
-            />
-            
-                <Image source={logo} style={styles.imagelogo}/>
-            
-            {isLoading&&<ActivityIndicator size="large" color={cores.amarelo}/>}
+            <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content"/>
+            <Image source={logo} style={styles.imagelogo}/>
+            {isLoading&&<ActivityIndicator size="large" color={cores.azulEscuro}/>}
         </SafeAreaView>
        )
 }
@@ -78,7 +72,7 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: cores.azulClaro,
         
     },
     imagelogo:{

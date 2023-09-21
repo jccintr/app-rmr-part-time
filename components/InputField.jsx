@@ -3,6 +3,7 @@ import { StyleSheet, View,TextInput} from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons';
 
+import { cores } from '../style/globalStyle';
 
 
 
@@ -12,10 +13,10 @@ const Icone = ({iconName,iconProvider}) => {
 
     switch (iconProvider) {
         case 'AntDesign':
-            return <AntDesign name={iconName} size={22} color="#c1c1c1" />;
+            return <AntDesign name={iconName} size={22} color={cores.azulEscuro} />;
             break;
         case 'FontAwesome':
-            return <FontAwesome name={iconName} size={22} color="#c1c1c1" />;
+            return <FontAwesome name={iconName} size={22} color={cores.azulEscuro} />;
              break;
        
         default:
@@ -52,12 +53,12 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         flexDirection: 'row',
-        borderColor: '#c1c1c1',
+        borderColor: cores.azulEscuro,
         borderWidth: 1,
         paddingLeft: 15,
         alignItems: 'center',
         marginBottom: 15,
-        borderRadius: 15,
+        borderRadius: 10,
     },
      input: {
       flex: 1,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
       paddingHorizontal: 4,
       color: '#000',
       marginLeft: 10,
-     
+      color: cores.azulEscuro,
     },
    
   });

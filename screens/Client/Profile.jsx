@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState,useEffect,useContext } from 'react'
 import { StyleSheet, Text, SafeAreaView, View,Image,TouchableOpacity,StatusBar} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -9,10 +9,12 @@ import Api from '../../Api';
 import ImgAvatar from '../../assets/avatar.jpg';
 import ModalCadastro from '../../components/ModalCadastro';
 import ModalSenha from '../../components/ModalSenha';
+import DataContext from '../context/DataContext';
 
 
 const Profile = () => {
     const navigation = useNavigation();
+    const {loggedUser} = useContext(DataContext)
     const [userData,setUserData] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
     const [modalSenhaVisible,setModalSenhaVisible] = useState(false);
@@ -49,6 +51,12 @@ const Profile = () => {
 
         }
         getUser();
+    }, []);
+
+    useEffect(()=>{
+       if(!loggedUser) {
+        navigation.navigate('Login');
+       }
     }, []);
 
 
@@ -121,16 +129,12 @@ const onLogout = async () => {
     
     return (
         <SafeAreaView style={styles.container}>
-           <StatusBar
-                animated={true}
-                backgroundColor={cores.branco}
-                barStyle="dark-content"
-            />
+           <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content" />
             
             <TouchableOpacity  onPress={selectAvatar}>
                <Image style={styles.avatar} source={avatar !== null ? {uri:`${Api.base_storage}/${avatar}`,} : ImgAvatar}/>
             </TouchableOpacity>
-            <Text style={styles.userNameText}>{userData.name}</Text>
+            <Text style={styles.userNameText}>{loggedUser?userData.name: 'Visitante'}</Text>
             <Text style={styles.fraseHeader}>{userData.role==='cliente'?'Cliente':'Profissional'}</Text>
             
            <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
@@ -154,7 +158,7 @@ const onLogout = async () => {
                cidade={cidade}
                setCidade={setCidade}
                updateCadastro={updateCadastro}
-               />  
+             />  
                <ModalSenha
                modalVisible={modalSenhaVisible} 
                setModalVisible={setModalSenhaVisible} 
@@ -163,8 +167,9 @@ const onLogout = async () => {
                confirmeNovaSenha={confirmeNovaSenha}
                setConfirmeNovaSenha={setConfirmeNovaSenha}
                updateSenha={updateSenha}
-                /> 
+              /> 
         </SafeAreaView>
+        
        )
 }
 export default Profile

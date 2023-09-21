@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
       },
       servicePrice:{
-        color: cores.amarelo,
+        color: cores.azulEscuro,
         fontWeight: 'bold',
         fontSize: 12,
        

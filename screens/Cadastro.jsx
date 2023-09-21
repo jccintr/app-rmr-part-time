@@ -1,28 +1,55 @@
-import React, { useState,useContext } from 'react'
+import React, { useState,useEffect,useContext } from 'react'
 import { StyleSheet, Text,Image,ScrollView, SafeAreaView,View,TouchableOpacity,KeyboardAvoidingView,ActivityIndicator,StatusBar} from 'react-native';
 import { cores } from '../style/globalStyle';
-import logo from '../assets/logo-rmr-transparente-1080.png';
+import logo from '../assets/logo-500.png';
 import Api from '../Api';
 import { useNavigation } from '@react-navigation/native';
 import InputField from '../components/InputField';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DataContext from './context/DataContext';
+import SelectInput from '../components/SelectInput';
 
 
 
 
 
 
-const SignUp = () => {
+const Cadastro = () => {
     const [nome,setNome] = useState('');
     const [telefone,setTelefone] = useState('');
     const [email,setEmail] = useState('');
-    const [role,setRole] = useState(0);  // 0->cliente 1->profissional
     const [password,setPassword] = useState('');
     const [passwordConfirm,setPasswordConfirm] = useState('');
+    const [role,setRole] = useState(1);  // 1->cliente 2->profissional
+    const [distritos,setDistritos] = useState([]);
+    const [distrito,setDistrito] = useState(null);
+    const [concelho,setConcelho] = useState(null);
+    const [concelhos,setConcelhos] = useState([]);
     const [isLoading,setIsLoading] = useState(false);
     const navigation = useNavigation();
     const {setLoggedUser,loggedUser,apiToken,setApiToken} = useContext(DataContext);
+
+
+useEffect(()=>{
+   const getDistritos = async () => {
+       let jsonDistritos = await Api.getDistritos();
+       setDistritos(jsonDistritos);
+   }
+   getDistritos();
+},[]);
+
+useEffect(()=>{
+  const getConcelhos = async (distritoId) => {
+      let jsonConcelhos = await Api.getConcelhos(distritoId);
+      setConcelhos(jsonConcelhos);
+  }
+  if (distrito) {
+    getConcelhos(distrito.id);
+  }
+  
+},[distrito]);
+
+
 
 
     const onSignUpTouch = async () => {
@@ -37,14 +64,8 @@ const SignUp = () => {
         return
       }
 
-      if (role===0) {
-        roleString = 'cliente'
-      } else {
-       roleString = 'profissional'
-      }  
-
       setIsLoading(true);   
-      let response = await Api.cadastro(nome,email,telefone, password,roleString);
+      let response = await Api.cadastro(nome,email,telefone, password,role);
 
       if(response.status===201){
         
@@ -65,7 +86,13 @@ const SignUp = () => {
          
     }
 
+  const onChangeSelectDistrito = (distrito) => {
+      setDistrito(distrito);
+   }
 
+   const onChangeSelectConcelho = (concelho) => {
+    setConcelho(concelho);
+ }
 
 
 
@@ -73,7 +100,7 @@ const SignUp = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
     <StatusBar
                 animated={true}
-                backgroundColor={cores.amarelo}
+                backgroundColor={cores.azulClaro}
                 barStyle="dark-content"
             />  
     <KeyboardAvoidingView behavior='height' style={styles.container}>
@@ -94,6 +121,15 @@ const SignUp = () => {
            password={false}
            keyboard="default"
        />
+        <InputField 
+            iconProvider="AntDesign"
+            iconName="mail"
+            placeholder="Digite o seu e-mail"
+            value={email}
+            onChangeText={t=>setEmail(t)}
+            password={false}
+            keyboard="email-address"
+        />
        <InputField 
             iconProvider="FontAwesome"
             iconName="whatsapp"
@@ -103,15 +139,7 @@ const SignUp = () => {
            password={false}
            keyboard="number-pad"
        />
-       <InputField 
-            iconProvider="AntDesign"
-            iconName="mail"
-            placeholder="Digite o seu e-mail"
-            value={email}
-            onChangeText={t=>setEmail(t)}
-            password={false}
-            keyboard="email-address"
-        />
+      
        <InputField 
            iconProvider="AntDesign"
            iconName="lock1"
@@ -130,19 +158,21 @@ const SignUp = () => {
            password={true}
            keyboard="default"
        />
+       <SelectInput label="Selecione o Distrito" options={distritos} onChangeSelect={onChangeSelectDistrito}/>
+       {distrito&&<SelectInput label="Selecione o Concelho" options={concelhos} onChangeSelect={onChangeSelectConcelho}/>}
        <View style={styles.roleArea}>
-         <TouchableOpacity onPress={()=>setRole(0)} style={role===0?styles.roleButtonSelected:styles.roleButton}>
-           <Text style={role===0?styles.roleTextSelected:styles.roleText}>Sou Cliente</Text>
-         </TouchableOpacity>
          <TouchableOpacity onPress={()=>setRole(1)} style={role===1?styles.roleButtonSelected:styles.roleButton}>
-           <Text style={role===1?styles.roleTextSelected:styles.roleText}>Sou Profissional</Text>
+           <Text style={role===1?styles.roleTextSelected:styles.roleText}>Sou Cliente</Text>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={()=>setRole(2)} style={role===2?styles.roleButtonSelected:styles.roleButton}>
+           <Text style={role===2?styles.roleTextSelected:styles.roleText}>Sou Profissional</Text>
          </TouchableOpacity>
        </View>
 
        <TouchableOpacity onPress={onSignUpTouch} style={styles.button}>
         {!isLoading?<Text style={styles.buttonText}>CADASTRAR</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.signUpMessage}>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.signUpMessage}>
          <Text style={styles.signUpMessageText}>Já tem uma conta?</Text>
          <Text style={styles.signUpMessageTextBold} > Entre!</Text>
        </TouchableOpacity>
@@ -156,22 +186,20 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default Cadastro
 
 const styles = StyleSheet.create({
     container: {
       paddingTop: 30,
       flex:1,
-      backgroundColor: cores.amarelo,
+      backgroundColor: cores.azulClaro,
       alignItems: 'center',
       justifyContent: 'center',
       
     },
     header:{
-     
        alignItems: 'center',
        justifyContent: 'flex-end',
-        
     },
    
     logo: {
@@ -180,7 +208,7 @@ const styles = StyleSheet.create({
      
     },
     headerText:{
-      color: '#fff',
+      color: cores.azulEscuro,
       fontSize: 22,
       fontWeight: 'bold',
       textAlign: 'center',
@@ -194,7 +222,7 @@ const styles = StyleSheet.create({
      paddingRight: 20,
      borderTopLeftRadius: 20,
      borderTopRightRadius: 20,
-     backgroundColor: '#fff',
+     backgroundColor: cores.azulClaro,
      paddingBottom: 40,
     },
     roleArea:{
@@ -207,7 +235,7 @@ const styles = StyleSheet.create({
        height:40,
        width: 150,
        borderWidth: 1,
-       borderColor: cores.amarelo,
+       borderColor: cores.azulEscuro,
        alignItems: 'center',
        justifyContent:'center',
       
@@ -215,19 +243,19 @@ const styles = StyleSheet.create({
     roleButtonSelected:{
        height:40,
        width:150,
-       backgroundColor: cores.amarelo,
+       backgroundColor: cores.azulEscuro,
        alignItems: 'center',
        justifyContent:'center',
     },
     roleText:{
-      color: cores.amarelo,
+      color: cores.azulEscuro,
     },
     roleTextSelected:{
        color: '#fff',
     },
     button:{
       height: 50,
-      backgroundColor: cores.amarelo,
+      backgroundColor: cores.azulEscuro,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius:15,
@@ -250,7 +278,7 @@ const styles = StyleSheet.create({
 
     },
     signUpMessageTextBold:{
-      color: cores.amarelo,
+      color: cores.azulEscuro,
       fontWeight: 'bold',
     }
    

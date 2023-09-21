@@ -8,7 +8,7 @@ const Header = ({title,onPress}) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={()=>onPress()}>
-                    <Ionicons name="arrow-back-outline" size={24} color="black" />
+                    <Ionicons name="arrow-back-outline" size={24} color={cores.azulEscuro} />
             </TouchableOpacity>
             <View style={{flexDirection:'row', justifyContent:'flex-start',alignItems:'center'}}>
                 <Text style={styles.title}>{title}</Text>
@@ -22,7 +22,7 @@ export default Header
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: cores.amarelo,
+      backgroundColor: cores.azulClaro,
       alignItems: 'center',
       justifyContent: 'flex-start',
       height: 50,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
       },
     title: {
         marginLeft: 5,
-        color: cores.white,
+        color: cores.azulEscuro,
         fontSize:18,
         fontWeight: 'bold'
     },

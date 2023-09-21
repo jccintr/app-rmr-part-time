@@ -1,7 +1,7 @@
 import React, { useState,useContext } from 'react'
 import { StyleSheet, Text,Image,ActivityIndicator, SafeAreaView,View,TouchableOpacity, KeyboardAvoidingView,StatusBar} from 'react-native';
 import { cores } from '../style/globalStyle';
-import logo from '../assets/logo-rmr-transparente-1080.png';
+import logo from '../assets/logo-500.png';
 import { useNavigation } from '@react-navigation/native';
 import InputField from '../components/InputField';
 import Api from '../Api';
@@ -10,7 +10,7 @@ import DataContext from './context/DataContext';
 
 
 
-const SignIn = () => {
+const Login = () => {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const [isLoading,setIsLoading] = useState(false);
@@ -28,7 +28,7 @@ const SignIn = () => {
             if (jsonUser.token) await AsyncStorage.setItem('token', jsonUser.token);
             setApiToken(jsonUser.token);
             setLoggedUser(jsonUser);
-            if (jsonUser.role === 'cliente')
+            if (jsonUser.role === 1)
                navigation.reset({routes:[{name:'ClientTab'}]});
             else
                navigation.reset({routes:[{name:'WorkerTab'}]});
@@ -50,44 +50,11 @@ const SignIn = () => {
     navigation.reset({routes:[{name:'ClientTab'}]});
   }
 
-/*
- const onSignIn = async () => {
 
-  if(email != '' && password != ''){
-     setIsLoading(true);
-     let response = await Api.signIn(email, password);
-     const json = await response.json();
-     if(json.token){
-      await AsyncStorage.setItem('token', json.token);
-      let response = await Api.getUser(json.token);
-      let jsonUser = await response.json();
-      
-      await AsyncStorage.setItem('userName', jsonUser.name);
-      await AsyncStorage.setItem('userId', jsonUser.id.toString());
-      await AsyncStorage.setItem('userRole', jsonUser.role);
-      if (jsonUser.role === 'cliente')
-         navigation.reset({routes:[{name:'ClientTab'}]});
-      else
-         navigation.reset({routes:[{name:'WorkerTab'}]});
-      } else {
-      alert("Email e ou senha inválidos.");
-     }
-     setIsLoading(false);
-  } else {
-    alert("Por favor, informe o seu email e a sua senha.");
-  }
-
-
- }
-*/
  
   return (
     <KeyboardAvoidingView behavior='height' style={styles.container}>
-     <StatusBar
-                animated={true}
-                backgroundColor={cores.amarelo}
-                barStyle="dark-content"
-      /> 
+     <StatusBar animated={true} backgroundColor={cores.azulClaro} barStyle="dark-content"/> 
      <View style={styles.header}>
           <Image source={logo} style={styles.logo}/>
           <Text style={styles.headerText}>Bem-vindo ao RMR Part-Time</Text>
@@ -114,7 +81,7 @@ const SignIn = () => {
         <TouchableOpacity onPress={login} style={styles.button}>
          {!isLoading?<Text style={styles.buttonText}>ENTRAR</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
        </TouchableOpacity>
-       <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.signUpMessage}>
+       <TouchableOpacity onPress={() => navigation.navigate('Cadastro')} style={styles.signUpMessage}>
           <Text style={styles.signUpMessageText}>Não tem uma conta?</Text>
           <Text style={styles.signUpMessageTextBold} > Cadastre-se!</Text>
         </TouchableOpacity>
@@ -127,12 +94,12 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default Login
 
 const styles = StyleSheet.create({
     container: {
       flex:1,
-      backgroundColor: cores.amarelo,
+      backgroundColor: cores.azulClaro,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -144,36 +111,33 @@ const styles = StyleSheet.create({
     },
 
     logo: {
-      width: 150,
-      height: 150,
+      width: 200,
+      height: 200,
       marginBottom:20,
     },
     headerText:{
-      color: '#fff',
-      fontSize: 22,
+      color: cores.azulEscuro,
+      fontSize: 20,
       fontWeight: 'bold',
       textAlign: 'center',
       marginBottom: 10,
 
     },
     inputArea:{
-
-     paddingTop: 40,
-     paddingLeft: 20,
-     paddingRight: 20,
-     borderTopLeftRadius: 20,
-     borderTopRightRadius: 20,
-      backgroundColor: '#fff',
+      paddingTop: 20,
+      paddingLeft: 20,
+      paddingRight: 20,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      backgroundColor: cores.azulClaro,
       paddingBottom: 40,
     },
     button:{
-
       height: 50,
-      backgroundColor: cores.amarelo,
+      backgroundColor: cores.azulEscuro,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius:15,
-
     },
     buttonText:{
       color: '#fff',
@@ -192,7 +156,7 @@ const styles = StyleSheet.create({
 
     },
     signUpMessageTextBold:{
-      color: cores.amarelo,
+      color: cores.azulEscuro,
       fontWeight: 'bold',
     },
 
