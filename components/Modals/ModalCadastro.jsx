@@ -1,50 +1,67 @@
 import React from 'react'
 import { StyleSheet, Text,TouchableOpacity, Modal,View,ActivityIndicator,StatusBar} from 'react-native';
-import { cores } from '../style/globalStyle';
-import InputField2 from '../components/InputField2';
+import { cores } from '../../style/globalStyle';
+import InputField2 from '../InputFields/InputField2';
 import { AntDesign } from '@expo/vector-icons';
 
 
-const ModalSenha = ({isLoading,modalVisible,setModalVisible,novaSenha,setNovaSenha,confirmeNovaSenha,setConfirmeNovaSenha,updateSenha}) => {
 
+
+const ModalCadastro= ({isLoading,modalVisible,setModalVisible,userData,token,documento,setDocumento,endereco,setEndereco,bairro,setBairro,cidade,setCidade,updateCadastro}) => {
    
+
+
   return (
     <Modal  visible={modalVisible} animationType="slide" transparent={false} onRequestClose={()=>setModalVisible(false)}>
           <View style={styles.container}>
           <StatusBar
                 animated={true}
+               
                 backgroundColor={cores.branco}
                 barStyle="dark-content"
             />
               <View style={styles.header}>
-                 <Text style={styles.titleText}>Alteração de Senha</Text>
+                 <Text style={styles.titleText}>Meu Cadastro</Text>
                  <TouchableOpacity onPress={()=>setModalVisible(false)}>
                     <AntDesign name="close" size={26} color="black" />
                  </TouchableOpacity>
               </View>
-             
               <View style={styles.body}>
                     <View style={styles.inputArea}>
                             <InputField2 
-                            label="Nova senha:"
-                            placeholder="Informe a sua nova senha"
-                            password={true}
+                            label="Documento de Identificação:"
+                            placeholder="Digite o seu documento"
+                            password={false}
                             keyboard="default"
-                            value={novaSenha}
-                            onChangeText={t=>setNovaSenha(t)}
+                            value={documento}
+                            onChangeText={t=>setDocumento(t)}
                             />
-                    </View>
-                    <View style={styles.inputArea}>
                             <InputField2 
-                            label="Confirme a nova senha:"
-                            placeholder="Confirme a sua nova senha"
-                            password={true}
+                            label="Endereço:"
+                            placeholder="Digite o seu endereço"
+                            password={false}
                             keyboard="default"
-                            value={confirmeNovaSenha}
-                            onChangeText={t=>setConfirmeNovaSenha(t)}
+                            value={endereco}
+                            onChangeText={t=>setEndereco(t)}
+                            />
+                            <InputField2 
+                            label="Bairro:"
+                            placeholder="Digite o seu bairro"
+                            password={false}
+                            keyboard="default"
+                            value={bairro}
+                            onChangeText={t=>setBairro(t)}
+                            />
+                            <InputField2 
+                            label="Cidade:"
+                            placeholder="Digite a sua cidade"
+                            password={false}
+                            keyboard="default"
+                            value={cidade}
+                            onChangeText={t=>setCidade(t)}
                             />
                     </View>
-                        <TouchableOpacity style={styles.button} onPress={updateSenha}>
+                        <TouchableOpacity style={styles.button} onPress={updateCadastro}>
                           {!isLoading?<Text style={styles.buttonText}>SALVAR</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
                         </TouchableOpacity> 
               </View>
@@ -53,11 +70,11 @@ const ModalSenha = ({isLoading,modalVisible,setModalVisible,novaSenha,setNovaSen
 
           
     </Modal>
-  
   )
 }
 
-export default ModalSenha
+export default ModalCadastro
+
 
 const styles = StyleSheet.create({
     container:{
@@ -89,7 +106,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         width: '100%',
         paddingHorizontal: 5,
     },

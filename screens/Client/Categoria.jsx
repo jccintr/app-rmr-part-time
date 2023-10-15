@@ -1,11 +1,11 @@
 import { View, Text,StatusBar,StyleSheet,SafeAreaView,FlatList,ActivityIndicator,Dimensions } from 'react-native';
 import React, {useState,useEffect} from 'react';
-import Header from '../../components/Header';
+import Header from '../../components/Headers/Header';
 import { cores } from '../../style/globalStyle';
 import { useNavigation } from '@react-navigation/native'; 
-import SearchField from '../../components/SearchField';
+import SearchField from '../../components/InputFields/SearchField';
 import Api from '../../Api';
-import WorkerCard2 from '../../components/WorkerCard2';
+import WorkerCard2 from '../../components/Cards/WorkerCard2';
 
 const Categoria = ({route}) => {
     const {categoria} = route.params;  
@@ -34,7 +34,7 @@ const Categoria = ({route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-          <StatusBar animated={true} backgroundColor={cores.amarelo} barStyle="dark-content"/>
+          <StatusBar animated={true} backgroundColor={cores.azulClaro} barStyle="dark-content"/>
           <Header title={categoria.nome} onPress={()=>navigation.goBack()}/>
           <View style={styles.body}>
               <SearchField value={search} setValue={setSearch} onChangeText={onSearch} placeholder="Encontre profissionais"/>

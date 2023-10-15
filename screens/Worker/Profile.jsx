@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState,useEffect,useContext } from 'react'
 import { StyleSheet, Text, SafeAreaView, View,Image,TouchableOpacity,StatusBar,Platform} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -7,11 +7,12 @@ import { cores } from '../../style/globalStyle';
 import * as ImagePicker from 'expo-image-picker';
 import Api from '../../Api';
 import ImgAvatar from '../../assets/avatar.jpg';
-import ModalCadastro from '../../components/ModalCadastro';
-//import { StatusBar } from 'expo-status-bar';
+import ModalCadastro from '../../components/Modals/ModalCadastro';
+import DataContext from '../context/DataContext';
+
 
 const Profile = () => {
-
+const {loggedUser,setLoggedUser,setApiToken} = useContext(DataContext)
 const navigation = useNavigation();
 const [userData,setUserData] = useState([]);
 const [modalVisible,setModalVisible] = useState(false);
@@ -107,10 +108,10 @@ const onNada = () => {
 
 const onLogout = async () => {
 
-    await AsyncStorage.setItem('token','');
-    await AsyncStorage.setItem('userId', '');
-    await AsyncStorage.setItem('userRole', '');
-    navigation.reset({routes:[{name:'SignIn'}]});
+    await AsyncStorage.removeItem('token');
+    setLoggedUser(null);
+    setApiToken('');
+    navigation.reset({routes:[{name:'Login'}]});
 
 }
 

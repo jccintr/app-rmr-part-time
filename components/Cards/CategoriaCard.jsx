@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, Image,View,TouchableOpacity} from 'react-native';
-import { cores } from '../style/globalStyle';
-import Api from '../Api';
+import { cores } from '../../style/globalStyle';
+import Api from '../../Api';
 
 const CategoriaCard = ({categoria,onPress}) => {
   return (

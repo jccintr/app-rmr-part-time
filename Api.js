@@ -1,13 +1,13 @@
 // --host=192.168.0.107
-const BASE_API = 'http://192.168.0.106:8000/api';
-//const BASE_API = 'https://rmr-api.js-software.tech/api';
+//const BASE_API = 'http://192.168.0.106:8000/api';
+const BASE_API = 'https://rmr-api.js-software.tech/api';
 
 
 
 export default {
    
-    //base_storage: 'https://rmr-api.js-software.tech/storage',
-    base_storage: 'http://192.168.0.106:8000/storage',
+    base_storage: 'https://rmr-api.js-software.tech/storage',
+    //base_storage: 'http://192.168.0.106:8000/storage',
     
     
 
@@ -36,14 +36,14 @@ export default {
         return response;
     },
 
-    cadastro: async (name, email,telefone,password,role) => {
+    cadastro: async (name, email,telefone,password,role,concelho_id,categoria_id) => {
         const response = await fetch(`${BASE_API}/cadastro`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({name,telefone,email,password,role})
+            body: JSON.stringify({name,telefone,email,password,role,concelho_id,categoria_id})
         });
         //const json = await response.json();        
         return response;
@@ -116,18 +116,18 @@ export default {
         return json;
     },
 
-    // getServices: async () => {
-    //     const req = await fetch(`${BASE_API}/servicos`, {
-    //         method: 'GET', 
-    //         headers: {
-    //             Accept: 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
+    getServices: async () => {
+        const req = await fetch(`${BASE_API}/servicos`, {
+            method: 'GET', 
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
            
-    //     });
-    //     const json = await req.json();        
-    //     return json;
-    // },
+        });
+        const json = await req.json();        
+        return json;
+    },
 
     // getContratadosByService: async (idServico) => {
     //     const req = await fetch(`${BASE_API}/contratados/${idServico}`, {
@@ -251,6 +251,27 @@ updateAvatar: async (fd) => {
 //     const json = await req.json();        
 //     return json;
 // },
+
+addOrcamento: async (token,fd) => {
+    const response = await fetch(`${BASE_API}/orcamentos`, {
+        method: 'POST',
+        headers: {'Authorization': 'Bearer ' + token},
+        body: fd
+    });
+    return response;
+},
+getOrcamentos: async (token) => {
+    const response = await fetch(`${BASE_API}/orcamentos`, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    });
+    const json = await response.json();
+    return json;
+},
    
   
    

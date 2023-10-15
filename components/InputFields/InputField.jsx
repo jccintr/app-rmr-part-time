@@ -3,7 +3,7 @@ import { StyleSheet, View,TextInput} from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons';
 
-import { cores } from '../style/globalStyle';
+import { cores } from '../../style/globalStyle';
 
 
 
@@ -39,7 +39,7 @@ const InputField = ( {iconProvider,iconName,placeholder, value, onChangeText, pa
          onChangeText={onChangeText}
          secureTextEntry={password}
          keyboardType={keyboard}
-         placeholderTextColor="#c1c1c1" 
+         placeholderTextColor={cores.azulEscuro}
        />
     </View>
   )

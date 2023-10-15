@@ -3,7 +3,7 @@ import { StyleSheet, Text,Image,ActivityIndicator, SafeAreaView,View,TouchableOp
 import { cores } from '../style/globalStyle';
 import logo from '../assets/logo-500.png';
 import { useNavigation } from '@react-navigation/native';
-import InputField from '../components/InputField';
+import InputField from '../components/InputFields/InputField';
 import Api from '../Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DataContext from './context/DataContext';

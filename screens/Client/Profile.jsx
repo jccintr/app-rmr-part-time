@@ -6,15 +6,17 @@ import MenuPerfil from '../../components/MenuPerfil';
 import { cores } from '../../style/globalStyle';
 import * as ImagePicker from 'expo-image-picker';
 import Api from '../../Api';
-import ImgAvatar from '../../assets/avatar.jpg';
-import ModalCadastro from '../../components/ModalCadastro';
-import ModalSenha from '../../components/ModalSenha';
+//import ImgAvatar from '../../assets/avatar.jpg';
+import ModalCadastro from '../../components/Modals/ModalCadastro';
+import ModalSenha from '../../components/Modals/ModalSenha';
 import DataContext from '../context/DataContext';
+import { FontAwesome } from '@expo/vector-icons'; 
+import HeightSpacer from '../../components/reusable/HeightSpacer'
 
 
 const Profile = () => {
     const navigation = useNavigation();
-    const {loggedUser} = useContext(DataContext)
+    const {loggedUser,setLoggedUser,setApiToken} = useContext(DataContext)
     const [userData,setUserData] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
     const [modalSenhaVisible,setModalSenhaVisible] = useState(false);
@@ -28,8 +30,7 @@ const Profile = () => {
     const [novaSenha,setNovaSenha] = useState('');
     const [confirmeNovaSenha,setConfirmeNovaSenha] = useState('');
 
-
-
+   
     useEffect(()=>{
         const getUser = async () => {
             const token = await AsyncStorage.getItem('token');
@@ -55,7 +56,7 @@ const Profile = () => {
 
     useEffect(()=>{
        if(!loggedUser) {
-        navigation.navigate('Login');
+        navigation.reset({routes:[{name:'Login'}]});
        }
     }, []);
 
@@ -99,7 +100,8 @@ const Profile = () => {
 
 
 const onCadastroPress = () => {
-    setModalVisible(true);
+    //setModalVisible(true);
+    alert("Ainda não disponível.");
 }
 
 
@@ -117,25 +119,28 @@ const updateSenha = async () => {
 }
        
 const onNada = () => {
+    console.log(loggedUser);
     alert("Ainda não disponível.");
 }
 
 const onLogout = async () => {
+  
     await AsyncStorage.removeItem('token');
-    await AsyncStorage.removeItem('userId');
-    await AsyncStorage.removeItem('userRole');
-    navigation.reset({routes:[{name:'SignIn'}]});
+    setLoggedUser(null);
+    setApiToken('');
+    navigation.reset({routes:[{name:'Login'}]});
 }
     
     return (
         <SafeAreaView style={styles.container}>
            <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content" />
-            
-            <TouchableOpacity  onPress={selectAvatar}>
-               <Image style={styles.avatar} source={avatar !== null ? {uri:`${Api.base_storage}/${avatar}`,} : ImgAvatar}/>
-            </TouchableOpacity>
+            <HeightSpacer h={30}/>
+            {loggedUser&&<TouchableOpacity  onPress={selectAvatar}>
+               {loggedUser.avatar?<Image style={styles.avatar} source={loggedUser.avatar !== null ? {uri:`${Api.base_storage}/${loggedUser.avatar}`,} : require('../../assets/avatar.jpg')}/>:<FontAwesome color={cores.azulEscuro} name="user-circle-o" size={100}  />}
+            </TouchableOpacity>}
+            <HeightSpacer h={10}/>
             <Text style={styles.userNameText}>{loggedUser?userData.name: 'Visitante'}</Text>
-            <Text style={styles.fraseHeader}>{userData.role==='cliente'?'Cliente':'Profissional'}</Text>
+            <Text style={styles.fraseHeader}>{userData.role===1?'Cliente':'Profissional'}</Text>
             
            <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
            <MenuPerfil iconName="user-circle-o" iconProvider="FontAwesome" label="Meus Cadastro" onPress={onCadastroPress}/>
@@ -145,28 +150,28 @@ const onLogout = async () => {
            <MenuPerfil iconName="policy" iconProvider="MaterialIcons" label="Política de Privacidade" onPress={onNada}/>
            <MenuPerfil iconName="logout" iconProvider="MaterialIcons" label="Sair" onPress={onLogout}/>
              <ModalCadastro
-               modalVisible={modalVisible} 
-               setModalVisible={setModalVisible} 
-               userData={userData} 
-               token={token} 
-               documento={documento}
-               setDocumento={setDocumento}
-               endereco={endereco} 
-               setEndereco={setEndereco}
-               bairro={bairro}
-               setBairro={setBairro}
-               cidade={cidade}
-               setCidade={setCidade}
-               updateCadastro={updateCadastro}
+                    modalVisible={modalVisible} 
+                    setModalVisible={setModalVisible} 
+                    userData={userData} 
+                    token={token} 
+                    documento={documento}
+                    setDocumento={setDocumento}
+                    endereco={endereco} 
+                    setEndereco={setEndereco}
+                    bairro={bairro}
+                    setBairro={setBairro}
+                    cidade={cidade}
+                    setCidade={setCidade}
+                    updateCadastro={updateCadastro}
              />  
                <ModalSenha
-               modalVisible={modalSenhaVisible} 
-               setModalVisible={setModalSenhaVisible} 
-               novaSenha={novaSenha}
-               setNovaSenha={setNovaSenha}
-               confirmeNovaSenha={confirmeNovaSenha}
-               setConfirmeNovaSenha={setConfirmeNovaSenha}
-               updateSenha={updateSenha}
+                    modalVisible={modalSenhaVisible} 
+                    setModalVisible={setModalSenhaVisible} 
+                    novaSenha={novaSenha}
+                    setNovaSenha={setNovaSenha}
+                    confirmeNovaSenha={confirmeNovaSenha}
+                    setConfirmeNovaSenha={setConfirmeNovaSenha}
+                    updateSenha={updateSenha}
               /> 
         </SafeAreaView>
         
@@ -178,7 +183,7 @@ export default Profile
 const styles = StyleSheet.create({
     container: {
         flex:1,
-         flexDirection: 'column',
+        flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#fff',
@@ -195,11 +200,11 @@ const styles = StyleSheet.create({
     userNameText:{
       fontWeight: 'bold',
       fontSize: 18,
-      color: cores.amarelo,
+      color: cores.azulEscuro,
       },
     fraseHeader:{
         fontSize: 18,
-        color: '#000',
+        color: cores.iconeSearchField,
         fontWeight: 'bold',
         fontStyle: 'italic'
         },

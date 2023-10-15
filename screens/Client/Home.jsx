@@ -1,20 +1,20 @@
 import React, { useEffect,useState,useContext } from 'react';
-import { StyleSheet, Text, SafeAreaView,View,ScrollView,StatusBar} from 'react-native';
+import { StyleSheet, Text, SafeAreaView,View,ScrollView,StatusBar,FlatList} from 'react-native';
 import { useNavigation } from '@react-navigation/native'; 
-//import AsyncStorage from '@react-native-async-storage/async-storage';
 import { cores } from '../../style/globalStyle';
 import Api from '../../Api';
-import CategoriaCard from '../../components/CategoriaCard';
+import CategoriaCard from '../../components/Cards/CategoriaCard';
 import DataContext from '../context/DataContext';
-import SearchField from '../../components/SearchField';
+import SearchField from '../../components/InputFields/SearchField';
 
 const Home = () => {
     const [search,setSearch] = useState('');
     const [categorias,setCategorias] = useState([]);
     const navigation = useNavigation();
     const {loggedUser} = useContext(DataContext);
+    const [isLoading,setIsLoading] = useState(false);
     
-
+    const categoriasFiltered = categorias.filter(categoria=>categoria.nome.toUpperCase().includes(search.toUpperCase()));
 
     const onCategoriaPress  = (categoria) =>{
         navigation.navigate('DetCategoria',{categoria: categoria})
@@ -39,19 +39,23 @@ const Home = () => {
         
         <SafeAreaView style={styles.container}>
              <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content"/>
-            <ScrollView showsVerticalScrollIndicator={false}>
+             
+
+                
                     <View style={styles.userNameArea}>
                         <Text style={styles.userNameText}>Olá {loggedUser===null?'Visitante':loggedUser.name} !</Text>
                         <Text style={styles.fraseHeader}>Qual serviço você precisa para hoje ?</Text>
                     </View>
                     <SearchField value={search} setValue={setSearch} onChangeText={onSearch} placeholder="Encontre serviços"/>
-                    
-                    <View style={styles.categoriasContainer}>
-                        {categorias.map((categoria) => (
-                            <CategoriaCard categoria={categoria} key={categoria.id} onPress={onCategoriaPress}/>
-                        ))}
-                    </View>
-             </ScrollView> 
+                    {!isLoading&&<FlatList 
+                        showsVerticalScrollIndicator={false}
+                        style={styles.flatlist}
+                        data={categoriasFiltered}
+                        keyExtractor={(item)=> item.id.toString()}
+                        renderItem={({item})=><CategoriaCard categoria={item} onPress={onCategoriaPress}/>}
+                        numColumns={2}
+                   />}
+               
         </SafeAreaView>
        
        )
@@ -66,16 +70,16 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: cores.branco,
-        paddingHorizontal: 5,
+        backgroundColor: '#fff',
+        width: '100%',
         paddingTop: 10,
-        
    },
+   
     userNameArea:{
        flexDirection: 'column',
        justifyContent: 'space-between',
-       marginBottom: 10,
-       paddingHorizontal: 5,
+       padding: 10,
+       width: '100%',
     },
     userNameText:{
       fontWeight: 'bold',
@@ -87,19 +91,5 @@ const styles = StyleSheet.create({
         color: '#000',
         fontStyle: 'italic',
     },
-    title:{
-        width: '100%',
-        fontSize: 20,
-        color: '#000',
-        fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    categoriasContainer:{
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: 'flex-start',
-      width: '100%',
-    }
-   
     
   });

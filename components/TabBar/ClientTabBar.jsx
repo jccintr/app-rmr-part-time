@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text,TouchableOpacity,View} from 'react-native';
 import { Entypo,FontAwesome,AntDesign} from '@expo/vector-icons'; 
-import { cores } from '../style/globalStyle';
+import { cores } from '../../style/globalStyle';
 
 const ClientTabBar = ({state,navigation}) => {
 
@@ -17,9 +17,9 @@ const ClientTabBar = ({state,navigation}) => {
               <Text style={state.index === 0 ? styles.TabItemTextSelected:styles.TabItemText}>Inicio</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.TabItem} onPress={()=>goTo('Pedidos')}>
+            <TouchableOpacity style={styles.TabItem} onPress={()=>goTo('Orcamentos')}>
               <AntDesign style={{color:state.index === 1 ? cores.azulEscuro:cores.menuItem}} name="shoppingcart" size={24}  />
-              <Text style={state.index === 1 ? styles.TabItemTextSelected:styles.TabItemText}>Pedidos</Text>
+              <Text style={state.index === 1 ? styles.TabItemTextSelected:styles.TabItemText}>Orçamentos</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.TabItem} onPress={()=>goTo('Profile')}>

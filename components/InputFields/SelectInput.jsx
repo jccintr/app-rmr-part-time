@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View,Modal, SafeAreaView, FlatList } from 'react-native'
 import React, {useState} from 'react';
 import { Entypo } from '@expo/vector-icons';
-import { cores } from '../style/globalStyle';
+import { cores } from '../../style/globalStyle';
 
 
 

@@ -5,6 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
+import { cores } from '../style/globalStyle';
 
 
 const Icone = ({iconName,iconProvider}) => {
@@ -12,19 +13,19 @@ const Icone = ({iconName,iconProvider}) => {
   
     switch (iconProvider) {
         case 'AntDesign':
-            return <AntDesign name={iconName} size={22} color="#c1c1c1" />;
+            return <AntDesign name={iconName} size={22} color={cores.azulEscuro} />;
             break;
         case 'FontAwesome':
-            return <FontAwesome name={iconName} size={22} color="#c1c1c1" />;
+            return <FontAwesome name={iconName} size={22} color={cores.azulEscuro} />;
              break;
         case 'MaterialIcons':
-            return <MaterialIcons name={iconName} size={22} color="#c1c1c1" />;
+            return <MaterialIcons name={iconName} size={22} color={cores.azulEscuro} />;
              break;
         case 'Entypo':
-            return <Entypo name={iconName} size={22} color="#c1c1c1" />;
+            return <Entypo name={iconName} size={22} color={cores.azulEscuro} />;
             break;
        case 'Octicons':
-             return <Octicons name={iconName} size={22} color="#c1c1c1" />;
+             return <Octicons name={iconName} size={22} color={cores.azulEscuro} />;
              break;
 
         default:
@@ -43,7 +44,7 @@ const MenuPerfil = ({iconProvider,iconName,label,onPress}) => {
     <TouchableOpacity style={styles.menuArea} onPress={onPress}>
       <Icone iconName={iconName} iconProvider={iconProvider}/>
       <Text style={styles.labelText}>{label}</Text>
-      <Entypo name="chevron-small-right" size={24} color="#c1c1c1" />
+      <Entypo name="chevron-small-right" size={24} color={cores.azulEscuro} />
     </TouchableOpacity>
   )
 }
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     },
    labelText:{
       fontSize: 16,
-
+      color: cores.azulEscuro
    }
 
 

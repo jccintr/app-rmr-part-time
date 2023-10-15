@@ -1,8 +1,8 @@
 import { StyleSheet, Text,TouchableOpacity,Image } from 'react-native';
 import React from 'react';
-import Api from '../Api';
-import Stars from './Stars';
-import { cores } from '../style/globalStyle';
+import Api from '../../Api';
+import Stars from '../Stars';
+import { cores } from '../../style/globalStyle';
 
 const WorkerCard2 = ({worker}) => {
   return (

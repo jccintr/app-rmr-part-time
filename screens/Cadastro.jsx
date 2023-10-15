@@ -1,13 +1,13 @@
 import React, { useState,useEffect,useContext } from 'react'
-import { StyleSheet, Text,Image,ScrollView, SafeAreaView,View,TouchableOpacity,KeyboardAvoidingView,ActivityIndicator,StatusBar} from 'react-native';
+import { StyleSheet, Text,Image,ScrollView, SafeAreaView,View,TouchableOpacity,KeyboardAvoidingView,ActivityIndicator,StatusBar,FlatList} from 'react-native';
 import { cores } from '../style/globalStyle';
 import logo from '../assets/logo-500.png';
 import Api from '../Api';
 import { useNavigation } from '@react-navigation/native';
-import InputField from '../components/InputField';
+import InputField from '../components/InputFields/InputField';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DataContext from './context/DataContext';
-import SelectInput from '../components/SelectInput';
+import SelectInput from '../components/InputFields/SelectInput';
 
 
 
@@ -25,10 +25,21 @@ const Cadastro = () => {
     const [distrito,setDistrito] = useState(null);
     const [concelho,setConcelho] = useState(null);
     const [concelhos,setConcelhos] = useState([]);
+    const [categoria,setCategoria] = useState(null);
     const [isLoading,setIsLoading] = useState(false);
     const navigation = useNavigation();
     const {setLoggedUser,loggedUser,apiToken,setApiToken} = useContext(DataContext);
+    const [categorias,setCategorias] = useState([]);
+    
 
+
+    useEffect(()=>{
+      const getCategorias = async () => {
+      let json = await Api.getCategorias();
+      setCategorias(json);
+      }
+      getCategorias();
+  }, []);
 
 useEffect(()=>{
    const getDistritos = async () => {
@@ -52,20 +63,41 @@ useEffect(()=>{
 
 
 
-    const onSignUpTouch = async () => {
+    const onCadastrar = async () => {
+      
+      if(role===2){
+         alert('O cadastro de profissionais está sendo revisado.')
+         return;
+      }
 
       if(nome.trim().length === 0 || telefone.trim().length === 0 || email.trim().length === 0 || password.trim().length === 0 || passwordConfirm.trim().length === 0){
         alert('Preencha todos os campos por favor.');
-        return
+        return;
       }
 
       if(password!=passwordConfirm){
         alert('As senhas informadas são diferentes.');
-        return
+        return;
       }
 
+      if(distrito===null) {
+        alert('Selecione um distrito por favor.')
+        return;
+      }
+
+      if(concelho===null) {
+        alert('Selecione um concelho por favor.')
+        return;
+      }
+
+      if(role===2 && categoria===null) {
+        alert('Selecione uma categoria por favor.')
+        return;
+      }
+     
+
       setIsLoading(true);   
-      let response = await Api.cadastro(nome,email,telefone, password,role);
+      let response = await Api.cadastro(nome,email,telefone, password,role,concelho.id,categoria==!null?categoria.id:0);
 
       if(response.status===201){
         
@@ -74,7 +106,7 @@ useEffect(()=>{
         setApiToken(jsonUser.token);
         setLoggedUser(jsonUser);
 
-        if (role===0)
+        if (role===1)
            navigation.reset({routes:[{name:'ClientTab'}]});
         else
            navigation.reset({routes:[{name:'WorkerTab'}]});
@@ -94,93 +126,93 @@ useEffect(()=>{
     setConcelho(concelho);
  }
 
+ const onChangeSelectCategoria = (categoria) => {
+  setCategoria(categoria);
+ }
+
 
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-    <StatusBar
-                animated={true}
-                backgroundColor={cores.azulClaro}
-                barStyle="dark-content"
-            />  
-    <KeyboardAvoidingView behavior='height' style={styles.container}>
-  
-    <View style={styles.header}>   
-          <Image source={logo} style={styles.logo}/>
-          <Text style={styles.headerText}>Novo Cadastro</Text>
-    </View>
-   
-    <View style={styles.inputArea}>
-   
-       <InputField 
-           iconProvider="AntDesign"
-           iconName="user"
-           placeholder="Digite o seu nome"
-           value={nome}
-           onChangeText={t=>setNome(t)}
-           password={false}
-           keyboard="default"
-       />
-        <InputField 
-            iconProvider="AntDesign"
-            iconName="mail"
-            placeholder="Digite o seu e-mail"
-            value={email}
-            onChangeText={t=>setEmail(t)}
-            password={false}
-            keyboard="email-address"
-        />
-       <InputField 
-            iconProvider="FontAwesome"
-            iconName="whatsapp"
-           placeholder="Digite o seu telefone"
-           value={telefone}
-           onChangeText={t=>setTelefone(t)}
-           password={false}
-           keyboard="number-pad"
-       />
-      
-       <InputField 
-           iconProvider="AntDesign"
-           iconName="lock1"
-           placeholder="Digite a sua senha"
-           value={password}
-           onChangeText={t=>setPassword(t)}
-           password={true}
-           keyboard="default"
-       />
-       <InputField 
-       iconProvider="AntDesign"
-           iconName="lock1"
-           placeholder="Confirme a senha"
-           value={passwordConfirm}
-           onChangeText={t=>setPasswordConfirm(t)}
-           password={true}
-           keyboard="default"
-       />
-       <SelectInput label="Selecione o Distrito" options={distritos} onChangeSelect={onChangeSelectDistrito}/>
-       {distrito&&<SelectInput label="Selecione o Concelho" options={concelhos} onChangeSelect={onChangeSelectConcelho}/>}
-       <View style={styles.roleArea}>
-         <TouchableOpacity onPress={()=>setRole(1)} style={role===1?styles.roleButtonSelected:styles.roleButton}>
-           <Text style={role===1?styles.roleTextSelected:styles.roleText}>Sou Cliente</Text>
-         </TouchableOpacity>
-         <TouchableOpacity onPress={()=>setRole(2)} style={role===2?styles.roleButtonSelected:styles.roleButton}>
-           <Text style={role===2?styles.roleTextSelected:styles.roleText}>Sou Profissional</Text>
-         </TouchableOpacity>
-       </View>
-
-       <TouchableOpacity onPress={onSignUpTouch} style={styles.button}>
-        {!isLoading?<Text style={styles.buttonText}>CADASTRAR</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.signUpMessage}>
-         <Text style={styles.signUpMessageText}>Já tem uma conta?</Text>
-         <Text style={styles.signUpMessageTextBold} > Entre!</Text>
-       </TouchableOpacity>
-     
-      
-    </View> 
-  
-  </KeyboardAvoidingView>
+         <StatusBar animated={true} backgroundColor={cores.azulClaro} barStyle="dark-content"/>  
+          <KeyboardAvoidingView behavior='height' style={styles.container}>
+        
+              <View style={styles.header}>   
+                    <Image source={logo} style={styles.logo}/>
+                    <Text style={styles.headerText}>Novo Cadastro</Text>
+              </View>
+        
+              <View style={styles.inputArea}>
+            
+                    <InputField 
+                        iconProvider="AntDesign"
+                        iconName="user"
+                        placeholder="Digite o seu nome"
+                        value={nome}
+                        onChangeText={t=>setNome(t)}
+                        password={false}
+                        keyboard="default"
+                    />
+                    <InputField 
+                        iconProvider="AntDesign"
+                        iconName="mail"
+                        placeholder="Digite o seu e-mail"
+                        value={email}
+                        onChangeText={t=>setEmail(t)}
+                        password={false}
+                        keyboard="email-address"
+                    />
+                   <InputField 
+                      iconProvider="FontAwesome"
+                      iconName="whatsapp"
+                      placeholder="Digite o seu telefone"
+                      value={telefone}
+                      onChangeText={t=>setTelefone(t)}
+                      password={false}
+                      keyboard="number-pad"
+                    />
+                
+                    <InputField 
+                        iconProvider="AntDesign"
+                        iconName="lock1"
+                        placeholder="Digite a sua senha"
+                        value={password}
+                        onChangeText={t=>setPassword(t)}
+                        password={true}
+                        keyboard="default"
+                    />
+                    <InputField 
+                        iconProvider="AntDesign"
+                        iconName="lock1"
+                        placeholder="Confirme a senha"
+                        value={passwordConfirm}
+                        onChangeText={t=>setPasswordConfirm(t)}
+                        password={true}
+                        keyboard="default"
+                    />
+                    <SelectInput label="Selecione o Distrito" options={distritos} onChangeSelect={onChangeSelectDistrito}/>
+                    {distrito&&<SelectInput label="Selecione o Concelho" options={concelhos} onChangeSelect={onChangeSelectConcelho}/>}
+                    <View style={styles.roleArea}>
+                          <TouchableOpacity onPress={()=>setRole(1)} style={role===1?styles.roleButtonSelected:styles.roleButton}>
+                                <Text style={role===1?styles.roleTextSelected:styles.roleText}>Sou Cliente</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity onPress={()=>setRole(2)} style={role===2?styles.roleButtonSelected:styles.roleButton}>
+                                <Text style={role===2?styles.roleTextSelected:styles.roleText}>Sou Profissional</Text>
+                          </TouchableOpacity>
+                    </View>
+                    {role===2&&<SelectInput label="Selecione uma Categoria" options={categorias} onChangeSelect={onChangeSelectCategoria}/>}
+                    <TouchableOpacity onPress={onCadastrar} style={styles.button}>
+                          {!isLoading?<Text style={styles.buttonText}>CADASTRAR</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.signUpMessage}>
+                          <Text style={styles.signUpMessageText}>Já tem uma conta?</Text>
+                          <Text style={styles.signUpMessageTextBold} > Entre!</Text>
+                    </TouchableOpacity>
+              
+                
+              </View> 
+        
+        </KeyboardAvoidingView>
   </ScrollView>
  
   )
@@ -201,29 +233,26 @@ const styles = StyleSheet.create({
        alignItems: 'center',
        justifyContent: 'flex-end',
     },
-   
     logo: {
       width: 150,
       height: 150,
-     
     },
     headerText:{
       color: cores.azulEscuro,
       fontSize: 22,
       fontWeight: 'bold',
       textAlign: 'center',
-      marginBottom: 10,
-
+      
     },
     inputArea:{
       flexGrow: 1,
-     paddingTop: 40,
-     paddingLeft: 20,
-     paddingRight: 20,
-     borderTopLeftRadius: 20,
-     borderTopRightRadius: 20,
-     backgroundColor: cores.azulClaro,
-     paddingBottom: 40,
+      paddingTop: 40,
+      paddingLeft: 20,
+      paddingRight: 20,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      backgroundColor: cores.azulClaro,
+      paddingBottom: 40,
     },
     roleArea:{
        flexDirection:'row',
@@ -238,7 +267,6 @@ const styles = StyleSheet.create({
        borderColor: cores.azulEscuro,
        alignItems: 'center',
        justifyContent:'center',
-      
     },
     roleButtonSelected:{
        height:40,
@@ -259,20 +287,16 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius:15,
-    
     },
     buttonText:{
       color: '#fff',
       fontSize: 16,
-   
       fontWeight: 'bold',
     },
     signUpMessage:{
       flexDirection:'row',
       justifyContent: 'center',
       marginTop: 20,
-
-
     },
     signUpMessageText:{
 

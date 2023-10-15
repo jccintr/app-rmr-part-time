@@ -4,7 +4,7 @@ import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons';
 
-import { cores } from '../style/globalStyle';
+import { cores } from '../../style/globalStyle';
 
 const WorkerTabBar = ({state,navigation}) => {
 

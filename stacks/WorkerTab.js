@@ -1,7 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import WorkerTabBar from '../components/WorkerTabBar';
-
+import WorkerTabBar from '../components/TabBar/WorkerTabBar';
 import Home from '../screens/Worker/Home';
 import Profile from '../screens/Worker/Profile';
 import Trabalhos from '../screens/Worker/Trabalhos';

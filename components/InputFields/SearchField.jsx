@@ -1,7 +1,7 @@
 import { StyleSheet, View,TextInput,TouchableOpacity} from 'react-native';
 import { FontAwesome,AntDesign } from '@expo/vector-icons';
 import React from 'react'
-import { cores } from '../style/globalStyle';
+import { cores } from '../../style/globalStyle';
 
 const SearchField = ({placeholder, value,setValue,onChangeText} ) => {
   return (
@@ -13,7 +13,7 @@ const SearchField = ({placeholder, value,setValue,onChangeText} ) => {
          onChangeText={onChangeText}
          placeholderTextColor="#c1c1c1" 
        />
-       {value.length>0&&<TouchableOpacity onPress={()=>setValue('')}><AntDesign name="closecircleo" size={22} color={cores.iconeSearchField} /></TouchableOpacity>}
+       {value.length>0&&<TouchableOpacity onPress={()=>setValue('')}><AntDesign name="closecircleo" size={16} color={cores.iconeSearchField} /></TouchableOpacity>}
     </View>
   )
 }
@@ -22,15 +22,17 @@ export default SearchField
 
 const styles = StyleSheet.create({
     inputArea: {
+        
         height: 50,
         flexDirection: 'row',
         paddingHorizontal: 15,
         alignItems: 'center',
-        marginTop: 15,
-        marginBottom: 15,
+        marginTop: 5,
+        marginBottom: 5,
         borderRadius: 15,
         backgroundColor: cores.fundoSearchfield,
-        marginHorizontal: 5,
+        marginHorizontal: 10,
+        
     },
     
     input: {

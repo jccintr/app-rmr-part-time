@@ -3,10 +3,11 @@ import React, {useContext,useState, useEffect} from 'react'
 import { cores } from '../../style/globalStyle';
 import { useNavigation } from '@react-navigation/native'; 
 import DataContext from '../context/DataContext';
-import Header from '../../components/Header';
+import Header from '../../components/Headers/Header';
 import Api from '../../Api';
 import { AntDesign } from '@expo/vector-icons';
-import WorkerCard2 from '../../components/WorkerCard2';
+import WorkerCard2 from '../../components/Cards/WorkerCard2';
+import Botao from '../../components/reusable/Botao';
 
 
 const DetCategoria = ({route}) => {
@@ -26,6 +27,17 @@ const DetCategoria = ({route}) => {
         getWorkers();
     }, []);
 
+    const onSolicitarOrcamento = () => {
+             
+      if (loggedUser===null){
+        navigation.reset({routes:[{name:'Login'}]});
+      } 
+      else {
+        navigation.navigate('Orcamento',{categoria:categoria})
+      }  
+
+    }
+
   return (
     <SafeAreaView style={styles.container}>
         <StatusBar animated={true} backgroundColor={cores.azulClaro} barStyle="dark-content"/>
@@ -40,7 +52,7 @@ const DetCategoria = ({route}) => {
             <Text style={styles.checkText}>Aguarde as respostas dos profissionais.</Text>
             <AntDesign name="checkcircleo" size={28} color={cores.azulEscuro} />
             <Text style={styles.checkText}>Escolha o orçamento do profissional que melhor lhe atende.</Text>
-            <FlatList 
+            {/*<FlatList 
                   showsHorizontalScrollIndicator={false}
                   horizontal
                   style={styles.flatlist}
@@ -48,9 +60,10 @@ const DetCategoria = ({route}) => {
                   keyExtractor={(item)=> item.id.toString()}
                   renderItem={({item})=><WorkerCard2 worker={item} />}
                   
-              />
-            <TouchableOpacity onPress={()=>{}} style={styles.button}>
-            <Text style={styles.buttonText} >SOLICITAR ORÇAMENTO</Text>
+  />*/}     
+            <Botao onPress={()=>{navigation.navigate('Categoria',{categoria})}} text={'EXPLORAR CATEGORIA'} textSize={16} textColor={cores.azulEscuro} width={'100%'} backgroundColor={cores.branco} borderWidth={2} borderColor={cores.azulEscuro} borderRadius={15}/>
+            <TouchableOpacity onPress={onSolicitarOrcamento} style={styles.button}>
+               <Text style={styles.buttonText} >{loggedUser===null?'ENTRE PARA SOLICITAR ORÇAMENTO':'SOLICITAR ORÇAMENTO'}</Text>
             </TouchableOpacity>  
         </View>
         

@@ -13,6 +13,7 @@ export const cores = {
     azulEscuro: '#4499d0',
     amareloClaro: '#fed94d',
     amareloEscuro: '#e8b736',
+    whiteSmoke: '#f5f5f5',
  };
 
  // azul claro effafe
