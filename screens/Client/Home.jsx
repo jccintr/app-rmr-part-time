@@ -1,5 +1,5 @@
 import React, { useEffect,useState,useContext } from 'react';
-import { StyleSheet, Text, SafeAreaView,View,ScrollView,StatusBar,FlatList} from 'react-native';
+import { StyleSheet, Text, SafeAreaView,View,ActivityIndicator,StatusBar,FlatList} from 'react-native';
 import { useNavigation } from '@react-navigation/native'; 
 import { cores } from '../../style/globalStyle';
 import Api from '../../Api';
@@ -26,11 +26,15 @@ const Home = () => {
 
 
     useEffect(()=>{
+       
         const getCategorias = async () => {
-        let json = await Api.getCategorias();
-        setCategorias(json);
+            setIsLoading(true);            
+            let json = await Api.getCategorias();
+            setCategorias(json);
+            setIsLoading(false);
         }
         getCategorias();
+        
     }, []);
 
 
@@ -38,15 +42,13 @@ const Home = () => {
     return (
         
         <SafeAreaView style={styles.container}>
-             <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content"/>
-             
-
-                
+                   <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content"/>
                     <View style={styles.userNameArea}>
                         <Text style={styles.userNameText}>Olá {loggedUser===null?'Visitante':loggedUser.name} !</Text>
                         <Text style={styles.fraseHeader}>Qual serviço você precisa para hoje ?</Text>
                     </View>
                     <SearchField value={search} setValue={setSearch} onChangeText={onSearch} placeholder="Encontre serviços"/>
+                    {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.azulEscuro}/>}
                     {!isLoading&&<FlatList 
                         showsVerticalScrollIndicator={false}
                         style={styles.flatlist}
@@ -91,5 +93,9 @@ const styles = StyleSheet.create({
         color: '#000',
         fontStyle: 'italic',
     },
+    loading:{
+        position: 'absolute',
+        top: '50%',
+       }
     
   });

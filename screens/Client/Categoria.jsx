@@ -38,7 +38,7 @@ const Categoria = ({route}) => {
           <Header title={categoria.nome} onPress={()=>navigation.goBack()}/>
           <View style={styles.body}>
               <SearchField value={search} setValue={setSearch} onChangeText={onSearch} placeholder="Encontre profissionais"/>
-              {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.amarelo}/>}
+              {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.azulEscuro}/>}
               {!isLoading&&<FlatList 
                   showsVerticalScrollIndicator={false}
                   style={styles.flatlist}
