@@ -13,7 +13,7 @@ const SearchField = ({placeholder, value,setValue,onChangeText} ) => {
          onChangeText={onChangeText}
          placeholderTextColor="#c1c1c1" 
        />
-       {value.length>0&&<TouchableOpacity onPress={()=>setValue('')}><AntDesign name="closecircleo" size={16} color={cores.iconeSearchField} /></TouchableOpacity>}
+       {value.length>0&&<TouchableOpacity onPress={()=>setValue('')}><AntDesign name="closecircleo" size={18} color={cores.iconeSearchField} /></TouchableOpacity>}
     </View>
   )
 }

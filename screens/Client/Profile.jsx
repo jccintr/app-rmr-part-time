@@ -1,12 +1,11 @@
 import React, { useState,useEffect,useContext } from 'react'
-import { StyleSheet, Text, SafeAreaView, View,Image,TouchableOpacity,StatusBar} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View,Image,TouchableOpacity,StatusBar,ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import MenuPerfil from '../../components/MenuPerfil';
 import { cores } from '../../style/globalStyle';
 import * as ImagePicker from 'expo-image-picker';
 import Api from '../../Api';
-//import ImgAvatar from '../../assets/avatar.jpg';
 import ModalCadastro from '../../components/Modals/ModalCadastro';
 import ModalSenha from '../../components/Modals/ModalSenha';
 import DataContext from '../context/DataContext';
@@ -16,43 +15,20 @@ import HeightSpacer from '../../components/reusable/HeightSpacer'
 
 const Profile = () => {
     const navigation = useNavigation();
-    const {loggedUser,setLoggedUser,setApiToken} = useContext(DataContext)
+    const {loggedUser,setLoggedUser,apiToken,setApiToken} = useContext(DataContext)
     const [userData,setUserData] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
     const [modalSenhaVisible,setModalSenhaVisible] = useState(false);
     const [token,setToken] = useState(null);
-    const [userId,setUserId] = useState(null);
+    //const [userId,setUserId] = useState(null);
     const [documento,setDocumento] = useState('');
     const [endereco,setEndereco] = useState('');
     const [bairro,setBairro] = useState('');
     const [cidade,setCidade] = useState('');
-    const [avatar,setAvatar] = useState(null);
+    const [avatar,setAvatar] = useState(loggedUser.avatar);
     const [novaSenha,setNovaSenha] = useState('');
     const [confirmeNovaSenha,setConfirmeNovaSenha] = useState('');
-
-   
-    useEffect(()=>{
-        const getUser = async () => {
-            const token = await AsyncStorage.getItem('token');
-           
-            if(token){
-                setToken(token);
-                let response = await Api.getUser(token);
-                if (response.status===200){
-                    let jsonUser = await response.json(); 
-                    setUserData(jsonUser);
-                    setUserId(jsonUser.id);
-                    setDocumento(jsonUser.documento);
-                    setEndereco(jsonUser.endereco);
-                    setBairro(jsonUser.bairro);
-                    setCidade(jsonUser.cidade);
-                    setAvatar(jsonUser.imagem);
-                }
-            } 
-
-        }
-        getUser();
-    }, []);
+    const [isLoading,setIsLoading] = useState(false);
 
     useEffect(()=>{
        if(!loggedUser) {
@@ -71,28 +47,27 @@ const Profile = () => {
         });
     
         if (!result.canceled) {
-         
+          setIsLoading(true);
           const fd = new FormData();
-          
-          fd.append('userId',userId);
           fd.append('imagem',{uri: result.assets[0].uri,type: 'image/jpg',name: 'image.jpg',});
+          let responseAvatar = await Api.updateAvatar(apiToken,fd);
           
-          let responseAvatar = await Api.updateAvatar(fd);
-         
-          let ret = await responseAvatar.json();
-         
+          //console.log(responseAvatar.status);
           if (responseAvatar.status===200){
-            let response = await Api.getUser(token);
+            
+            let response = await Api.getUser(apiToken);
                 if (response.status===200){
                     let jsonUser = await response.json(); 
-                    setUserData(jsonUser);
+                    setLoggedUser(jsonUser);
+                    setAvatar(jsonUser.avatar);
                     setDocumento(jsonUser.documento);
                     setEndereco(jsonUser.endereco);
                     setBairro(jsonUser.bairro);
                     setCidade(jsonUser.cidade);
-                    setAvatar(jsonUser.imagem);
+                    
                 }
           }
+          setIsLoading(false);
       }
       
     }
@@ -133,14 +108,22 @@ const onLogout = async () => {
     
     return (
         <SafeAreaView style={styles.container}>
-           <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content" />
-            <HeightSpacer h={30}/>
-            {loggedUser&&<TouchableOpacity  onPress={selectAvatar}>
-               {loggedUser.avatar?<Image style={styles.avatar} source={loggedUser.avatar !== null ? {uri:`${Api.base_storage}/${loggedUser.avatar}`,} : require('../../assets/avatar.jpg')}/>:<FontAwesome color={cores.azulEscuro} name="user-circle-o" size={100}  />}
+           <StatusBar animated={true} backgroundColor={cores.azulEscuro} barStyle="dark-content" />
+            
+            <View style={styles.header}>
+                {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
+               {loggedUser&&!isLoading&&<TouchableOpacity  onPress={selectAvatar}>
+               {avatar?<Image style={styles.avatar} source={{uri:`${Api.base_storage}/${avatar}`,} }/>:<FontAwesome color={cores.azulEscuro} name="user-circle-o" size={100}  />}
+               <HeightSpacer h={10}/>
+               <Text style={styles.userNameText}>{loggedUser.name}</Text>
+               
             </TouchableOpacity>}
+               
+            </View>
+            
             <HeightSpacer h={10}/>
-            <Text style={styles.userNameText}>{loggedUser?userData.name: 'Visitante'}</Text>
-            <Text style={styles.fraseHeader}>{userData.role===1?'Cliente':'Profissional'}</Text>
+            
+            {/*<Text style={styles.fraseHeader}>{loggedUser.role===1?'Cliente':'Profissional'}</Text>*/}
             
            <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
            <MenuPerfil iconName="user-circle-o" iconProvider="FontAwesome" label="Meus Cadastro" onPress={onCadastroPress}/>
@@ -187,20 +170,30 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#fff',
-        paddingHorizontal:5,
-       
+    },
+    header:{
+        backgroundColor: cores.azulEscuro,
+        padding: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width:'100%',
+        height: 180,
+        borderBottomLeftRadius:15,
+        borderBottomRightRadius: 15,
     },
     avatar:{
-        marginTop: 10,
         height: 100,
         width: 100,
         borderRadius:50,
+        borderColor: '#fff',
+        borderWidth: 2,
      },
     
     userNameText:{
       fontWeight: 'bold',
       fontSize: 18,
-      color: cores.azulEscuro,
+      color: cores.branco,
+      
       },
     fraseHeader:{
         fontSize: 18,

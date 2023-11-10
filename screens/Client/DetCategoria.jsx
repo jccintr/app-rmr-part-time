@@ -52,15 +52,6 @@ const DetCategoria = ({route}) => {
             <Text style={styles.checkText}>Aguarde as respostas dos profissionais.</Text>
             <AntDesign name="checkcircleo" size={28} color={cores.azulEscuro} />
             <Text style={styles.checkText}>Escolha o orçamento do profissional que melhor lhe atende.</Text>
-            {/*<FlatList 
-                  showsHorizontalScrollIndicator={false}
-                  horizontal
-                  style={styles.flatlist}
-                  data={workers}
-                  keyExtractor={(item)=> item.id.toString()}
-                  renderItem={({item})=><WorkerCard2 worker={item} />}
-                  
-  />*/}     
             <Botao onPress={()=>{navigation.navigate('Categoria',{categoria})}} text={'EXPLORAR CATEGORIA'} textSize={16} textColor={cores.azulEscuro} width={'100%'} backgroundColor={cores.branco} borderWidth={2} borderColor={cores.azulEscuro} borderRadius={15}/>
             <TouchableOpacity onPress={onSolicitarOrcamento} style={styles.button}>
                <Text style={styles.buttonText} >{loggedUser===null?'ENTRE PARA SOLICITAR ORÇAMENTO':'SOLICITAR ORÇAMENTO'}</Text>

@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        paddingHorizontal: 10,
+        //paddingHorizontal: 5,
         
       },
       workersContainer:{

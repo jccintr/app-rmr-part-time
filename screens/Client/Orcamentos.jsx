@@ -61,7 +61,6 @@ const Orcamentos = () => {
         }
     
     const onRefresh = async () => {
-
           getOrcamentos();
     }
 

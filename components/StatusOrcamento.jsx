@@ -2,11 +2,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { cores } from '../style/globalStyle';
 
-const StatusOrcamento = () => {
+const StatusOrcamento = ({propostas}) => {
     
   return (
     <View style={styles.container}>
-      <Text style={styles.statusText}>Aguardando Propostas</Text>
+      <Text style={styles.statusText}>{propostas.length>0?`Propostas Recebidas (${propostas.length})`:'Aguardando Propostas'}</Text>
     </View>
   )
 }

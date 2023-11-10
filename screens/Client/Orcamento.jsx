@@ -19,6 +19,7 @@ const Orcamento = ({route}) => {
     const {categoria} = route.params;  
     const [logradouro,setLogradouro] = useState('');
     const [numero,setNumero] = useState('');
+    const [titulo,setTitulo] = useState('');
     const [descricao,setDescricao] = useState('');
     const [imagem,setImagem] = useState(null);
     const [distrito,setDistrito] = useState(null);
@@ -73,12 +74,13 @@ const selectImage = async () =>{
 
 const onAddOrcamento = async () => {
 
-if (descricao.trim().length===0 || logradouro.trim().length===0 || numero.trim().length===0 || distrito === null || concelho === null ) {
+if (titulo.trim().length===0 || descricao.trim().length===0 || logradouro.trim().length===0 || numero.trim().length===0 || distrito === null || concelho === null ) {
     alert('Preencha todos os campos por favor.');
     return;
 }
     setIsLoading(true);
     const fd = new FormData();
+    fd.append('titulo',titulo);
     fd.append('descricao',descricao);
     fd.append('categoria_id',categoria.id);
     fd.append('logradouro',logradouro);
@@ -93,9 +95,7 @@ if (descricao.trim().length===0 || logradouro.trim().length===0 || numero.trim()
     if (response.status===201){
          navigation.navigate('Sucesso');
     } else {
-        alert(response.status);
-        let json = await response.json();
-        console.log(json.erro);
+        navigation.navigate('Erro');
     }
     setIsLoading(false);
 }
@@ -112,6 +112,16 @@ if (descricao.trim().length===0 || logradouro.trim().length===0 || numero.trim()
                     <Text style={{color:cores.azulEscuro}}>{categoria.nome}</Text>
               </View>
               <View style={styles.itensArea}>
+                    <Text style={styles.title}>Título do Orçamento</Text>
+                    <InputField3 
+                      label="Titulo:"
+                      placeholder=""
+                      password={false}
+                      editable={true}
+                      value={titulo}
+                      onChangeText={t=>setTitulo(t)}
+                      keyboard="default"
+                    />
                     <Text style={styles.title}>Onde será executado o serviço</Text>
                     <InputField3 
                       label="Logradouro:"

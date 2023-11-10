@@ -1,5 +1,5 @@
 import React, { useState,useContext } from 'react'
-import { StyleSheet, Text,Image,ActivityIndicator, SafeAreaView,View,TouchableOpacity, KeyboardAvoidingView,StatusBar} from 'react-native';
+import { StyleSheet, Text,Image,ActivityIndicator, View,TouchableOpacity, KeyboardAvoidingView,StatusBar} from 'react-native';
 import { cores } from '../style/globalStyle';
 import logo from '../assets/logo-500.png';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import InputField from '../components/InputFields/InputField';
 import Api from '../Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DataContext from './context/DataContext';
+
 
 
 

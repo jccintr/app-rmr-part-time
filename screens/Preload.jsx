@@ -40,7 +40,7 @@ const Preload = () => {
                 }  catch (e){
                     setIsLoading(false);
                     console.log(e);
-                    alert("Falha ao obter dados.");
+                    alert("Falha ao obter dados. Tente novamente mais tarde.");
                   }
                 
             }
