@@ -1,60 +1,82 @@
 import React, { useEffect,useState,useContext } from 'react';
-import { StyleSheet, Text, SafeAreaView,View,ScrollView,StatusBar} from 'react-native';
+import { StyleSheet, Text, SafeAreaView,View,StatusBar,FlatList,ActivityIndicator} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { cores } from '../../style/globalStyle';
-//import { StatusBar } from 'expo-status-bar';
 import Api from '../../Api';
 import ServiceCard from '../../components/ServiceCard';
 import DataContext from '../context/DataContext';
+import CardOrcamento from '../../components/Cards/CardOrcamento';
+
+const Separator = () => (
+    <View
+      style={{
+        backgroundColor: cores.azulEscuro,
+        height: 0.5,
+      }}
+    />
+  );
+
+  const EmptyList = () => {
+    return <Text style={{color: cores.azulEscuro}}>Tem nada ainda parceiro !</Text>
+  }  
 
 const Home = () => {
-    const [userName,setUserName] = useState('');
-    const [services,setServices] = useState([]);
+    
     const navigation = useNavigation();
-    const {loggedUser} = useContext(DataContext);
+    const {loggedUser,apiToken} = useContext(DataContext);
+    const [orcamentos,setOrcamentos] = useState([]);
+    const [isLoading,setIsLoading] = useState(false);
 
 
     const onServicePress  = (servico) =>{
         navigation.navigate('ServicoWorker',{servico: servico})
      }
-/*
-     useEffect(()=>{
-        const getUserName = async () => {
-            const user = await AsyncStorage.getItem('userName');
-            setUserName(user) 
-        }
-        getUserName();
-    }, []);
-*/
+
+    // useEffect(()=>{
+    //     const getServices = async () => {
+    //     let json = await Api.getServices();
+    //     setServices(json);
+    //     }
+    //     getServices();
+    // }, []);
+
     useEffect(()=>{
-        const getServices = async () => {
-        let json = await Api.getServices();
-        setServices(json);
-        }
-        getServices();
+        
+           getAllOrcamentos();
     }, []);
 
+    const getAllOrcamentos = async () => {
+        setIsLoading(true);
+        let json = await Api.getAllOrcamentos(apiToken);
+        setOrcamentos(json);
+        setIsLoading(false);
+        }
+
+        const onOrcamentoPress = (orcamento) => {
+            
+            navigation.navigate('ViewOrcamento', {orcamento});
+           
+        }
 
 
     return (
         
         <SafeAreaView style={styles.container}>
-            <StatusBar
-                animated={true}
-                backgroundColor={cores.branco}
-                barStyle="dark-content"
-            />
-            <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={styles.userNameArea}>
-                        <Text style={styles.userNameText}>Olá {loggedUser.name} !</Text>
-                        <Text style={styles.fraseHeader}>Qual é a sua especialidade ?</Text>
-                    </View>
-                    <Text style={styles.title}>Serviços disponíveis</Text>
-                    <View style={styles.servicesContainer}>
-                        {services.map((service) => (<ServiceCard servico={service} role="worker" key={service.id} onPress={onServicePress}/>))}
-                    </View>
-             </ScrollView> 
+            <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content"/>
+            <View style={styles.userNameArea}>
+                        <Text style={styles.userNameText}>Olá {loggedUser===null?'Visitante':loggedUser.name} !</Text>
+                        <Text style={styles.fraseHeader}>Vamos trabalhar vagabundo !</Text>
+            </View>
+            {!isLoading&&<FlatList 
+                        showsVerticalScrollIndicator={false}
+                        style={styles.flatlist}
+                        data={orcamentos}
+                        keyExtractor={(item)=> item.id.toString()}
+                        renderItem={({item})=><CardOrcamento item={item} onPress={onOrcamentoPress}/>}
+                        ItemSeparatorComponent={Separator}
+                        ListEmptyComponent={<EmptyList/>}
+                        contentContainerStyle={orcamentos.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}
+                   />} 
         </SafeAreaView>
        
        )
@@ -64,51 +86,34 @@ export default Home
 
 
 const styles = StyleSheet.create({
-    container: {
+   container: {
         flex:1,
-       
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#fff',
         paddingHorizontal:5,
+   },
+   userNameArea:{
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    padding: 10,
+    width: '100%',
+  },
+  userNameText:{
+   fontWeight: 'bold',
+   fontSize: 18,
+   color: cores.azulEscuro,
+ },
+ fraseHeader:{
+     fontSize: 18,
+     color: '#000',
+     fontStyle: 'italic',
+ },
+ flatlist: {
+    width: '100%',
+}
    
-        
-    },
-    userNameArea:{
-        width: '100%',
-        height: 50,
-       flexDirection: 'column',
-       justifyContent: 'space-between',
-       marginBottom: 20,
-
-    },
-    userNameText:{
-      fontWeight: 'bold',
-      fontSize: 18,
-      color: cores.amarelo,
-    },
-    fraseHeader:{
-        fontSize: 18,
-        color: '#000',
-        fontStyle: 'italic',
-    },
-    title:{
-        width: '100%',
-        fontSize: 20,
-        color: '#000',
-        fontWeight: 'bold',
-        marginBottom: 5,
-
-    },
-    servicesContainer:{
-        flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: 'flex-start',
-      width: '100%',
-     
-      
-    }
    
     
   });

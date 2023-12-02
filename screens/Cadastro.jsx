@@ -8,6 +8,7 @@ import InputField from '../components/InputFields/InputField';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DataContext from './context/DataContext';
 import SelectInput from '../components/InputFields/SelectInput';
+import ModalErro from '../components/Modals/ModalErro';
 
 
 
@@ -15,6 +16,8 @@ import SelectInput from '../components/InputFields/SelectInput';
 
 
 const Cadastro = () => {
+    const [errorMessage,setErrorMessage] = useState('');
+    const [modalVisible,setModalVisible] = useState(false);
     const [nome,setNome] = useState('');
     const [telefone,setTelefone] = useState('');
     const [email,setEmail] = useState('');
@@ -65,56 +68,59 @@ useEffect(()=>{
 
     const onCadastrar = async () => {
       
-      if(role===2){
-         alert('O cadastro de profissionais está sendo revisado.')
-         return;
-      }
+      // if(role===2){
+      //    setErrorMessage('O cadastro de novos profissionais está temporariamente suspenso.');
+      //    setModalVisible(true);
+      //    return;
+      // }
 
       if(nome.trim().length === 0 || telefone.trim().length === 0 || email.trim().length === 0 || password.trim().length === 0 || passwordConfirm.trim().length === 0){
-        alert('Preencha todos os campos por favor.');
+        setErrorMessage('Preencha todos os campos por favor.');
+        setModalVisible(true);
         return;
       }
 
       if(password!=passwordConfirm){
-        alert('As senhas informadas são diferentes.');
+        setErrorMessage('As senhas informadas são diferentes.');
+        setModalVisible(true);
         return;
       }
 
       if(distrito===null) {
-        alert('Selecione um distrito por favor.')
+        setErrorMessage('Selecione um distrito por favor.');
+         setModalVisible(true);
         return;
       }
 
       if(concelho===null) {
-        alert('Selecione um concelho por favor.')
+         setErrorMessage('Selecione um concelho por favor.');
+         setModalVisible(true);
         return;
       }
 
       if(role===2 && categoria===null) {
-        alert('Selecione uma categoria por favor.')
+        setErrorMessage('Selecione uma categoria por favor.');
+        setModalVisible(true);
         return;
       }
      
+      
+      setIsLoading(true);  
+      let response = await Api.cadastro(nome,email,telefone, password,role,concelho.id,role===2?categoria.id:0);
+      
+      if(response.status !==201){
+        const ret = await response.json();
+         setIsLoading(false);   
+         setErrorMessage(ret.erro);
+         setModalVisible(true);
+        return;
+      }
 
-      setIsLoading(true);   
-      let response = await Api.cadastro(nome,email,telefone, password,role,concelho.id,categoria==!null?categoria.id:0);
-
-      if(response.status===201){
-        
         const jsonUser = await response.json();
         await AsyncStorage.setItem('token', jsonUser.token);
         setApiToken(jsonUser.token);
         setLoggedUser(jsonUser);
-
-        if (role===1)
-           navigation.reset({routes:[{name:'ClientTab'}]});
-        else
-           navigation.reset({routes:[{name:'WorkerTab'}]});
-
-      } else {
-        alert("Email já utilizado.");
-      }
-
+        navigation.reset({routes:[{name:'VerifyEmail'}]});
          
     }
 
@@ -211,7 +217,7 @@ useEffect(()=>{
               
                 
               </View> 
-        
+              <ModalErro visible={modalVisible} setVisible={setModalVisible} mensagem={errorMessage}/>
         </KeyboardAvoidingView>
   </ScrollView>
  

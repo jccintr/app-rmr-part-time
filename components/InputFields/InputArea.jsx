@@ -16,6 +16,7 @@ const InputArea = ( {label,placeholder, value, onChangeText,linhas} ) => {
              value={value}
              onChangeText={onChangeText}
              keyboardType="default"
+             placeholderTextColor={cores.azulEscuro}
            />
       </View>
     </>
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       alignItems: 'flex-start',
       marginBottom: 15,
+      
     },
     input: {
       flex: 1,

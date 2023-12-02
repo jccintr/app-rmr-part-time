@@ -64,6 +64,10 @@ const Orcamentos = () => {
           getOrcamentos();
     }
 
+    const onOrcamentoPress = () => {
+        alert('tocou no orçamento');
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar animated={true} backgroundColor={cores.azulClaro} barStyle="dark-content"/>
@@ -74,7 +78,7 @@ const Orcamentos = () => {
                         style={styles.flatlist}
                         data={orcamentos}
                         keyExtractor={(item)=> item.id.toString()}
-                        renderItem={({item})=><CardOrcamento item={item}/>}
+                        renderItem={({item})=><CardOrcamento item={item} onPress={onOrcamentoPress}/>}
                         ItemSeparatorComponent={Separator}
                         ListEmptyComponent={<EmptyList/>}
                         contentContainerStyle={orcamentos.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}

@@ -1,21 +1,38 @@
-import { StyleSheet, Text, SafeAreaView,TouchableOpacity } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, SafeAreaView,StatusBar } from 'react-native'
+import React, {useContext} from 'react'
 import { cores } from '../../style/globalStyle';
 import { useNavigation } from '@react-navigation/native'; 
 import { FontAwesome } from '@expo/vector-icons';
+import Botao from '../../components/reusable/Botao';
+import HeightSpacer from '../../components/reusable/HeightSpacer';
 
 
 const Sucesso = () => {
     const navigation = useNavigation();
+
+
   return (
     <SafeAreaView style={styles.container}>
-      <FontAwesome name="check-circle" size={60} color={cores.azulEscuro} />
+      <StatusBar animated={true} backgroundColor={cores.azulClaro} barStyle="dark-content"/>
+      <FontAwesome name="check-circle" size={120} color={cores.azulEscuro} />
+      <HeightSpacer h={30}/>
       <Text style={styles.title}>Parabéns !</Text>
+      <HeightSpacer h={20}/>
       <Text style={styles.text}>O seu orçamento foi enviado.</Text>
+      <HeightSpacer h={20}/>
       <Text style={styles.text}>Agora é só aguardar o contato de um profissional.</Text>
-      <TouchableOpacity onPress={()=>navigation.reset({routes:[{name:'ClientTab'}]})} style={styles.button}>
-                   <Text style={styles.buttonText} >RETORNAR A TELA INICIAL</Text>
-            </TouchableOpacity> 
+      <HeightSpacer h={20}/>
+      <Botao 
+        onPress={()=>navigation.reset({routes:[{name:'ClientTab'}]})}
+        text={'RETORNAR A TELA INICIAL'}
+        textSize={16}
+        textColor={'#fff'}
+        width={'100%'}
+        backgroundColor={cores.azulEscuro}
+        borderWidth={0}
+        borderColor={cores.azulEscuro}
+        borderRadius={15}
+      />
     </SafeAreaView>
   )
 }
@@ -29,32 +46,18 @@ const styles = StyleSheet.create({
         backgroundColor: cores.azulClaro,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingHorizontal: 5,
+        paddingHorizontal: 10,
        },
-       button:{
-        height: 50,
-        marginBottom: 10,
-        width: '90%',
-        backgroundColor: cores.azulEscuro,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius:15,
-      },
+      
       title:{
         fontSize: 30,
         fontWeight: 'bold',
         color: cores.azulEscuro,
-        marginBottom: 20,
       },
       text:{
          fontSize: 18,
          color: cores.azulEscuro,
-         marginBottom: 20,
          textAlign: 'center'
       },
-      buttonText:{
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
-      },
+     
 })

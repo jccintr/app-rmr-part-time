@@ -47,7 +47,7 @@ const Home = () => {
                         <Text style={styles.userNameText}>Olá {loggedUser===null?'Visitante':loggedUser.name} !</Text>
                         <Text style={styles.fraseHeader}>Qual serviço você precisa para hoje ?</Text>
                     </View>
-                    <SearchField value={search} setValue={setSearch} onChangeText={onSearch} placeholder="Encontre serviços"/>
+                    <SearchField value={search} setValue={setSearch} onChangeText={onSearch} placeholder="Pesquisar categorias"/>
                     {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.azulEscuro}/>}
                     {!isLoading&&<FlatList 
                         showsVerticalScrollIndicator={false}
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         width: '100%',
-        paddingTop: 10,
+        
    },
    
     userNameArea:{

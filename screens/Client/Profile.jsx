@@ -19,13 +19,11 @@ const Profile = () => {
     const [userData,setUserData] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
     const [modalSenhaVisible,setModalSenhaVisible] = useState(false);
-    const [token,setToken] = useState(null);
-    //const [userId,setUserId] = useState(null);
     const [documento,setDocumento] = useState('');
     const [endereco,setEndereco] = useState('');
     const [bairro,setBairro] = useState('');
     const [cidade,setCidade] = useState('');
-    const [avatar,setAvatar] = useState(loggedUser.avatar);
+    const [avatar,setAvatar] = useState(loggedUser!==null?loggedUser.avatar:null);
     const [novaSenha,setNovaSenha] = useState('');
     const [confirmeNovaSenha,setConfirmeNovaSenha] = useState('');
     const [isLoading,setIsLoading] = useState(false);
@@ -51,8 +49,7 @@ const Profile = () => {
           const fd = new FormData();
           fd.append('imagem',{uri: result.assets[0].uri,type: 'image/jpg',name: 'image.jpg',});
           let responseAvatar = await Api.updateAvatar(apiToken,fd);
-          
-          //console.log(responseAvatar.status);
+        
           if (responseAvatar.status===200){
             
             let response = await Api.getUser(apiToken);
@@ -100,10 +97,14 @@ const onNada = () => {
 
 const onLogout = async () => {
   
-    await AsyncStorage.removeItem('token');
-    setLoggedUser(null);
-    setApiToken('');
-    navigation.reset({routes:[{name:'Login'}]});
+    let response = await Api.logout(apiToken);
+    if (response.status===200) {
+        await AsyncStorage.removeItem('token');
+        setLoggedUser(null);
+        setApiToken('');
+        navigation.reset({routes:[{name:'Login'}]});
+    }
+    
 }
     
     return (
@@ -113,7 +114,7 @@ const onLogout = async () => {
             <View style={styles.header}>
                 {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
                {loggedUser&&!isLoading&&<TouchableOpacity  onPress={selectAvatar}>
-               {avatar?<Image style={styles.avatar} source={{uri:`${Api.base_storage}/${avatar}`,} }/>:<FontAwesome color={cores.azulEscuro} name="user-circle-o" size={100}  />}
+               {avatar?<Image style={styles.avatar} source={{uri:`${Api.base_storage}/${avatar}`,} }/>:<FontAwesome color={cores.azulClaro} name="user-circle-o" size={100}  />}
                <HeightSpacer h={10}/>
                <Text style={styles.userNameText}>{loggedUser.name}</Text>
                
@@ -136,7 +137,7 @@ const onLogout = async () => {
                     modalVisible={modalVisible} 
                     setModalVisible={setModalVisible} 
                     userData={userData} 
-                    token={token} 
+                    token={apiToken} 
                     documento={documento}
                     setDocumento={setDocumento}
                     endereco={endereco} 

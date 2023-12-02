@@ -1,11 +1,11 @@
-import { StyleSheet,TouchableOpacity, Text } from 'react-native';
+import { StyleSheet,TouchableOpacity, Text,ActivityIndicator } from 'react-native';
 import React from 'react';
 import { cores } from '../../style/globalStyle';
 
-const Botao = ({onPress,text,textSize,textColor,width,backgroundColor,borderWidth,borderColor,borderRadius}) => {
+const Botao = ({onPress,text,textSize,textColor,width,backgroundColor,borderWidth,borderColor,borderRadius,isLoading}) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.button(width,backgroundColor,borderWidth,borderColor,borderRadius)}>
-        <Text style={styles.text(textColor,textSize)}>{text}</Text>
+        {!isLoading?<Text style={styles.text(textColor,textSize)}>{text}</Text>:<ActivityIndicator  size="large" color={cores.branco}/>}
     </TouchableOpacity>
       
   )

@@ -4,7 +4,7 @@ import { cores } from '../../style/globalStyle';
 import StatusOrcamento from '../StatusOrcamento';
 
 
-const CardOrcamento = ({item}) => {
+const CardOrcamento = ({item,onPress}) => {
 
     const formataData = (data) => {
    
@@ -14,7 +14,7 @@ const CardOrcamento = ({item}) => {
       }
   
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={()=>onPress(item)}>
 
             <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                <Text style={{fontWeight:'bold',fontSize:14}}>{formataData(item.created_at.substring(0,10))}</Text> 

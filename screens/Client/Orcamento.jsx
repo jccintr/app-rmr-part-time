@@ -10,9 +10,12 @@ import Api from '../../Api';
 import InputArea from '../../components/InputFields/InputArea';
 import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import ModalErro from '../../components/Modals/ModalErro';
 
 
 const Orcamento = ({route}) => {
+  const [errorMessage,setErrorMessage] = useState('');
+  const [modalVisible,setModalVisible] = useState(false);
   const screenWidth = Dimensions.get('window').width;
     const {loggedUser,apiToken} = useContext(DataContext);
     const navigation = useNavigation();
@@ -75,7 +78,8 @@ const selectImage = async () =>{
 const onAddOrcamento = async () => {
 
 if (titulo.trim().length===0 || descricao.trim().length===0 || logradouro.trim().length===0 || numero.trim().length===0 || distrito === null || concelho === null ) {
-    alert('Preencha todos os campos por favor.');
+    setErrorMessage('Preencha todos os campos por favor.');
+    setModalVisible(true);
     return;
 }
     setIsLoading(true);
@@ -170,6 +174,7 @@ if (titulo.trim().length===0 || descricao.trim().length===0 || logradouro.trim()
                
           </View>
           </ScrollView>
+          <ModalErro visible={modalVisible} setVisible={setModalVisible} mensagem={errorMessage}/>
     </SafeAreaView>
   )
 }

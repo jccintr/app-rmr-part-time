@@ -7,11 +7,14 @@ import InputField from '../components/InputFields/InputField';
 import Api from '../Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DataContext from './context/DataContext';
+import ModalErro from '../components/Modals/ModalErro';
 
 
 
 
 const Login = () => {
+  const [errorMessage,setErrorMessage] = useState('');
+  const [modalVisible,setModalVisible] = useState(false);
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const [isLoading,setIsLoading] = useState(false);
@@ -20,29 +23,43 @@ const Login = () => {
 
 
   const login = async () => {
+    
+    if(email.trim().length === 0 || password.trim().length === 0){
+      setErrorMessage('Informe seu email e sua senha por favor.')
+      setModalVisible(true);
+      return;
+    }
+
     setIsLoading(true);
-    if(email != '' && password != ''){
-        
-        let response = await Api.login(email, password);
-        if(response.status===200){
-            const jsonUser = await response.json();
-            if (jsonUser.token) await AsyncStorage.setItem('token', jsonUser.token);
-            setApiToken(jsonUser.token);
-            setLoggedUser(jsonUser);
-            if (jsonUser.role === 1)
-               navigation.reset({routes:[{name:'ClientTab'}]});
-            else
-               navigation.reset({routes:[{name:'WorkerTab'}]});
+    let response = await Api.login(email, password);
+    if(response.status===404){
+      setErrorMessage('Email e ou senha inválidos.')
+      setModalVisible(true);
+      setPassword('');
+      setIsLoading(false);
+      return;
+    }
+    
+    if(response.status===200 || response.status===401){
+      const jsonUser = await response.json();
+      if (jsonUser.token) await AsyncStorage.setItem('token', jsonUser.token);
+      setApiToken(jsonUser.token);
+      setLoggedUser(jsonUser);
+      
+      if (response.status ===200){
+
+        if (jsonUser.role === 1) {
+           navigation.reset({routes:[{name:'ClientTab'}]}); 
         } else {
-            setEmail('');
-            setPassword('');  
-            alert('Email e ou usuário inválidos!');
+          navigation.reset({routes:[{name:'WorkerTab'}]});
         }
-  
-      } else {
-        alert('Informe o seu e-mail e a sua senha por favor!');
         
+      } else {
+          navigation.reset({routes:[{name:'VerifyEmail'}]}); 
       }
+      
+    }
+
     setIsLoading(false);
   
   }
@@ -82,15 +99,19 @@ const Login = () => {
         <TouchableOpacity onPress={login} style={styles.button}>
          {!isLoading?<Text style={styles.buttonText}>ENTRAR</Text>:<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
        </TouchableOpacity>
+       <TouchableOpacity onPress={()=>navigation.navigate('ForgetPassword')} style={styles.signUpMessage}>
+          <Text style={styles.signUpMessageTextBold}>Esqueceu a sua senha ?</Text>
+        </TouchableOpacity>
        <TouchableOpacity onPress={() => navigation.navigate('Cadastro')} style={styles.signUpMessage}>
-          <Text style={styles.signUpMessageText}>Não tem uma conta?</Text>
-          <Text style={styles.signUpMessageTextBold} > Cadastre-se!</Text>
+          <Text style={styles.signUpMessageText}>Não tem uma conta ?</Text>
+          <Text style={styles.signUpMessageTextBold}> Cadastre-se !</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={onGuest} style={styles.signUpMessage}>
-          <Text style={styles.signUpMessageTextBold} >Entrar como visitante</Text>
+          <Text style={styles.signUpMessageTextBold}>Entrar como visitante</Text>
         </TouchableOpacity>
 
      </View>
+     <ModalErro visible={modalVisible} setVisible={setModalVisible} mensagem={errorMessage}/>
    </KeyboardAvoidingView>
   )
 }

@@ -37,6 +37,7 @@ export default {
     },
 
     cadastro: async (name, email,telefone,password,role,concelho_id,categoria_id) => {
+        
         const response = await fetch(`${BASE_API}/cadastro`, {
             method: 'POST',
             headers: {
@@ -48,21 +49,64 @@ export default {
         //const json = await response.json();        
         return response;
     },
-
-    logout: async () => {
-        const token = await AsyncStorage.getItem('token');
-
-        const req = await fetch(`${BASE_API}/logout`, {
+    logout: async (token) => {
+        const response = await fetch(`${BASE_API}/logout`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            
+        });
+        return response;
+    },
+    verifyEmail: async (token,codigo) => {
+        const response = await fetch(`${BASE_API}/verifyemail`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({codigo})
+        });
+        return response;
+    },
+    getVerificationEmail: async (token) => {
+        const response = await fetch(`${BASE_API}/sendverificationemail`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        });
+        return response;
+    },
+    requestPasswordEmail: async (email) => {
+        const response = await fetch(`${BASE_API}/sendrecoverypasswordmail`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({token})
+            body: JSON.stringify({email})
         });
-        const json = await req.json();        
-        return json;
+        return response;
     },
+    changePassword: async (email,password,codigo) => {
+        const response = await fetch(`${BASE_API}/changepassword`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email,password,codigo})
+        });
+        return response;
+    },
+    
 
     getCategorias: async () => {
         const req = await fetch(`${BASE_API}/categorias`, {
@@ -178,6 +222,19 @@ getOrcamentos: async (token) => {
     return json;
 },
    
+getAllOrcamentos: async (token) => {
+    const response = await fetch(`${BASE_API}/orcamentos/all`, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    });
+    const json = await response.json();
+    return json;
+},
+
   
    
 };
