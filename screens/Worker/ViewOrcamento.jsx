@@ -8,6 +8,8 @@ import HeightSpacer from '../../components/reusable/HeightSpacer';
 import Botao from '../../components/reusable/Botao';
 import InputField3 from '../../components/InputFields/InputField3';
 import InputArea from '../../components/InputFields/InputArea';
+import Api from '../../Api';
+import ModalErro from '../../components/Modals/ModalErro';
 
 const formataData = (data) => {
    
@@ -17,6 +19,8 @@ const formataData = (data) => {
   }
 
 const ViewOrcamento = ({route}) => {
+  const [errorMessage,setErrorMessage] = useState('');
+  const [modalVisible,setModalVisible] = useState(false);
     const {loggedUser,apiToken} = useContext(DataContext);
     const navigation = useNavigation();
     const {orcamento} = route.params;  
@@ -25,6 +29,25 @@ const ViewOrcamento = ({route}) => {
     const [valor,setValor] = useState(1);
     const screenWidth = Dimensions.get('window').width;
 
+
+    const onAddProposta = async () => {
+
+      if (resposta.trim().length===0 || valor.trim().length===0 ) {
+        setErrorMessage('Preencha todos os campos por favor.');
+        setModalVisible(true);
+        return;
+      }
+
+    setIsLoading(true);  
+    let response = await Api.addProposta(apiToken,fd);
+    if (response.status===201){
+         navigation.navigate('SucessoProposta');
+    } else {
+        navigation.navigate('Erro');
+    }
+    setIsLoading(false);
+
+    }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -87,6 +110,7 @@ const ViewOrcamento = ({route}) => {
           </View>
           
           </ScrollView>
+          <ModalErro visible={modalVisible} setVisible={setModalVisible} mensagem={errorMessage}/>
     </SafeAreaView>
   )
 }

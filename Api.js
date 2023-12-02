@@ -235,6 +235,20 @@ getAllOrcamentos: async (token) => {
     return json;
 },
 
+addProposta: async (token,orcamento_id,resposta,valor) => {
+    const response = await fetch(`${BASE_API}/propostas`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({orcamento_id,resposta,valor})
+    });
+    return response;
+},
+
+
   
    
 };
