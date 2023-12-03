@@ -23,6 +23,10 @@ const EmptyList = () => {
 
 const OrcamentosCategoria = ({route}) => {
     const {orcamentos,categoria} = route.params;  
+    const navigation = useNavigation();
+
+    
+
   return (
     <SafeAreaView style={styles.container}>
           <StatusBar animated={true} backgroundColor={cores.azulClaro} barStyle="dark-content"/>
@@ -32,7 +36,7 @@ const OrcamentosCategoria = ({route}) => {
                         style={styles.flatlist}
                         data={orcamentos}
                         keyExtractor={(item)=> item.id.toString()}
-                        renderItem={({item})=><CardOrcamento2 item={item} onPress={()=>{}}/>}
+                        renderItem={({item})=><CardOrcamento2 item={item} onPress={()=>navigation.navigate('ViewOrcamento', {categoria: categoria,orcamento: item})}/>}
                         ItemSeparatorComponent={Separator}
                         ListEmptyComponent={<EmptyList/>}
                         contentContainerStyle={orcamentos.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}

@@ -9,7 +9,7 @@ const CategoriaCard2 = ({categoria,onPress}) => {
         <Image style={styles.serviceImage} source={{uri: `${Api.base_storage}/${categoria.imagem}`,}}/>
         <Text style={styles.serviceName}>{categoria.nome}</Text>
         <View style={styles.priceArea}>
-             <Text style={styles.servicePrice}>{categoria.orcamentos.length} oportunidade{categoria.orcamentos.length>1?'s':''}</Text>
+             <Text style={styles.servicePrice}>{categoria.orcamentos_count} oportunidade{categoria.orcamentos_count>1?'s':''}</Text>
         </View>
     </TouchableOpacity>
   )

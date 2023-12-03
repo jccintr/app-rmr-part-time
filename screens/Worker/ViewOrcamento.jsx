@@ -21,9 +21,9 @@ const formataData = (data) => {
 const ViewOrcamento = ({route}) => {
   const [errorMessage,setErrorMessage] = useState('');
   const [modalVisible,setModalVisible] = useState(false);
-    const {loggedUser,apiToken} = useContext(DataContext);
+    const {apiToken} = useContext(DataContext);
     const navigation = useNavigation();
-    const {orcamento} = route.params;  
+    const {categoria,orcamento} = route.params;  
     const [isLoading,setIsLoading] = useState(false);
     const [resposta,setResposta] = useState('');
     const [valor,setValor] = useState('50.00');
@@ -58,7 +58,7 @@ const ViewOrcamento = ({route}) => {
           
           <View style={styles.item}>
                 <View style={styles.dataArea}>
-                    <Text style={styles.text}>Publicado em <Text style={styles.boldText}>{formataData(orcamento.created_at.substring(0,10))}</Text> na categoria <Text style={styles.boldText}>{orcamento.categoria.nome}</Text></Text>
+                    <Text style={styles.text}>Publicado em <Text style={styles.boldText}>{formataData(orcamento.created_at.substring(0,10))}</Text> na categoria <Text style={styles.boldText}>{categoria}</Text></Text>
                 </View>
           </View>
           <View style={styles.item}>

@@ -27,12 +27,8 @@ const Home = () => {
     const [orcamentos,setOrcamentos] = useState([]);
     const [isLoading,setIsLoading] = useState(false);
 
-    const categoriasFiltered = categorias.filter(categoria=>categoria.orcamentos.length>0);
+    const categoriasFiltered = categorias.filter(categoria=>categoria.orcamentos_count>0);
 
-
-    // const onServicePress  = (servico) =>{
-    //     navigation.navigate('ServicoWorker',{servico: servico})
-    //  }
 
      useEffect(()=>{
        
