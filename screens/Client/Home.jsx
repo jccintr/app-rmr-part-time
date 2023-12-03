@@ -51,7 +51,7 @@ const Home = () => {
                     {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.azulEscuro}/>}
                     {!isLoading&&<FlatList 
                         showsVerticalScrollIndicator={false}
-                        style={styles.flatlist}
+                        
                         data={categoriasFiltered}
                         keyExtractor={(item)=> item.id.toString()}
                         renderItem={({item})=><CategoriaCard categoria={item} onPress={onCategoriaPress}/>}

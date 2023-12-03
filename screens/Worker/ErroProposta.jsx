@@ -7,15 +7,15 @@ import { AntDesign } from '@expo/vector-icons';
 const ErroProposta = () => {
     const navigation = useNavigation();
   return (
-    <SafeAreaView style={styles.container}>
-      <AntDesign name="closecircle" size={60} color={cores.azulEscuro} />
-      <Text style={styles.title}>Que chato !</Text>
-      <Text style={styles.text}>Houve uma falha ao enviar a sua proposta.</Text>
-      <Text style={styles.text}>Tente novamente mais tarde.</Text>
-      <TouchableOpacity onPress={()=>navigation.reset({routes:[{name:'WorkerTab'}]})} style={styles.button}>
-                   <Text style={styles.buttonText} >RETORNAR A TELA INICIAL</Text>
-            </TouchableOpacity> 
-    </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <AntDesign name="closecircle" size={60} color={cores.azulEscuro} />
+        <Text style={styles.title}>Que chato !</Text>
+        <Text style={styles.text}>Houve uma falha ao enviar a sua proposta.</Text>
+        <Text style={styles.text}>Tente novamente mais tarde.</Text>
+        <TouchableOpacity onPress={()=>navigation.reset({routes:[{name:'WorkerTab'}]})} style={styles.button}>
+            <Text style={styles.buttonText} >RETORNAR A TELA INICIAL</Text>
+        </TouchableOpacity> 
+      </SafeAreaView>
   )
 }
 

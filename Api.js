@@ -120,6 +120,18 @@ export default {
         const json = await req.json();        
         return json;
     },
+    getCategoriasWorker: async (token) => {
+        const response = await fetch(`${BASE_API}/categorias2`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        });
+        const json = await response.json();
+        return json;
+    },
 
     getCategoria: async (id) => {
         const req = await fetch(`${BASE_API}/categorias/${id}`, {

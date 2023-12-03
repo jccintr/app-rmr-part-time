@@ -18,6 +18,7 @@ import ForgetPassword from "../screens/ForgetPassword";
 import ResetPassword from "../screens/ResetPassword";
 import PasswordChanged from "../screens/PasswordChanged";
 import ViewOrcamento from "../screens/Worker/ViewOrcamento";
+import OrcamentosCategoria from "../screens/Worker/OrcamentosCategoria";
 
 import ClientTab from "./ClientTab";
 import WorkerTab from "./WorkerTab";
@@ -42,6 +43,7 @@ const MainStack = () => {
         <Stack.Screen name="Categoria" component={Categoria}/>
         <Stack.Screen name="DetCategoria" component={DetCategoria}/>
         <Stack.Screen name="Orcamento" component={Orcamento}/>
+        <Stack.Screen name="OrcamentosCategoria" component={OrcamentosCategoria}/>
         <Stack.Screen name="ViewOrcamento" component={ViewOrcamento}/>
         <Stack.Screen name="Sucesso" component={Sucesso}/>
         <Stack.Screen name="Erro" component={Erro}/>

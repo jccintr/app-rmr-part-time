@@ -26,7 +26,7 @@ const ViewOrcamento = ({route}) => {
     const {orcamento} = route.params;  
     const [isLoading,setIsLoading] = useState(false);
     const [resposta,setResposta] = useState('');
-    const [valor,setValor] = useState(1);
+    const [valor,setValor] = useState('50.00');
     const screenWidth = Dimensions.get('window').width;
 
 
@@ -39,11 +39,12 @@ const ViewOrcamento = ({route}) => {
       }
 
     setIsLoading(true);  
-    let response = await Api.addProposta(apiToken,fd);
+    let response = await Api.addProposta(apiToken,orcamento.id,resposta,valor);
+    
     if (response.status===201){
          navigation.navigate('SucessoProposta');
     } else {
-        navigation.navigate('Erro');
+        navigation.navigate('ErroProposta');
     }
     setIsLoading(false);
 
@@ -67,6 +68,7 @@ const ViewOrcamento = ({route}) => {
                     <Text style={{textAlign:'justify'}}>{orcamento.descricao}</Text>
                 </View>
           </View>
+          <Text style={{color:cores.azulEscuro,fontSize:18,fontWeight:'bold'}}>Localidade</Text>
           <View style={styles.item}>
                 <View style={[styles.dataArea,{flexDirection:'column',alignItems:'flex-start'}]}>
                     <Text style={{textAlign:'justify'}}>{orcamento.logradouro},{orcamento.numero}</Text>
@@ -78,7 +80,7 @@ const ViewOrcamento = ({route}) => {
           <View style={{width:'95%'}}>
           <InputArea 
                 label=""
-                placeholder="Chegou a sua hora de brilhar. Descreva como vai resolver o problema deste cliente e consiga este trabalho."
+                placeholder="Chegou a sua hora de brilhar. Descreva a sua solução para o problema deste cliente e consiga este trabalho."
                 value={resposta}
                 onChangeText={t=>setResposta(t)}
                 linha={8}
@@ -96,7 +98,7 @@ const ViewOrcamento = ({route}) => {
           
           <View style={{width:'95%'}}>
                 <Botao
-                    onPress={() => {}}
+                    onPress={onAddProposta}
                     text={'ENVIAR PROPOSTA'}
                     textSize={16}
                     textColor={'#fff'}

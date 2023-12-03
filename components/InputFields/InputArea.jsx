@@ -16,7 +16,7 @@ const InputArea = ( {label,placeholder, value, onChangeText,linhas} ) => {
              value={value}
              onChangeText={onChangeText}
              keyboardType="default"
-             placeholderTextColor={cores.azulEscuro}
+             placeholderTextColor={'#b1b1b1'}
            />
       </View>
     </>

@@ -2,9 +2,10 @@ import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 import React from 'react';
 import { cores } from '../../style/globalStyle';
 import StatusOrcamento from '../StatusOrcamento';
+import HeightSpacer from '../reusable/HeightSpacer';
 
 
-const CardOrcamento = ({item,onPress}) => {
+const CardOrcamento2 = ({item,onPress}) => {
 
     const formataData = (data) => {
    
@@ -16,14 +17,12 @@ const CardOrcamento = ({item,onPress}) => {
     return (
         <TouchableOpacity style={styles.container} onPress={()=>onPress(item)}>
             <Text style={{fontSize:14,color:cores.azulEscuro,fontWeight:'bold'}}>{item.titulo}</Text> 
+            <HeightSpacer h={10}/>
             <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                <Text style={styles.text}>Publicado em <Text style={styles.boldText}>{formataData(item.created_at.substring(0,10))}</Text></Text>
-               
                <StatusOrcamento propostas={item.propostas}/>
             </View>
-            <Text style={{fontSize:12,color:cores.azulEscuro,fontWeight:'bold'}}>{item.categoria.nome}</Text>
-  
-            
+            <HeightSpacer h={10}/>
             <Text >{item.descricao.length>100?item.descricao.substring(0,100)+'...':item.descricao}</Text>
 
         </TouchableOpacity>
@@ -31,7 +30,7 @@ const CardOrcamento = ({item,onPress}) => {
 
 }
 
-export default CardOrcamento
+export default CardOrcamento2
 
 const styles = StyleSheet.create({
 /*

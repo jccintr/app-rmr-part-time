@@ -3,9 +3,9 @@ import { StyleSheet, Text, SafeAreaView,View,StatusBar,FlatList,ActivityIndicato
 import { useNavigation } from '@react-navigation/native';
 import { cores } from '../../style/globalStyle';
 import Api from '../../Api';
-import ServiceCard from '../../components/ServiceCard';
 import DataContext from '../context/DataContext';
 import CardOrcamento from '../../components/Cards/CardOrcamento';
+import CategoriaCard2 from '../../components/Cards/CategoriaCard2';
 
 const Separator = () => (
     <View
@@ -21,62 +21,70 @@ const Separator = () => (
   }  
 
 const Home = () => {
-    
+    const [categorias,setCategorias] = useState([]);
     const navigation = useNavigation();
     const {loggedUser,apiToken} = useContext(DataContext);
     const [orcamentos,setOrcamentos] = useState([]);
     const [isLoading,setIsLoading] = useState(false);
 
+    const categoriasFiltered = categorias.filter(categoria=>categoria.orcamentos.length>0);
 
-    const onServicePress  = (servico) =>{
-        navigation.navigate('ServicoWorker',{servico: servico})
-     }
+
+    // const onServicePress  = (servico) =>{
+    //     navigation.navigate('ServicoWorker',{servico: servico})
+    //  }
+
+     useEffect(()=>{
+       
+      const getCategoriasWorker = async () => {
+          setIsLoading(true);            
+          let json = await Api.getCategoriasWorker(apiToken);
+          setCategorias(json);
+          setIsLoading(false);
+      }
+      getCategoriasWorker();
+      
+  }, []);
 
     // useEffect(()=>{
-    //     const getServices = async () => {
-    //     let json = await Api.getServices();
-    //     setServices(json);
-    //     }
-    //     getServices();
+        
+    //        getAllOrcamentos();
     // }, []);
 
-    useEffect(()=>{
-        
-           getAllOrcamentos();
-    }, []);
+    // const getAllOrcamentos = async () => {
+    //     setIsLoading(true);
+    //     let json = await Api.getAllOrcamentos(apiToken);
+    //     setOrcamentos(json);
+    //     setIsLoading(false);
+    //     }
 
-    const getAllOrcamentos = async () => {
-        setIsLoading(true);
-        let json = await Api.getAllOrcamentos(apiToken);
-        setOrcamentos(json);
-        setIsLoading(false);
-        }
-
-        const onOrcamentoPress = (orcamento) => {
+        // const onOrcamentoPress = (orcamento) => {
             
-            navigation.navigate('ViewOrcamento', {orcamento});
+        //     navigation.navigate('ViewOrcamento', {orcamento});
            
-        }
+        // }
 
+        
+
+      
 
     return (
         
         <SafeAreaView style={styles.container}>
             <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content"/>
             <View style={styles.userNameArea}>
-                        <Text style={styles.userNameText}>Olá {loggedUser===null?'Visitante':loggedUser.name} !</Text>
-                        <Text style={styles.fraseHeader}>Vamos trabalhar vagabundo !</Text>
+                  <Text style={styles.userNameText}>Olá {loggedUser===null?'Visitante':loggedUser.name} !</Text>
+                  <Text style={styles.fraseHeader}>Vamos trabalhar vagabundo !</Text>
             </View>
+            {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.azulEscuro}/>}
             {!isLoading&&<FlatList 
-                        showsVerticalScrollIndicator={false}
-                        style={styles.flatlist}
-                        data={orcamentos}
-                        keyExtractor={(item)=> item.id.toString()}
-                        renderItem={({item})=><CardOrcamento item={item} onPress={onOrcamentoPress}/>}
-                        ItemSeparatorComponent={Separator}
-                        ListEmptyComponent={<EmptyList/>}
-                        contentContainerStyle={orcamentos.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}
-                   />} 
+                showsVerticalScrollIndicator={false}
+                
+                data={categoriasFiltered}
+                keyExtractor={(item)=> item.id.toString()}
+                renderItem={({item})=><CategoriaCard2 categoria={item} onPress={()=>navigation.navigate('OrcamentosCategoria', {categoria: item.nome,orcamentos: item.orcamentos})}/>}
+                numColumns={2}
+            />}       
         </SafeAreaView>
        
        )
@@ -92,7 +100,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#fff',
-        paddingHorizontal:5,
+        width: '100%',
    },
    userNameArea:{
     flexDirection: 'column',
@@ -110,10 +118,21 @@ const styles = StyleSheet.create({
      color: '#000',
      fontStyle: 'italic',
  },
- flatlist: {
-    width: '100%',
-}
+ 
    
    
     
   });
+
+
+
+   /*!isLoading&&<FlatList 
+                        showsVerticalScrollIndicator={false}
+                        style={styles.flatlist}
+                        data={orcamentos}
+                        keyExtractor={(item)=> item.id.toString()}
+                        renderItem={({item})=><CardOrcamento item={item} onPress={onOrcamentoPress}/>}
+                        ItemSeparatorComponent={Separator}
+                        ListEmptyComponent={<EmptyList/>}
+                        contentContainerStyle={orcamentos.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}
+    />*/
