@@ -24,7 +24,6 @@ const Home = () => {
     const [categorias,setCategorias] = useState([]);
     const navigation = useNavigation();
     const {loggedUser,apiToken} = useContext(DataContext);
-    const [orcamentos,setOrcamentos] = useState([]);
     const [isLoading,setIsLoading] = useState(false);
 
     const categoriasFiltered = categorias.filter(categoria=>categoria.orcamentos_count>0);
@@ -78,7 +77,7 @@ const Home = () => {
                 
                 data={categoriasFiltered}
                 keyExtractor={(item)=> item.id.toString()}
-                renderItem={({item})=><CategoriaCard2 categoria={item} onPress={()=>navigation.navigate('OrcamentosCategoria', {categoria: item.nome,orcamentos: item.orcamentos})}/>}
+                renderItem={({item})=><CategoriaCard2 categoria={item} onPress={()=>navigation.navigate('OrcamentosCategoria', {categoria: item})}/>}
                 numColumns={2}
             />}       
         </SafeAreaView>

@@ -1,5 +1,5 @@
 import { StyleSheet, SafeAreaView,StatusBar,View,Dimensions,Text,ScrollView } from 'react-native'
-import React, {useContext,useState,useEffect} from 'react';
+import React, {useContext,useState} from 'react';
 import DataContext from '../context/DataContext';
 import Header from '../../components/Headers/Header';
 import { useNavigation } from '@react-navigation/native'; 
@@ -23,10 +23,10 @@ const ViewOrcamento = ({route}) => {
   const [modalVisible,setModalVisible] = useState(false);
     const {apiToken} = useContext(DataContext);
     const navigation = useNavigation();
-    const {categoria,orcamento} = route.params;  
+    const {orcamento} = route.params;  
     const [isLoading,setIsLoading] = useState(false);
     const [resposta,setResposta] = useState('');
-    const [valor,setValor] = useState('50.00');
+    const [valor,setValor] = useState('');
     const screenWidth = Dimensions.get('window').width;
 
 
@@ -58,7 +58,7 @@ const ViewOrcamento = ({route}) => {
           
           <View style={styles.item}>
                 <View style={styles.dataArea}>
-                    <Text style={styles.text}>Publicado em <Text style={styles.boldText}>{formataData(orcamento.created_at.substring(0,10))}</Text> na categoria <Text style={styles.boldText}>{categoria}</Text></Text>
+                    <Text style={styles.text}>Publicado em <Text style={styles.boldText}>{formataData(orcamento.created_at.substring(0,10))}</Text> na categoria <Text style={styles.boldText}>{orcamento.categoria.nome}</Text></Text>
                 </View>
           </View>
           <View style={styles.item}>
@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius:12,
         backgroundColor: cores.branco,
-        
         overflow: 'hidden',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -146,12 +145,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         borderBottomColor: 'lightgray',
-       
-        
     },
     text: {
-        
-        fontSize: 14,
+       fontSize: 14,
     },
     boldText: {
         fontWeight: 'bold',

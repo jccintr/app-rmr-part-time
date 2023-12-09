@@ -6,7 +6,7 @@ const StatusOrcamento = ({propostas}) => {
     
   return (
     <View style={styles.container}>
-      <Text style={styles.statusText}>{propostas.length>0?`Propostas Recebidas (${propostas.length})`:'Aguardando Propostas'}</Text>
+      <Text style={styles.statusText}>{propostas>0?`Propostas Recebidas (${propostas})`:'Aguardando Propostas'}</Text>
     </View>
   )
 }

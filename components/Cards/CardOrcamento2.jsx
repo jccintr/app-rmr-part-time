@@ -20,7 +20,7 @@ const CardOrcamento2 = ({item,onPress}) => {
             <HeightSpacer h={10}/>
             <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                <Text style={styles.text}>Publicado em <Text style={styles.boldText}>{formataData(item.created_at.substring(0,10))}</Text></Text>
-               <StatusOrcamento propostas={item.propostas}/>
+               <StatusOrcamento propostas={item.propostas_count}/>
             </View>
             <HeightSpacer h={10}/>
             <Text >{item.descricao.length>100?item.descricao.substring(0,100)+'...':item.descricao}</Text>

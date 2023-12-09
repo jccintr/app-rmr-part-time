@@ -7,19 +7,7 @@ import Api from '../../Api';
 import HeaderOrcamentos from '../../components/Headers/HeaderOrcamentos';
 import CardOrcamento from '../../components/Cards/CardOrcamento';
 
-/*
-const Card = ({item}) => {
 
-    return (
-        <View style={{flexDirection:'column',marginVertical:2}}>
-            <Text style={{fontWeight:'bold',fontSize:14}}>{formataData(item.created_at.substring(0,10))}</Text>
-            <Text style={{fontSize:16,color:cores.azulEscuro,fontWeight:'bold'}}>{item.categoria.nome}</Text>
-            <Text>{item.descricao.lengh>50?item.descricao.substring(0,50)+'...':item.descricao}</Text>
-            <Text>Propostas: 5</Text>
-        </View>
-    )
-}
-*/
 
 const Separator = () => (
     <View
@@ -65,7 +53,7 @@ const Orcamentos = () => {
     }
 
     const onOrcamentoPress = () => {
-        alert('tocou no orçamento');
+        navigation.navigate('DetOrcamento');
     }
 
     return (

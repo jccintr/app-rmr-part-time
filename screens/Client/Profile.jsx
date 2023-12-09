@@ -100,7 +100,6 @@ const onLogout = async () => {
     let response = await Api.logout(apiToken);
     if (response.status===200) {
         await AsyncStorage.removeItem('token');
-        setLoggedUser(null);
         setApiToken('');
         navigation.reset({routes:[{name:'Login'}]});
     }
@@ -112,19 +111,16 @@ const onLogout = async () => {
            <StatusBar animated={true} backgroundColor={cores.azulEscuro} barStyle="dark-content" />
             
             <View style={styles.header}>
-                {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
+               {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
                {loggedUser&&!isLoading&&<TouchableOpacity  onPress={selectAvatar}>
                {avatar?<Image style={styles.avatar} source={{uri:`${Api.base_storage}/${avatar}`,} }/>:<FontAwesome color={cores.azulClaro} name="user-circle-o" size={100}  />}
+               </TouchableOpacity>}
                <HeightSpacer h={10}/>
                <Text style={styles.userNameText}>{loggedUser.name}</Text>
-               
-            </TouchableOpacity>}
                
             </View>
             
             <HeightSpacer h={10}/>
-            
-            {/*<Text style={styles.fraseHeader}>{loggedUser.role===1?'Cliente':'Profissional'}</Text>*/}
             
            <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
            <MenuPerfil iconName="user-circle-o" iconProvider="FontAwesome" label="Meus Cadastro" onPress={onCadastroPress}/>
@@ -179,8 +175,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width:'100%',
         height: 180,
-        borderBottomLeftRadius:15,
-        borderBottomRightRadius: 15,
+       
     },
     avatar:{
         height: 100,
@@ -194,7 +189,6 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 18,
       color: cores.branco,
-      
       },
     fraseHeader:{
         fontSize: 18,
