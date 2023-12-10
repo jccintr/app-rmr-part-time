@@ -17,19 +17,19 @@ const Orcamento = ({route}) => {
   const [errorMessage,setErrorMessage] = useState('');
   const [modalVisible,setModalVisible] = useState(false);
   const screenWidth = Dimensions.get('window').width;
-    const {loggedUser,apiToken} = useContext(DataContext);
-    const navigation = useNavigation();
-    const {categoria} = route.params;  
-    const [logradouro,setLogradouro] = useState('');
-    const [numero,setNumero] = useState('');
-    const [titulo,setTitulo] = useState('');
-    const [descricao,setDescricao] = useState('');
-    const [imagem,setImagem] = useState(null);
-    const [distrito,setDistrito] = useState(null);
-    const [concelho,setConcelho] = useState(null);
-    const [concelhos,setConcelhos] = useState([]);
-    const [distritos,setDistritos] = useState([]);
-    const [isLoading,setIsLoading] = useState(false);
+  const {loggedUser,apiToken} = useContext(DataContext);
+  const navigation = useNavigation();
+  const {categoria} = route.params;  
+  const [logradouro,setLogradouro] = useState('');
+  const [numero,setNumero] = useState('');
+  const [titulo,setTitulo] = useState('');
+  const [descricao,setDescricao] = useState('');
+  const [imagem,setImagem] = useState(null);
+  const [distrito,setDistrito] = useState(null);
+  const [concelho,setConcelho] = useState(null);
+  const [concelhos,setConcelhos] = useState([]);
+  const [distritos,setDistritos] = useState([]);
+  const [isLoading,setIsLoading] = useState(false);
 
     
 

@@ -6,24 +6,12 @@ import DataContext from '../context/DataContext';
 import Api from '../../Api';
 import HeaderOrcamentos from '../../components/Headers/HeaderOrcamentos';
 import CardOrcamento from '../../components/Cards/CardOrcamento';
+import EmptyList from '../../components/reusable/EmptyList';
+import Separator from '../../components/reusable/Separator';
 
-
-
-const Separator = () => (
-    <View
-      style={{
-        backgroundColor: cores.azulEscuro,
-        height: 0.5,
-      }}
-    />
-  );
-
-  const EmptyList = () => {
-    return <Text style={{color: cores.azulEscuro}}>Você ainda não tem orçamentos.</Text>
-  }  
-
+  
 const Orcamentos = () => {
-    const {loggedUser,apiToken} = useContext(DataContext);
+    const {loggedUser,apiToken,setOrcamento} = useContext(DataContext);
     const navigation = useNavigation();
     const [orcamentos,setOrcamentos] = useState([]);
     const [isLoading,setIsLoading] = useState(false);
@@ -52,7 +40,8 @@ const Orcamentos = () => {
           getOrcamentos();
     }
 
-    const onOrcamentoPress = () => {
+    const onOrcamentoPress = (orcamento) => {
+        setOrcamento(orcamento);
         navigation.navigate('DetOrcamento');
     }
 
@@ -68,7 +57,7 @@ const Orcamentos = () => {
                         keyExtractor={(item)=> item.id.toString()}
                         renderItem={({item})=><CardOrcamento item={item} onPress={onOrcamentoPress}/>}
                         ItemSeparatorComponent={Separator}
-                        ListEmptyComponent={<EmptyList/>}
+                        ListEmptyComponent={<EmptyList mensagem={'Você ainda não tem orçamentos'}/>}
                         contentContainerStyle={orcamentos.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}
                    />} 
             </View>
