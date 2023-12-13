@@ -3,20 +3,29 @@ import React from 'react';
 import { FontAwesome } from '@expo/vector-icons'; 
 import Stars from '../../components/Stars';
 import { cores } from '../../style/globalStyle';
+import Api from '../../Api';
+
+
+const formataData = (data) => {
+   
+  const arrData = data.split("-");
+  return arrData[2]+'-'+arrData[1] + '-'+arrData[0];
+
+}
 
 const CardProposta = ({proposta}) => {
   return (
     <View style={styles.container}>
       <View style={{flexDirection:'row',marginBottom:10}}>
-          {proposta.user.avatar?<Image style={styles.avatar} source={{uri:`${Api.base_storage}/${proposta.user.avatar}`,} }/>:<FontAwesome color={cores.azulEscuro} name="user-circle-o" size={60}  />}
+          {proposta.user.avatar?<Image style={styles.avatar} source={{uri:`${Api.base_storage}/${proposta.user.avatar}`,} }/>:<FontAwesome color={cores.azulEscuro} name="user-circle-o" size={50}  />}
           <View style={{marginLeft:10,justifyContent:'center'}}>
             <Text style={{fontWeight:'bold',marginBottom:10}}>{proposta.user.name}</Text>
-            <Stars showNumber={false} stars={4.5}/>
+            <Stars showNumber={false} stars={proposta.user.stars}/>
           </View>
       </View>
       <Text style={{marginBottom:10}}>{proposta.resposta}</Text>  
-      <Text style={{marginBottom:10}}>Valor: {proposta.valor}</Text>  
-      <Text>{proposta.created_at}</Text>  
+      <Text style={{marginBottom:10}}>Valor: <Text style={styles.boldText}>€ {proposta.valor}</Text></Text>  
+      <Text>Enviada em <Text style={styles.boldText}>{formataData(proposta.created_at.substring(0,10))}</Text></Text>  
       
     </View>
   )
@@ -50,4 +59,9 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         borderWidth: 2,
      },
+     boldText: {
+      fontWeight: 'bold',
+      color: cores.azulEscuro,
+      fontSize: 14,
+  },
 })

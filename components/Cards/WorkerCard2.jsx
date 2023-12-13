@@ -3,14 +3,14 @@ import React from 'react';
 import Api from '../../Api';
 import Stars from '../Stars';
 import { cores } from '../../style/globalStyle';
+import { FontAwesome } from '@expo/vector-icons'; 
 
 const WorkerCard2 = ({worker}) => {
   return (
     <TouchableOpacity style={styles.container}  key={worker.id} onPress={()=>{}}>
-        <Image style={styles.avatar} source={{uri: `${Api.base_storage}/${worker.user.avatar}`,}}/>
+        {worker.user.avatar?<Image style={styles.avatar} source={{uri: `${Api.base_storage}/${worker.user.avatar}`,}}/>:<FontAwesome color={cores.azulEscuro} name="user-circle-o" size={50}  />}
         <Stars stars={worker.user.stars} showNumber={false}/>
         <Text style={styles.name}>{worker.user.name}</Text>
-        {/*<Text style={styles.price}>€ {worker.valor} p/{worker.unidade}</Text>*/}
         <Text style={styles.price}>{worker.user.concelho.nome}</Text>
     </TouchableOpacity>
   )

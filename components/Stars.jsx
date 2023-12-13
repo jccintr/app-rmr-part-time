@@ -17,15 +17,17 @@ const Stars = ({stars,showNumber}) => {
 
   return (
     <View style={styles.starArea}>
-        
-        {s.map((i, k)=>(
+        {stars==0&&<View style={styles.novo}>
+            <Text style={styles.novoText}>Novo</Text>
+        </View>}
+        {stars>0&&s.map((i, k)=>(
             <View key={k}>
                 {i === 0 && <FontAwesome name="star-o" size={16} color={cores.amarelo} />}
                 {i === 1 && <FontAwesome name="star-half-o" size={16} color={cores.amarelo} />}
                 {i === 2 && <FontAwesome name="star" size={16} color={cores.amarelo} />}
             </View>
         ))}
-        {showNumber&& <Text style={styles.starText}>{stars.length === 1 ? stars+'.0':stars}</Text>}
+        {showNumber&&<Text style={styles.starText}>{stars.length === 1 ? stars+'.0':stars}</Text>}
         
    </View>
   )
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
     
     starArea:{
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
       },
     starText:{
@@ -47,6 +49,18 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginRight: 5,
     },
+    novo:{
+        borderWidth:1,
+        borderRadius:5,
+        alignItems:'center',
+        justifyContent:'center',
+        borderColor: cores.amarelo,
+    },
+    novoText:{
+        color: cores.amarelo,
+        paddingHorizontal: 5,
+        fontSize: 12,
+    }
 
    
    
