@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View,ScrollView,Dimensions } from 'react-native';
+import { StyleSheet, Text, View,ScrollView,Dimensions,Image } from 'react-native';
 import React, {useContext} from 'react';
 import DataContext from '../../context/DataContext';
 import { cores } from '../../../style/globalStyle';
 import HeightSpacer from '../../../components/reusable/HeightSpacer';
+import Api from '../../../Api';
 
 const formataData = (data) => {
    
@@ -37,6 +38,10 @@ const TopBarViewOrcamento = () => {
                     <Text style={{textAlign:'justify'}}>{orcamento.concelho.nome}</Text>
                 </View>
           </View>
+          {orcamento.imagem&&<>
+          <Text style={{color:cores.azulEscuro,fontSize:18,fontWeight:'bold'}}>Imagem</Text>
+          <HeightSpacer h={10} />
+          <Image style={styles.imagem} source={{uri:`${Api.base_storage}/${orcamento.imagem}`,} }/></>}
       </ScrollView>
      
     </View>
@@ -80,5 +85,11 @@ boldText: {
    color: cores.azulEscuro,
    fontSize: 14,
 },
+imagem: {
+  width: 300,
+  height: 200,
+  borderRadius:15,
+  
+}
 
 })

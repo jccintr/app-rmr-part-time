@@ -4,6 +4,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import Stars from '../../components/Stars';
 import { cores } from '../../style/globalStyle';
 import Api from '../../Api';
+import Botao from '../reusable/Botao';
+import HeightSpacer from '../reusable/HeightSpacer';
 
 
 const formataData = (data) => {
@@ -26,7 +28,18 @@ const CardProposta = ({proposta}) => {
       <Text style={{marginBottom:10}}>{proposta.resposta}</Text>  
       <Text style={{marginBottom:10}}>Valor: <Text style={styles.boldText}>€ {proposta.valor}</Text></Text>  
       <Text>Enviada em <Text style={styles.boldText}>{formataData(proposta.created_at.substring(0,10))}</Text></Text>  
-      
+      <HeightSpacer h={20}/>
+        <Botao 
+        onPress={()=>{}}
+        text={'ACEITAR ESTA PROPOSTA'} 
+        textSize={16}
+        textColor={cores.azulEscuro}
+        width={'100%'}
+        borderColor={cores.azulEscuro}
+        borderWidth={2}
+        borderRadius={15}
+        isLoading={false}
+      />
     </View>
   )
 }

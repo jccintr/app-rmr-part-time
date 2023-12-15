@@ -15,7 +15,7 @@ const TopBarPropostas = () => {
           keyExtractor={(item)=> item.id.toString()}
           renderItem={({item})=><CardProposta proposta={item}/>}
           //ItemSeparatorComponent={Separator}
-          ListEmptyComponent={<EmptyList mensagem={'Você ainda não tem propostas'}/>}
+          ListEmptyComponent={<EmptyList mensagem={'Você ainda não recebeu propostas'}/>}
           contentContainerStyle={orcamento.propostas.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}
       />
       

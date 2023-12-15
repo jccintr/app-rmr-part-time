@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView,StatusBar,View,Dimensions,Text,ScrollView } from 'react-native'
+import { StyleSheet, SafeAreaView,StatusBar,View,Dimensions,Text,ScrollView,Image } from 'react-native'
 import React, {useContext,useState} from 'react';
 import DataContext from '../context/DataContext';
 import Header from '../../components/Headers/Header';
@@ -76,6 +76,11 @@ const ViewOrcamento = ({route}) => {
                     <Text style={{textAlign:'justify'}}>{orcamento.concelho.nome}</Text>
                 </View>
           </View>
+          {orcamento.imagem&&<>
+          <Text style={{color:cores.azulEscuro,fontSize:18,fontWeight:'bold'}}>Imagem</Text>
+          <HeightSpacer h={10} />
+          <Image style={styles.imagem} source={{uri:`${Api.base_storage}/${orcamento.imagem}`,} }/></>}
+          <HeightSpacer h={20} />
           <Text style={{color:cores.azulEscuro,fontSize:18,fontWeight:'bold'}}>Sua Proposta para este orçamento</Text>
           <View style={{width:'95%'}}>
           <InputArea 
@@ -154,5 +159,12 @@ const styles = StyleSheet.create({
         color: cores.azulEscuro,
         fontSize: 14,
     },
+    imagem: {
+      width: 300,
+      height: 200,
+      borderRadius:15,
+      
+    }
+    
 
 })
