@@ -6,17 +6,18 @@ import MenuPerfil from '../../components/MenuPerfil';
 import { cores } from '../../style/globalStyle';
 import * as ImagePicker from 'expo-image-picker';
 import Api from '../../Api';
-import ImgAvatar from '../../assets/avatar.jpg';
+
+import { FontAwesome } from '@expo/vector-icons'; 
 import ModalCadastro from '../../components/Modals/ModalCadastro';
 import DataContext from '../context/DataContext';
+import HeightSpacer from '../../components/reusable/HeightSpacer';
 
 
 const Profile = () => {
-const {loggedUser,setLoggedUser,setApiToken} = useContext(DataContext)
+const {loggedUser,setLoggedUser,setApiToken,apiToken} = useContext(DataContext)
 const navigation = useNavigation();
 const [userData,setUserData] = useState([]);
 const [modalVisible,setModalVisible] = useState(false);
-const [token,setToken] = useState(null);
 const [userId,setUserId] = useState(null);
 const [documento,setDocumento] = useState('');
 const [endereco,setEndereco] = useState('');
@@ -25,6 +26,8 @@ const [cidade,setCidade] = useState('');
 const [avatar,setAvatar] = useState(null);
 const [isLoading,setIsLoading] = useState(false);
 
+
+/*
 useEffect(()=>{
     const getUser = async () => {
         const token = await AsyncStorage.getItem('token');
@@ -47,7 +50,7 @@ useEffect(()=>{
     }
     getUser();
 }, []);
-
+*/
 
 const selectAvatar = async () =>{
     
@@ -87,8 +90,8 @@ const selectAvatar = async () =>{
 
 const onCadastroPress = () => {
 
-  setModalVisible(true);
-
+ // setModalVisible(true);
+  alert("Ainda não disponível.");
 }
 
 const updateCadastro = async () => {
@@ -108,29 +111,32 @@ const onNada = () => {
 
 const onLogout = async () => {
 
-    await AsyncStorage.removeItem('token');
-    setLoggedUser(null);
-    setApiToken('');
-    navigation.reset({routes:[{name:'Login'}]});
+    let response = await Api.logout(apiToken);
+    if (response.status===200) {
+        await AsyncStorage.removeItem('token');
+        setApiToken('');
+        navigation.reset({routes:[{name:'Login'}]});
+    }
 
 }
 
   
 return (
     <SafeAreaView style={styles.container}>
-        <StatusBar
-                animated={true}
-                backgroundColor={cores.branco}
-                barStyle="dark-content"
-            />
+        <StatusBar animated={true} backgroundColor={cores.azulEscuro} barStyle="dark-content" />
+        <View style={styles.header}>
+               {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.branco}/>}
+               {loggedUser&&!isLoading&&<TouchableOpacity  onPress={selectAvatar}>
+               {avatar?<Image style={styles.avatar} source={{uri:`${Api.base_storage}/${avatar}`,} }/>:<FontAwesome color={cores.azulClaro} name="user-circle-o" size={100}  />}
+               </TouchableOpacity>}
+               <HeightSpacer h={10}/>
+               <Text style={styles.userNameText}>{loggedUser.name}</Text>
+               
+        </View>
+        <HeightSpacer h={10}/>
        
-        <TouchableOpacity  onPress={selectAvatar}>
-            <Image style={styles.avatar} source={avatar !== null ? {uri:`${Api.base_storage}/${avatar}`,} : ImgAvatar}/>
-        </TouchableOpacity>
-        <Text style={styles.userNameText}>{userData.name}</Text>
-        <Text style={styles.fraseHeader}>{userData.role==='cliente'?'Cliente':'Profissional'}</Text>
         
-        <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
+        <MenuPerfil iconName="tools" iconProvider="Entypo" label="Minhas Propostas" onPress={onNada}/>
         <MenuPerfil iconName="user-circle-o" iconProvider="FontAwesome" label="Meus Cadastro" onPress={onCadastroPress}/>
         <MenuPerfil iconName="lock1" iconProvider="AntDesign" label="Alterar minha senha" onPress={onNada}/>
         <MenuPerfil iconName="mail" iconProvider="AntDesign" label="Fale Conosco" onPress={onNada}/>
@@ -142,7 +148,7 @@ return (
                 modalVisible={modalVisible} 
                 setModalVisible={setModalVisible} 
                 userData={userData} 
-                token={token} 
+                token={apiToken} 
                 documento={documento}
                 setDocumento={setDocumento}
                 endereco={endereco} 
@@ -172,21 +178,30 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#fff',
-        paddingHorizontal:5,
+       
+    },
+    header:{
+        backgroundColor: cores.azulEscuro,
+        padding: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width:'100%',
+        height: 180,
        
     },
     avatar:{
-        marginTop: 10,
         height: 100,
         width: 100,
         borderRadius:50,
+        borderColor: '#fff',
+        borderWidth: 2,
      },
+    
     userNameText:{
       fontWeight: 'bold',
       fontSize: 18,
-      color: cores.amarelo,
-
-    },
+      color: cores.branco,
+      },
     fraseHeader:{
         fontSize: 18,
         color: '#000',

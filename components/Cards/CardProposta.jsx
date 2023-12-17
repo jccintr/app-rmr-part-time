@@ -30,7 +30,7 @@ const CardProposta = ({proposta}) => {
       <Text>Enviada em <Text style={styles.boldText}>{formataData(proposta.created_at.substring(0,10))}</Text></Text>  
       <HeightSpacer h={20}/>
         <Botao 
-        onPress={()=>{}}
+        onPress={()=>{alert('Ainda não disponível.')}}
         text={'ACEITAR ESTA PROPOSTA'} 
         textSize={16}
         textColor={cores.azulEscuro}

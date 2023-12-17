@@ -122,7 +122,7 @@ const onLogout = async () => {
             
             <HeightSpacer h={10}/>
             
-           <MenuPerfil iconName="tools" iconProvider="Entypo" label="Meus Serviços" onPress={onNada}/>
+           <MenuPerfil iconName="shoppingcart" iconProvider="AntDesign" label="Meus Orçamentos" onPress={onNada}/>
            <MenuPerfil iconName="user-circle-o" iconProvider="FontAwesome" label="Meus Cadastro" onPress={onCadastroPress}/>
            <MenuPerfil iconName="lock1" iconProvider="AntDesign" label="Alterar minha senha" onPress={onSenhaPress}/>
            <MenuPerfil iconName="mail" iconProvider="AntDesign" label="Fale Conosco" onPress={onNada}/>

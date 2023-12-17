@@ -20,7 +20,7 @@ const WorkerTabBar = ({state,navigation}) => {
               <Text style={state.index===0 ? styles.TabItemTextSelected:styles.TabItemText}>Inicio</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.TabItem} onPress={()=>goTo('Trabalhos')}>
+            <TouchableOpacity style={styles.TabItem} onPress={()=>goTo('Propostas')}>
               <Entypo style={{color:state.index===1? cores.azulEscuro:cores.menuItem}} name="tools" size={24}  />
               <Text style={state.index===1 ? styles.TabItemTextSelected:styles.TabItemText}>Propostas</Text>
             </TouchableOpacity>

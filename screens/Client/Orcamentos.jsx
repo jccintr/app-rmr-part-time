@@ -1,5 +1,5 @@
-import { StyleSheet, SafeAreaView,StatusBar,View,TouchableOpacity,Text,FlatList } from 'react-native'
-import React, {useContext,useState, useEffect} from 'react'
+import { StyleSheet, SafeAreaView,StatusBar,View,FlatList } from 'react-native';
+import React, {useContext,useState, useEffect} from 'react';
 import { cores } from '../../style/globalStyle';
 import { useNavigation } from '@react-navigation/native'; 
 import DataContext from '../context/DataContext';
@@ -47,6 +47,7 @@ const Orcamentos = () => {
 
     return (
         <SafeAreaView style={styles.container}>
+
             <StatusBar animated={true} backgroundColor={cores.azulClaro} barStyle="dark-content"/>
             <HeaderOrcamentos title={'Meus Orçamentos'} onRefresh={onRefresh} isLoading={isLoading}/>
             <View style={styles.body}>
