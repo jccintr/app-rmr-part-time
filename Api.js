@@ -1,6 +1,6 @@
 // --host=192.168.0.107
-const BASE_API = 'http://192.168.0.106:8000/api';
-//const BASE_API = 'https://rmr-api.js-software.tech/api';
+//const BASE_API = 'http://192.168.0.106:8000/api';
+const BASE_API = 'https://rmrparttime.com/api';
 
 
 
