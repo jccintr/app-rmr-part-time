@@ -116,7 +116,7 @@ const onLogout = async () => {
                {avatar?<Image style={styles.avatar} source={{uri:`${Api.base_storage}/${avatar}`,} }/>:<FontAwesome color={cores.azulClaro} name="user-circle-o" size={100}  />}
                </TouchableOpacity>}
                <HeightSpacer h={10}/>
-               <Text style={styles.userNameText}>{loggedUser.name}</Text>
+               {loggedUser&&<Text style={styles.userNameText}>{loggedUser.name}</Text>}
                
             </View>
             

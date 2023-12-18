@@ -69,7 +69,7 @@ const Home = () => {
             <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content"/>
             <View style={styles.userNameArea}>
                   <Text style={styles.userNameText}>Olá {loggedUser===null?'Visitante':loggedUser.name} !</Text>
-                  <Text style={styles.fraseHeader}>Vamos trabalhar vagabundo !</Text>
+                  <Text style={styles.fraseHeader}>Vamos encontrar um servico ?</Text>
             </View>
             {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.azulEscuro}/>}
             {!isLoading&&<FlatList 
