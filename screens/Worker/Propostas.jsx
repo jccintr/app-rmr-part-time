@@ -6,7 +6,7 @@ import Separator from '../../components/reusable/Separator';
 import DataContext from '../context/DataContext';
 import { useNavigation } from '@react-navigation/native'; 
 import HeaderOrcamentos from '../../components/Headers/HeaderOrcamentos';
-
+import { useFocusEffect } from '@react-navigation/native';
 
 const Propostas = () => {
     const {loggedUser,apiToken,setOrcamento} = useContext(DataContext);
@@ -18,6 +18,14 @@ const Propostas = () => {
         if (loggedUser)
            getPropostas();
     }, []);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            
+             StatusBar.setBackgroundColor(cores.azulClaro); //add color code
+            
+        }, []),
+      );
 
     const getPropostas = async () => {
         // setIsLoading(true);

@@ -10,7 +10,8 @@ import ModalCadastro from '../../components/Modals/ModalCadastro';
 import ModalSenha from '../../components/Modals/ModalSenha';
 import DataContext from '../context/DataContext';
 import { FontAwesome } from '@expo/vector-icons'; 
-import HeightSpacer from '../../components/reusable/HeightSpacer'
+import HeightSpacer from '../../components/reusable/HeightSpacer';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Profile = () => {
@@ -27,6 +28,15 @@ const Profile = () => {
     const [novaSenha,setNovaSenha] = useState('');
     const [confirmeNovaSenha,setConfirmeNovaSenha] = useState('');
     const [isLoading,setIsLoading] = useState(false);
+
+
+    useFocusEffect(
+        React.useCallback(() => {
+            
+             StatusBar.setBackgroundColor(cores.azulEscuro); //add color code
+            
+        }, []),
+      );
 
     useEffect(()=>{
        if(!loggedUser) {
@@ -101,6 +111,7 @@ const onLogout = async () => {
     if (response.status===200) {
         await AsyncStorage.removeItem('token');
         setApiToken('');
+        setLoggedUser(null);
         navigation.reset({routes:[{name:'Login'}]});
     }
     

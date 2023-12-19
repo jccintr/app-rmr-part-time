@@ -6,6 +6,7 @@ import Api from '../../Api';
 import CategoriaCard from '../../components/Cards/CategoriaCard';
 import DataContext from '../context/DataContext';
 import SearchField from '../../components/InputFields/SearchField';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Home = () => {
     const [search,setSearch] = useState('');
@@ -23,6 +24,14 @@ const Home = () => {
      const onSearch = (t) => {
         setSearch(t);
      }
+
+     useFocusEffect(
+        React.useCallback(() => {
+            
+             StatusBar.setBackgroundColor(cores.branco); //add color code
+            
+        }, []),
+      );
 
 
     useEffect(()=>{

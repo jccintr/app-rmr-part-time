@@ -19,7 +19,7 @@ const InputField3 = ( {label,placeholder, value, onChangeText, password,keyboard
          secureTextEntry={password}
          keyboardType={keyboard}
          editable={editable}
-         placeholderTextColor={cores.azulEscuro}
+         placeholderTextColor={'#d1d1d1'}
        />
     </View>
     </>

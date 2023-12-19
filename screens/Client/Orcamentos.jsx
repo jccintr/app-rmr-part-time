@@ -8,6 +8,7 @@ import HeaderOrcamentos from '../../components/Headers/HeaderOrcamentos';
 import CardOrcamento from '../../components/Cards/CardOrcamento';
 import EmptyList from '../../components/reusable/EmptyList';
 import Separator from '../../components/reusable/Separator';
+import { useFocusEffect } from '@react-navigation/native';
 
   
 const Orcamentos = () => {
@@ -16,7 +17,13 @@ const Orcamentos = () => {
     const [orcamentos,setOrcamentos] = useState([]);
     const [isLoading,setIsLoading] = useState(false);
 
-
+    useFocusEffect(
+        React.useCallback(() => {
+            
+             StatusBar.setBackgroundColor(cores.azulClaro); //add color code
+            
+        }, []),
+      );
     
     useEffect(()=>{
        if(!loggedUser){

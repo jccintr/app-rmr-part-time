@@ -19,7 +19,7 @@ const CardOrcamento = ({item,onPress}) => {
             <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                <Text style={styles.text}>Publicado em <Text style={styles.boldText}>{formataData(item.created_at.substring(0,10))}</Text></Text>
                
-               <StatusOrcamento propostas={item.propostas}/>
+               <StatusOrcamento propostas={item.propostas.length}/>
             </View>
             <Text style={{fontSize:12,color:cores.azulEscuro,fontWeight:'bold'}}>{item.categoria.nome}</Text>
   

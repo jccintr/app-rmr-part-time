@@ -6,19 +6,8 @@ import Api from '../../Api';
 import DataContext from '../context/DataContext';
 import CardOrcamento from '../../components/Cards/CardOrcamento';
 import CategoriaCard2 from '../../components/Cards/CategoriaCard2';
+import { useFocusEffect } from '@react-navigation/native';
 
-const Separator = () => (
-    <View
-      style={{
-        backgroundColor: cores.azulEscuro,
-        height: 0.5,
-      }}
-    />
-  );
-
-  const EmptyList = () => {
-    return <Text style={{color: cores.azulEscuro}}>Tem nada ainda parceiro !</Text>
-  }  
 
 const Home = () => {
     const [categorias,setCategorias] = useState([]);
@@ -27,6 +16,14 @@ const Home = () => {
     const [isLoading,setIsLoading] = useState(false);
 
     const categoriasFiltered = categorias.filter(categoria=>categoria.orcamentos_count>0);
+
+    useFocusEffect(
+      React.useCallback(() => {
+          
+           StatusBar.setBackgroundColor(cores.branco); //add color code
+          
+      }, []),
+    );
 
 
      useEffect(()=>{
@@ -69,7 +66,7 @@ const Home = () => {
             <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content"/>
             <View style={styles.userNameArea}>
                   <Text style={styles.userNameText}>Olá {loggedUser===null?'Visitante':loggedUser.name} !</Text>
-                  <Text style={styles.fraseHeader}>Vamos encontrar um servico ?</Text>
+                  <Text style={styles.fraseHeader}>Vamos encontrar um trabalho ?</Text>
             </View>
             {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.azulEscuro}/>}
             {!isLoading&&<FlatList 

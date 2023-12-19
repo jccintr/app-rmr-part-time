@@ -5,6 +5,7 @@ import Api from '../../Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TrabalhoCard from '../../components/TrabalhoCard';
 import ModalTrabalho from '../../components/ModalTrabalho';
+import { useFocusEffect } from '@react-navigation/native';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -17,6 +18,15 @@ const Trabalhos = () => {
   const [modalVisible,setModalVisible] = useState(false);
   const [isLoading,setIsLoading] = useState(false);
 
+
+  useFocusEffect(
+    React.useCallback(() => {
+        
+         StatusBar.setBackgroundColor(cores.azulClaro); //add color code
+        
+    }, []),
+  );
+  
   useEffect(()=>{
     const getTrabalhos = async () => {
         setIsLoading(true);

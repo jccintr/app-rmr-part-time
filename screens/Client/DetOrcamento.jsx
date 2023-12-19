@@ -1,21 +1,23 @@
-import { StyleSheet, SafeAreaView,StatusBar,View,TouchableOpacity,Text,FlatList } from 'react-native'
+import { StyleSheet, StatusBar } from 'react-native'
 import React from 'react'
 import { cores } from '../../style/globalStyle';
 import Header from '../../components/Headers/Header';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import TopBarViewOrcamento from './TopTab/TopBarViewOrcamento';
 import TopBarPropostas from './TopTab/TopBarPropostas';
+import { useNavigation } from '@react-navigation/native'; 
 
 const Tab = createMaterialTopTabNavigator();
 
 
 
 const DetOrcamento = () => {
-  
+  const navigation = useNavigation();
+
   return (
             <>
              <StatusBar animated={true} backgroundColor={cores.azulClaro} barStyle="dark-content"/>
-            <Header title={'Orçamento'} />
+            <Header title={'Orçamento'} onPress={()=>navigation.goBack()} />
             <Tab.Navigator>
                 <Tab.Screen name='Detalhes' component={TopBarViewOrcamento}/>
                 <Tab.Screen name='Propostas' component={TopBarPropostas}/>

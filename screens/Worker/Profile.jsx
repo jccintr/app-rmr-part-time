@@ -6,11 +6,11 @@ import MenuPerfil from '../../components/MenuPerfil';
 import { cores } from '../../style/globalStyle';
 import * as ImagePicker from 'expo-image-picker';
 import Api from '../../Api';
-
 import { FontAwesome } from '@expo/vector-icons'; 
 import ModalCadastro from '../../components/Modals/ModalCadastro';
 import DataContext from '../context/DataContext';
 import HeightSpacer from '../../components/reusable/HeightSpacer';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Profile = () => {
@@ -26,7 +26,13 @@ const [cidade,setCidade] = useState('');
 const [avatar,setAvatar] = useState(null);
 const [isLoading,setIsLoading] = useState(false);
 
-
+useFocusEffect(
+    React.useCallback(() => {
+        
+         StatusBar.setBackgroundColor(cores.azulEscuro); //add color code
+        
+    }, []),
+  );
 /*
 useEffect(()=>{
     const getUser = async () => {
@@ -115,6 +121,7 @@ const onLogout = async () => {
     if (response.status===200) {
         await AsyncStorage.removeItem('token');
         setApiToken('');
+        setLoggedUser(null);
         navigation.reset({routes:[{name:'Login'}]});
     }
 
@@ -130,7 +137,7 @@ return (
                {avatar?<Image style={styles.avatar} source={{uri:`${Api.base_storage}/${avatar}`,} }/>:<FontAwesome color={cores.azulClaro} name="user-circle-o" size={100}  />}
                </TouchableOpacity>}
                <HeightSpacer h={10}/>
-               <Text style={styles.userNameText}>{loggedUser.name}</Text>
+               {loggedUser&&<Text style={styles.userNameText}>{loggedUser.name}</Text>}
                
         </View>
         <HeightSpacer h={10}/>

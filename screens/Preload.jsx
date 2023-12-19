@@ -67,7 +67,7 @@ const Preload = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar animated={true} backgroundColor={cores.branco} barStyle="dark-content"/>
+            <StatusBar animated={true} backgroundColor={cores.azulClaro} barStyle="dark-content"/>
             <Image source={logo} style={styles.imagelogo}/>
             {isLoading&&<ActivityIndicator size="large" color={cores.azulEscuro}/>}
             <ModalErro visible={modalVisible} setVisible={setModalVisible} mensagem={errorMessage}/>

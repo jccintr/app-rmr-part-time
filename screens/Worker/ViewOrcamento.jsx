@@ -40,7 +40,7 @@ const ViewOrcamento = ({route}) => {
 
     setIsLoading(true);  
     let response = await Api.addProposta(apiToken,orcamento.id,resposta,valor);
-    
+    console.log(orcamento.id);
     if (response.status===201){
          navigation.navigate('SucessoProposta');
     } else {
