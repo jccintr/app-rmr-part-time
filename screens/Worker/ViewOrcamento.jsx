@@ -1,5 +1,5 @@
 import { StyleSheet, SafeAreaView,StatusBar,View,Dimensions,Text,ScrollView,Image } from 'react-native'
-import React, {useContext,useState} from 'react';
+import React, {useContext,useState,useEffect} from 'react';
 import DataContext from '../context/DataContext';
 import Header from '../../components/Headers/Header';
 import { useNavigation } from '@react-navigation/native'; 
@@ -27,8 +27,14 @@ const ViewOrcamento = ({route}) => {
     const [isLoading,setIsLoading] = useState(false);
     const [resposta,setResposta] = useState('');
     const [valor,setValor] = useState('');
+    const [receber,setReceber] = useState(0);
     const screenWidth = Dimensions.get('window').width;
+    const taxa = 0.05;
 
+
+    useEffect(()=>{
+       setReceber(valor-(valor*taxa));
+  }, [valor]);
 
     const onAddProposta = async () => {
 
@@ -100,6 +106,11 @@ const ViewOrcamento = ({route}) => {
                       keyboard="number-pad"
                     />
           </View>
+          {valor>0&&<View style={{width:'95%',paddingHorizontal:10}}>
+             <Text style={styles.receberText}>Você receberá € {receber.toFixed(2)}. Taxa de utilização de {taxa*100}%.</Text>
+          </View>}
+          
+          <HeightSpacer h={20} />
           
           <View style={{width:'95%'}}>
                 <Botao
@@ -164,6 +175,9 @@ const styles = StyleSheet.create({
       height: 200,
       borderRadius:15,
       
+    },
+    receberText:{
+      color: cores.vermelho,
     }
     
 

@@ -33,7 +33,7 @@ const OrcamentosCategoria = ({route}) => {
   return (
     <SafeAreaView style={styles.container}>
           <StatusBar animated={true} backgroundColor={cores.azulClaro} barStyle="dark-content"/>
-          <Header title={'Oportunidades para '+ categoria.nome} />
+          <Header title={categoria.nome} onPress={()=>navigation.goBack()}/>
           <View style={styles.body}>
               {isLoading&&<ActivityIndicator style={styles.loading} size="large" color={cores.azulEscuro}/>}
               {!isLoading&&<FlatList 
