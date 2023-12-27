@@ -11,6 +11,7 @@ import InputArea from '../../components/InputFields/InputArea';
 import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import ModalErro from '../../components/Modals/ModalErro';
+import  DateTimePicker  from '@react-native-community/datetimepicker';
 
 
 const Orcamento = ({route}) => {
@@ -30,8 +31,36 @@ const Orcamento = ({route}) => {
   const [concelhos,setConcelhos] = useState([]);
   const [distritos,setDistritos] = useState([]);
   const [isLoading,setIsLoading] = useState(false);
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
+  const [timePickerVisible, setTimePickerVisible] = useState(false);
+  const [data,setData] = useState(new Date());
+  const [dataDisplay,setDataDisplay] = useState('');
+  const [hora,setHora] = useState(new Date()); 
+  const [horaDisplay,setHoraDisplay] = useState('');
+  const [minimumDate, setMinimumDate] = useState(new Date);
 
     
+  const onChangeDatePicker = (event, selectedDate) => {
+    
+    // if (event.type === 'dismissed') {
+    //    return
+    // }
+
+    const currentDate = selectedDate;
+    setDatePickerVisible(false);
+    setData(currentDate);
+    setDataDisplay(formataData(currentDate));
+    
+  };
+
+  const onChangeTimePicker = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setTimePickerVisible(false);
+    let min = currentDate.getMinutes() < 10 ? '0'+currentDate.getMinutes().toString() : currentDate.getMinutes().toString()
+    setHoraDisplay(currentDate.getHours()+':'+ min);
+    setHora(currentDate);
+  };
+  
 
     useEffect(()=>{
       const getDistritos = async () => {
@@ -75,9 +104,36 @@ const selectImage = async () =>{
 
 }
 
+const formataData = (data) => {
+  
+  let dia = data.getDate().toString();
+  let mes = (data.getMonth()+1).toString();
+  let ano = data.getFullYear();
+  dia = (dia.length==1) ? "0"+dia : dia;
+  mes = (mes.length==1) ? "0"+mes : mes;
+  
+  return dia + "/" + mes + "/" + ano;
+}
+
+const formataDataApi = () => {
+  let dia = data.getDate().toString();
+  let mes = (data.getMonth()+1).toString();
+  let ano = data.getFullYear();
+  dia = (dia.length==1) ? "0"+dia : dia;
+  mes = (mes.length==1) ? "0"+mes : mes;
+  
+  return ano + "-"+ mes +"-"+ dia + ' ' + horaDisplay;
+}
+
+
 const onAddOrcamento = async () => {
 
-if (titulo.trim().length===0 || descricao.trim().length===0 || logradouro.trim().length===0 || numero.trim().length===0 || distrito === null || concelho === null ) {
+
+
+//alert(formataDataApi());
+//return;
+
+if (titulo.trim().length===0 || descricao.trim().length===0 || logradouro.trim().length===0 || numero.trim().length===0 || distrito === null || concelho === null || dataDisplay.trim().length===0 || horaDisplay.trim().length===0 ) {
     setErrorMessage('Preencha todos os campos por favor.');
     setModalVisible(true);
     return;
@@ -91,6 +147,7 @@ if (titulo.trim().length===0 || descricao.trim().length===0 || logradouro.trim()
     fd.append('numero',numero);
     fd.append('distrito_id',distrito.id);
     fd.append('concelho_id',concelho.id);
+    fd.append('data_execucao',formataDataApi());
     
     if (imagem!=null){
        fd.append('imagem',{uri: imagem,type: 'image/jpg',name: 'image.jpg',});
@@ -126,6 +183,8 @@ if (titulo.trim().length===0 || descricao.trim().length===0 || logradouro.trim()
                       onChangeText={t=>setTitulo(t)}
                       keyboard="default"
                     />
+              </View>      
+              <View style={styles.itensArea}>
                     <Text style={styles.title}>Onde será executado o serviço</Text>
                     <InputField3 
                       label="Logradouro:"
@@ -147,6 +206,33 @@ if (titulo.trim().length===0 || descricao.trim().length===0 || logradouro.trim()
                     />
                     <SelectInput2 label="Distrito:" placeholder="Selecione o Distrito" options={distritos} onChangeSelect={onChangeSelectDistrito}/>
                     {distrito&&<SelectInput2 label="Concelho:" placeholder="Selecione o Concelho" options={concelhos} onChangeSelect={onChangeSelectConcelho}/>}
+              </View>
+              <View style={styles.itensArea}>
+                   <Text style={styles.title}>Melhor data e horário para executar o serviço</Text>
+                   <View style={{flexDirection:'row',width:'95%'}}>
+                      <TouchableOpacity style={{flex:1,marginRight:10}} onPress={()=>setDatePickerVisible(true)}>
+                          <InputField3 
+                              label="Data:"
+                              placeholder=""
+                              password={false}
+                              editable={false}
+                              value={dataDisplay}
+                              onChangeText={t=>setData(t)}
+                              keyboard="default"
+                            />
+                      </TouchableOpacity>
+                      <TouchableOpacity style={{flex:1}} onPress={()=>setTimePickerVisible(true)}>
+                          <InputField3 
+                              label="Hora:"
+                              placeholder=""
+                              password={false}
+                              editable={false}
+                              value={horaDisplay}
+                              onChangeText={t=>setHoraDisplay(t)}
+                              keyboard="default"
+                            />
+                      </TouchableOpacity>
+                   </View>
               </View>
               <View style={styles.itensArea}>
                     <Text style={styles.title}>Descreva o serviço</Text>
@@ -175,6 +261,24 @@ if (titulo.trim().length===0 || descricao.trim().length===0 || logradouro.trim()
           </View>
           </ScrollView>
           <ModalErro visible={modalVisible} setVisible={setModalVisible} mensagem={errorMessage}/>
+          {datePickerVisible && (<DateTimePicker
+                  value={data}
+                  mode="date"
+                  is24Hour={true}
+                  onChange={onChangeDatePicker}
+                  display="default"
+                  minimumDate={minimumDate}
+                />
+              )}
+          {timePickerVisible && (<DateTimePicker
+                  value={hora}
+                  mode="time"
+                  is24Hour={true}
+                  onChange={onChangeTimePicker}
+                  display="default"
+                  minimumDate={minimumDate}
+                />
+              )}
     </SafeAreaView>
   )
 }
