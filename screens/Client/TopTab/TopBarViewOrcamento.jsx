@@ -38,6 +38,13 @@ const TopBarViewOrcamento = () => {
                     <Text style={{textAlign:'justify'}}>{orcamento.concelho.nome}</Text>
                 </View>
           </View>
+          {orcamento.data_execucao&&<>
+          <Text style={{color:cores.azulEscuro,fontSize:18,fontWeight:'bold'}}>Melhor data para executar o serviço</Text>
+          <View style={styles.item}>
+                <View style={styles.dataArea}>
+                    <Text style={styles.text}>{formataData(orcamento.data_execucao.substring(0,10))} a partir das {orcamento.data_execucao.substring(11,16)}</Text>
+                </View>
+          </View></>}
           {orcamento.imagem&&<>
           <Text style={{color:cores.azulEscuro,fontSize:18,fontWeight:'bold'}}>Imagem</Text>
           <HeightSpacer h={10} />
