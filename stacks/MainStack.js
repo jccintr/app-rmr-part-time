@@ -21,6 +21,7 @@ import ViewOrcamento from "../screens/Worker/ViewOrcamento";
 import OrcamentosCategoria from "../screens/Worker/OrcamentosCategoria";
 //import ViewPropostas from "../screens/Client/ViewPropostas";
 import DetOrcamento from "../screens/Client/DetOrcamento";
+import Checkout from "../screens/Client/Checkout";
 
 import ClientTab from "./ClientTab";
 import WorkerTab from "./WorkerTab";
@@ -52,6 +53,7 @@ const MainStack = () => {
         <Stack.Screen name="SucessoProposta" component={SucessoProposta}/>
         <Stack.Screen name="ErroProposta" component={ErroProposta}/>
         <Stack.Screen name="DetOrcamento" component={DetOrcamento}/>
+        <Stack.Screen name="Checkout" component={Checkout}/>
       
     </Stack.Navigator>
   )

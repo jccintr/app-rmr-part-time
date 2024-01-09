@@ -15,6 +15,8 @@ const formataData = (data) => {
 
 const TopBarViewOrcamento = () => {
   const {orcamento} = useContext(DataContext);
+
+  
   return (
     <View style={styles.container}>
       <ScrollView style={{width: Dimensions.get('window').width}} contentContainerStyle={{alignItems:'center',padding:5,}} showsVerticalScrollIndicator={false}>

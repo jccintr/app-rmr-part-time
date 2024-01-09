@@ -15,7 +15,7 @@ const formataData = (data) => {
 
 }
 
-const CardProposta = ({proposta}) => {
+const CardProposta = ({proposta, onPress}) => {
   return (
     <View style={styles.container}>
       <View style={{flexDirection:'row',marginBottom:10}}>
@@ -30,16 +30,16 @@ const CardProposta = ({proposta}) => {
       <Text>Enviada em <Text style={styles.boldText}>{formataData(proposta.created_at.substring(0,10))}</Text></Text>  
       <HeightSpacer h={20}/>
         <Botao 
-        onPress={()=>{alert('Ainda não disponível.')}}
-        text={'ACEITAR ESTA PROPOSTA'} 
-        textSize={16}
-        textColor={cores.azulEscuro}
-        width={'100%'}
-        borderColor={cores.azulEscuro}
-        borderWidth={2}
-        borderRadius={15}
-        isLoading={false}
-      />
+            onPress={()=>onPress(proposta)}
+            text={'ACEITAR ESTA PROPOSTA'} 
+            textSize={16}
+            textColor={cores.azulEscuro}
+            width={'100%'}
+            borderColor={cores.azulEscuro}
+            borderWidth={2}
+            borderRadius={15}
+            isLoading={false}
+        />
     </View>
   )
 }

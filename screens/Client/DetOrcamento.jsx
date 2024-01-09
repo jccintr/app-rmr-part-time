@@ -23,9 +23,6 @@ const DetOrcamento = () => {
                 <Tab.Screen name='Propostas' component={TopBarPropostas}/>
             </Tab.Navigator>
             </>
-            
-            
-      
   )
 }
 

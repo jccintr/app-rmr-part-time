@@ -3,9 +3,16 @@ import React, {useContext} from 'react';
 import DataContext from '../../context/DataContext';
 import CardProposta from '../../../components/Cards/CardProposta';
 import EmptyList from '../../../components/reusable/EmptyList';
+import { useNavigation } from '@react-navigation/native';
 
 const TopBarPropostas = () => {
+  const navigation = useNavigation();
   const {orcamento} = useContext(DataContext);
+
+  const onAceitarProposta = (proposta) => {
+     navigation.navigate('Checkout',{proposta:proposta});
+  }
+
   return (
     <View style={styles.container}>
       <FlatList 
@@ -13,7 +20,7 @@ const TopBarPropostas = () => {
           style={styles.flatlist}
           data={orcamento.propostas}
           keyExtractor={(item)=> item.id.toString()}
-          renderItem={({item})=><CardProposta proposta={item}/>}
+          renderItem={({item})=><CardProposta proposta={item} onPress={onAceitarProposta}/>}
           //ItemSeparatorComponent={Separator}
           ListEmptyComponent={<EmptyList mensagem={'Você ainda não recebeu propostas'}/>}
           contentContainerStyle={orcamento.propostas.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}
