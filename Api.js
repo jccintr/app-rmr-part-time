@@ -1,14 +1,14 @@
 // --host=192.168.0.107
 
-//const BASE_API = 'http://192.168.0.107:8000/api';
-const BASE_API = 'https://rmrparttime.com/api';
+const BASE_API = 'http://192.168.0.107:8000/api';
+//const BASE_API = 'https://rmrparttime.com/api';
 
 
 
 export default {
    
-    base_storage: 'https://rmrparttime.com/storage',
-    //base_storage: 'http://192.168.0.107:8000/storage',
+    //base_storage: 'https://rmrparttime.com/storage',
+    base_storage: 'http://192.168.0.107:8000/storage',
     
     
 
@@ -274,6 +274,44 @@ addProposta: async (token,orcamento_id,resposta,valor) => {
     });
     return response;
 },
+createPaymentIntent: async (token,amount) => {
+    const response = await fetch(`${BASE_API}/payment/intent`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({amount})
+    });
+    return response;
+},
+
+addOrder: async (token,orcamento_id,proposta_id,payment_intent) => {
+    const response = await fetch(`${BASE_API}/orders`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({orcamento_id,proposta_id,payment_intent})
+    });
+    return response;
+},
+getConfig: async (token) => {
+    const response = await fetch(`${BASE_API}/config`, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    });
+    const json = await response.json();
+    return json;
+},
+
 
 
   

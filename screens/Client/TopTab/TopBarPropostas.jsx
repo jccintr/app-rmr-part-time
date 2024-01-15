@@ -20,7 +20,7 @@ const TopBarPropostas = () => {
           style={styles.flatlist}
           data={orcamento.propostas}
           keyExtractor={(item)=> item.id.toString()}
-          renderItem={({item})=><CardProposta proposta={item} onPress={onAceitarProposta}/>}
+          renderItem={({item})=><CardProposta status={orcamento.status} proposta={item} onPress={onAceitarProposta}/>}
           //ItemSeparatorComponent={Separator}
           ListEmptyComponent={<EmptyList mensagem={'Você ainda não recebeu propostas'}/>}
           contentContainerStyle={orcamento.propostas.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}

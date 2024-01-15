@@ -6,6 +6,7 @@ import { cores } from '../../style/globalStyle';
 import Api from '../../Api';
 import Botao from '../reusable/Botao';
 import HeightSpacer from '../reusable/HeightSpacer';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 
 const formataData = (data) => {
@@ -15,7 +16,16 @@ const formataData = (data) => {
 
 }
 
-const CardProposta = ({proposta, onPress}) => {
+const PropostaAceita = () => {
+  return(
+    <View style={{flexDirection:'row',alignItems:'center'}}>
+      <FontAwesome5 style={{marginRight: 10}} name="trophy" size={24} color={cores.amarelo} />
+      <Text style={{color:cores.azulEscuro, fontSize:16,fontWeight:'bold'}}>PROPOSTA VENCEDORA</Text>
+    </View>
+  );
+}
+
+const CardProposta = ({proposta, onPress,status}) => {
   return (
     <View style={styles.container}>
       <View style={{flexDirection:'row',marginBottom:10}}>
@@ -29,7 +39,7 @@ const CardProposta = ({proposta, onPress}) => {
       <Text style={{marginBottom:10}}>Valor: <Text style={styles.boldText}>€ {proposta.valor}</Text></Text>  
       <Text>Enviada em <Text style={styles.boldText}>{formataData(proposta.created_at.substring(0,10))}</Text></Text>  
       <HeightSpacer h={20}/>
-        <Botao 
+       {!proposta.aceita&&status===0&&<Botao 
             onPress={()=>onPress(proposta)}
             text={'ACEITAR ESTA PROPOSTA'} 
             textSize={16}
@@ -39,7 +49,10 @@ const CardProposta = ({proposta, onPress}) => {
             borderWidth={2}
             borderRadius={15}
             isLoading={false}
-        />
+        />}
+        {proposta.aceita&&<PropostaAceita/>}
+
+        
     </View>
   )
 }

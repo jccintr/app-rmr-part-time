@@ -21,20 +21,31 @@ const formataData = (data) => {
 const ViewOrcamento = ({route}) => {
   const [errorMessage,setErrorMessage] = useState('');
   const [modalVisible,setModalVisible] = useState(false);
-    const {apiToken} = useContext(DataContext);
-    const navigation = useNavigation();
-    const {orcamento} = route.params;  
-    const [isLoading,setIsLoading] = useState(false);
-    const [resposta,setResposta] = useState('');
-    const [valor,setValor] = useState('');
-    const [receber,setReceber] = useState(0);
-    const screenWidth = Dimensions.get('window').width;
-    const taxa = 0.05;
-
-    
-    useEffect(()=>{
-       setReceber(valor-(valor*taxa));
+  const [config,setConfig] = useState({});
+  const {apiToken} = useContext(DataContext);
+  const navigation = useNavigation();
+  const {orcamento} = route.params;  
+  const [isLoading,setIsLoading] = useState(false);
+  const [resposta,setResposta] = useState('');
+  const [valor,setValor] = useState('');
+  const [receber,setReceber] = useState(0);
+  const screenWidth = Dimensions.get('window').width;
+  
+  useEffect(()=>{
+       setReceber(valor-(valor*config.percentual_profissional/100));
   }, [valor]);
+
+  useEffect(()=>{
+       
+    const getConfig = async () => {
+       
+        let json = await Api.getConfig(apiToken);
+        setConfig(json);
+     
+    }
+    getConfig();
+    
+}, []);
 
     const onAddProposta = async () => {
 
@@ -114,7 +125,7 @@ const ViewOrcamento = ({route}) => {
                     />
           </View>
           {valor>0&&<View style={{width:'95%',paddingHorizontal:10}}>
-             <Text style={styles.receberText}>Você receberá € {receber.toFixed(2)}. Taxa de utilização de {taxa*100}%.</Text>
+             <Text style={styles.receberText}>Você receberá € {receber.toFixed(2)} pelo serviço. Taxa de utilização de {config.percentual_profissional}%.</Text>
           </View>}
           
           <HeightSpacer h={20} />
