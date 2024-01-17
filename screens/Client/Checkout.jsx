@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,StatusBar,TouchableOpacity,ActivityIndicator,Alert } from 'react-native';
+import { StyleSheet, Text, View,StatusBar,TouchableOpacity,ActivityIndicator } from 'react-native';
 import React, {useContext,useState, useEffect} from 'react';
 import Header from '../../components/Headers/Header';
 import { useNavigation } from '@react-navigation/native'; 
@@ -50,13 +50,13 @@ const Checkout = ({route}) => {
         const paymentSheetResponse = await initPaymentSheet({merchantDisplayName: 'Delivroo App',paymentIntentClientSecret: json.paymentIntent,style: "alwaysLight"});
         
         if (paymentSheetResponse.error) {
-             Alert.alert('Falha ao iniciar transação. Tente novamente.');
+             alert('Falha ao iniciar transação. Tente novamente.');
              return;
          }
         const paymentResponse = await presentPaymentSheet();
         
         if (paymentResponse.error) {
-           Alert.alert(`Error code: ${paymentResponse.error.code}`,paymentResponse.error.message);
+           alert(`Error code: ${paymentResponse.error.code}`,paymentResponse.error.message);
            return;
         }
     } else {
@@ -70,7 +70,7 @@ const Checkout = ({route}) => {
     setIsLoading(false);
     
     if(orderResponse.status===201){
-      alert('Transação concluída com sucesso !');
+      navigation.navigate('Sucesso2');
     } else {
       alert('Falha ao registrar order !');
     } 

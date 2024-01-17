@@ -25,16 +25,16 @@ const PropostaAceita = () => {
   );
 }
 
-const CardProposta2 = ({proposta, onPress,status}) => {
+const CardProposta2 = ({proposta, status,onDelete}) => {
   return (
     <View style={styles.container}>
-      <Text style={{marginBottom:10,color:cores.azulEscuro,fontWeight:'bold'}}>{proposta.orcamento.titulo}</Text>  
+      <Text style={{marginBottom:10,color:cores.azulEscuro,fontWeight:'bold',fontSize:16}}>{proposta.orcamento.titulo}</Text>  
       <Text style={{marginBottom:10}}>{proposta.resposta}</Text>  
       <Text style={{marginBottom:10}}>Valor: <Text style={styles.boldText}>€ {proposta.valor}</Text></Text>  
       <Text>Enviada em <Text style={styles.boldText}>{formataData(proposta.created_at.substring(0,10))}</Text></Text>  
       <HeightSpacer h={20}/>
        {!proposta.aceita&&status===0&&<Botao 
-            onPress={()=>onPress(proposta)}
+            onPress={()=>onDelete(proposta.id)}
             text={'DELETAR ESTA PROPOSTA'} 
             textSize={16}
             textColor={cores.vermelho}

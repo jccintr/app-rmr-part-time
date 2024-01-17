@@ -38,9 +38,12 @@ const Propostas = () => {
         getPropostas();
     }
 
-    const onPropostaPress = (orcamento) => {
-    //    setOrcamento(orcamento);
-     //   navigation.navigate('DetOrcamento');
+    const onDelete = async (id) => {
+       //alert('deletar a proposta '+ id);
+       let response = await Api.deleteProposta(apiToken,id);
+       if (response.status===200){
+          getPropostas();
+       }
     }
 
   return (
@@ -54,7 +57,7 @@ const Propostas = () => {
                 style={styles.flatlist}
                 data={propostas}
                 keyExtractor={(item)=> item.id.toString()}
-                renderItem={({item})=><CardProposta2 status={0} proposta={item} onPress={()=>{}}/>}
+                renderItem={({item})=><CardProposta2 status={0} proposta={item} onDelete={onDelete}/>}
                 ItemSeparatorComponent={Separator}
                 ListEmptyComponent={<EmptyList mensagem={'Você ainda não enviou propostas'}/>}
                 contentContainerStyle={propostas.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}

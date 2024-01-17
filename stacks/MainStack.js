@@ -10,6 +10,7 @@ import Login from "../screens/Login";
 import Cadastro from "../screens/Cadastro";
 import VerifyEmail from "../screens/VerifyEmail";
 import Sucesso from "../screens/Client/Sucesso";
+import Sucesso2 from "../screens/Client/Sucesso2";
 import SucessoProposta from "../screens/Worker/SucessoProposta";
 import EmailVerified from "../screens/Client/EmailVerified";
 import Erro from "../screens/Client/Erro";
@@ -49,6 +50,7 @@ const MainStack = () => {
         <Stack.Screen name="OrcamentosCategoria" component={OrcamentosCategoria}/>
         <Stack.Screen name="ViewOrcamento" component={ViewOrcamento}/>
         <Stack.Screen name="Sucesso" component={Sucesso}/>
+        <Stack.Screen name="Sucesso2" component={Sucesso2}/>
         <Stack.Screen name="Erro" component={Erro}/>
         <Stack.Screen name="SucessoProposta" component={SucessoProposta}/>
         <Stack.Screen name="ErroProposta" component={ErroProposta}/>

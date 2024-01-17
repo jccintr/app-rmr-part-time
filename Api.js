@@ -286,6 +286,18 @@ addProposta: async (token,orcamento_id,resposta,valor) => {
     });
     return response;
 },
+deleteProposta: async (token,id) => {
+    const response = await fetch(`${BASE_API}/propostas/${id}`, {
+        method: 'DELETE',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        
+    });
+    return response;
+},
 createPaymentIntent: async (token,amount) => {
     const response = await fetch(`${BASE_API}/payment/intent`, {
         method: 'POST',
