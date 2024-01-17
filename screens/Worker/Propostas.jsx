@@ -7,6 +7,8 @@ import DataContext from '../context/DataContext';
 import { useNavigation } from '@react-navigation/native'; 
 import HeaderOrcamentos from '../../components/Headers/HeaderOrcamentos';
 import { useFocusEffect } from '@react-navigation/native';
+import CardProposta2 from '../../components/Cards/CardProposta2';
+import Api from '../../Api';
 
 const Propostas = () => {
     const {loggedUser,apiToken,setOrcamento} = useContext(DataContext);
@@ -21,17 +23,15 @@ const Propostas = () => {
 
     useFocusEffect(
         React.useCallback(() => {
-            
              StatusBar.setBackgroundColor(cores.azulClaro); //add color code
-            
         }, []),
       );
 
     const getPropostas = async () => {
-        // setIsLoading(true);
-        // let json = await Api.getOrcamentos(apiToken);
-        // setOrcamentos(json);
-        // setIsLoading(false);
+         setIsLoading(true);
+         let json = await Api.getPropostas(apiToken);
+         setPropostas(json);
+         setIsLoading(false);
         }
     
     const onRefresh = async () => {
@@ -54,7 +54,7 @@ const Propostas = () => {
                 style={styles.flatlist}
                 data={propostas}
                 keyExtractor={(item)=> item.id.toString()}
-                renderItem={({item})=><Text>{item.resposta}</Text>}
+                renderItem={({item})=><CardProposta2 status={0} proposta={item} onPress={()=>{}}/>}
                 ItemSeparatorComponent={Separator}
                 ListEmptyComponent={<EmptyList mensagem={'Você ainda não enviou propostas'}/>}
                 contentContainerStyle={propostas.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}

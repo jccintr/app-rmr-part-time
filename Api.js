@@ -260,6 +260,18 @@ getOrcamentosByCategory: async (token,id) => {
     const json = await response.json();
     return json;
 },
+getPropostas: async (token) => {
+    const response = await fetch(`${BASE_API}/propostas`, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    });
+    const json = await response.json();
+    return json;
+},
 
 
 addProposta: async (token,orcamento_id,resposta,valor) => {
