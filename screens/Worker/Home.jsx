@@ -38,26 +38,7 @@ const Home = () => {
       
   }, []);
 
-    // useEffect(()=>{
-        
-    //        getAllOrcamentos();
-    // }, []);
-
-    // const getAllOrcamentos = async () => {
-    //     setIsLoading(true);
-    //     let json = await Api.getAllOrcamentos(apiToken);
-    //     setOrcamentos(json);
-    //     setIsLoading(false);
-    //     }
-
-        // const onOrcamentoPress = (orcamento) => {
-            
-        //     navigation.navigate('ViewOrcamento', {orcamento});
-           
-        // }
-
-        
-
+    
       
 
     return (

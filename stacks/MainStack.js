@@ -23,6 +23,7 @@ import OrcamentosCategoria from "../screens/Worker/OrcamentosCategoria";
 //import ViewPropostas from "../screens/Client/ViewPropostas";
 import DetOrcamento from "../screens/Client/DetOrcamento";
 import Checkout from "../screens/Client/Checkout";
+import Termos from "../screens/Termos";
 
 import ClientTab from "./ClientTab";
 import WorkerTab from "./WorkerTab";
@@ -56,6 +57,7 @@ const MainStack = () => {
         <Stack.Screen name="ErroProposta" component={ErroProposta}/>
         <Stack.Screen name="DetOrcamento" component={DetOrcamento}/>
         <Stack.Screen name="Checkout" component={Checkout}/>
+        <Stack.Screen name="Termos" component={Termos}/>
       
     </Stack.Navigator>
   )

@@ -46,7 +46,7 @@ const Login = () => {
       setApiToken(jsonUser.token);
       setLoggedUser(jsonUser);
       
-      if (response.status ===200){
+      if (response.status === 200){
 
         if (jsonUser.role === 1) {
            navigation.reset({routes:[{name:'ClientTab'}]}); 

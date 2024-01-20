@@ -1,9 +1,6 @@
 import { StyleSheet, Text, View,Image } from 'react-native';
 import React from 'react';
-import { FontAwesome } from '@expo/vector-icons'; 
-import Stars from '../../components/Stars';
 import { cores } from '../../style/globalStyle';
-import Api from '../../Api';
 import Botao from '../reusable/Botao';
 import HeightSpacer from '../reusable/HeightSpacer';
 import { FontAwesome5 } from '@expo/vector-icons';

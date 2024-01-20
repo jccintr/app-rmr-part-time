@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ClientTabBar from '../components/TabBar/ClientTabBar';
 
 import Home from '../screens/Client/Home';
-import Profile from '../screens/Client/Profile';
+import Profile from '../screens/Profile';
 import Orcamentos from '../screens/Client/Orcamentos';
 
 

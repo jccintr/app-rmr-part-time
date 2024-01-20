@@ -2,32 +2,26 @@ import React, { useState,useContext } from 'react'
 import { StyleSheet, Text, SafeAreaView, View,Image,TouchableOpacity,StatusBar,Linking} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import MenuPerfil from '../../components/MenuPerfil';
-import { cores } from '../../style/globalStyle';
+import MenuPerfil from '../components/MenuPerfil';
+import { cores } from '../style/globalStyle';
 import * as ImagePicker from 'expo-image-picker';
-import Api from '../../Api';
+import Api from '../Api';
 import { FontAwesome } from '@expo/vector-icons'; 
-import DataContext from '../context/DataContext';
-import HeightSpacer from '../../components/reusable/HeightSpacer';
+import DataContext from './context/DataContext';
+import HeightSpacer from '../components/reusable/HeightSpacer';
 import { useFocusEffect } from '@react-navigation/native';
 
 
 const Profile = () => {
 const {loggedUser,setLoggedUser,setApiToken,apiToken} = useContext(DataContext)
 const navigation = useNavigation();
-//const [userData,setUserData] = useState([]);
-//const [userId,setUserId] = useState(null);
-//const [documento,setDocumento] = useState('');
-//const [endereco,setEndereco] = useState('');
-//const [bairro,setBairro] = useState('');
-//const [cidade,setCidade] = useState('');
 const [avatar,setAvatar] = useState(null);
 const [isLoading,setIsLoading] = useState(false);
 
 useFocusEffect(
     React.useCallback(() => {
         
-         StatusBar.setBackgroundColor(cores.azulEscuro); //add color code
+         StatusBar.setBackgroundColor(cores.azulEscuro); 
         
     }, []),
   );
@@ -69,10 +63,11 @@ const selectAvatar = async () =>{
 }
 
 
-const onContatoPress = () => {
-    const telefone = '35999122008';
-    const mensagem = "dkdk dkdk dkdk dkdk dkdk dkdk";
-    Linking.openURL(`whatsapp://send?phone=55${telefone}&text=${mensagem}`);
+const onContatoPress = () => { // 1 cliente
+    const telefone = '1936145131';  // 351 936 145 131
+    const role = loggedUser.role===1?'cliente do':'profissional cadastrado no'
+    const mensagem = `Olá sou o ${loggedUser.name}, ${role} aplicativo RMR Part-Time.`;
+    Linking.openURL(`whatsapp://send?phone=35${telefone}&text=${mensagem}`);
     
   }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, View,Text,TouchableOpacity} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
@@ -27,7 +28,9 @@ const Icone = ({iconName,iconProvider}) => {
        case 'Octicons':
              return <Octicons name={iconName} size={22} color={cores.azulEscuro} />;
              break;
-
+       case 'FontAwesome5':
+             return <FontAwesome5 name={iconName} size={22} color={cores.azulEscuro} />;
+             break;
         default:
           console.log(`icone não encontrado`);
       }
