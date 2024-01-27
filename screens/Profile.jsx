@@ -12,6 +12,7 @@ import HeightSpacer from '../components/reusable/HeightSpacer';
 import { useFocusEffect } from '@react-navigation/native';
 
 
+
 const Profile = () => {
 const {loggedUser,setLoggedUser,setApiToken,apiToken} = useContext(DataContext)
 const navigation = useNavigation();
@@ -63,8 +64,10 @@ const selectAvatar = async () =>{
 }
 
 
-const onContatoPress = () => { // 1 cliente
-    const telefone = '1936145131';  // 351 936 145 131
+const onContatoPress = async () => { // 1 cliente
+
+    let json = await Api.getConfig(apiToken);
+    const telefone =  json.telefone_whats; //'1936145131';  // 351 936 145 131
     const role = loggedUser.role===1?'cliente do':'profissional cadastrado no'
     const mensagem = `Olá sou o ${loggedUser.name}, ${role} aplicativo RMR Part-Time.`;
     Linking.openURL(`whatsapp://send?phone=35${telefone}&text=${mensagem}`);
@@ -100,6 +103,7 @@ return (
        
         <MenuPerfil iconName="whatsapp" iconProvider="FontAwesome5" label="Fale Conosco" onPress={()=>onContatoPress()}/>
         <MenuPerfil iconName="checklist" iconProvider="Octicons" label="Termo de Uso" onPress={()=>navigation.navigate('Termos')}/>
+        <MenuPerfil iconName="deleteuser" iconProvider="AntDesign" label="Excluir a Minha Conta" onPress={()=>navigation.navigate('DeleteAccount')}/>
         <MenuPerfil iconName="logout" iconProvider="MaterialIcons" label="Sair" onPress={onLogout}/>
         
     </SafeAreaView>

@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius:12,
         backgroundColor: cores.branco,
-        
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'center',
