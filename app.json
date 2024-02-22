@@ -2,7 +2,7 @@
   "expo": {
     "name": "RMR PART-TIME",
     "slug": "rmr",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,8 +20,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.jccintr.rmr",
-      "versionCode": 2
+      "package": "com.meleva",
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -48,6 +48,8 @@ const styles = StyleSheet.create({
       fontSize: 16,
       paddingHorizontal: 4,
       color: cores.azulEscuro,
+      height: 48,
+      
     },
     labelText:{
         paddingHorizontal: 4,

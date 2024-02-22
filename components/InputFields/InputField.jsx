@@ -9,9 +9,7 @@ import { cores } from '../../style/globalStyle';
 
 const Icone = ({iconName,iconProvider}) => {
     
-    //return <AntDesign name={icon} size={22} color="#c1c1c1" />
-
-    switch (iconProvider) {
+  switch (iconProvider) {
         case 'AntDesign':
             return <AntDesign name={iconName} size={22} color={cores.azulEscuro} />;
             break;
@@ -22,11 +20,7 @@ const Icone = ({iconName,iconProvider}) => {
         default:
           console.log(`icone não encontrado`);
       }
-      
-
-
-
-}
+  }
 
 
 const InputField = ( {iconProvider,iconName,placeholder, value, onChangeText, password,keyboard} ) => {
@@ -67,6 +61,8 @@ const styles = StyleSheet.create({
       color: '#000',
       marginLeft: 10,
       color: cores.azulEscuro,
+      
+      height: 48,
     },
    
   });

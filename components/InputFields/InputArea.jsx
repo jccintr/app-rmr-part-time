@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
       textAlignVertical: 'top',
       justifyContent: 'flex-start',
       color: cores.azulEscuro,
+      height: 150
   },
     labelText:{
       paddingHorizontal: 4,

@@ -109,7 +109,9 @@ selectItem:{
     justifyContent: 'space-between',
     borderBottomColor: '#eee',
     borderBottomWidth:1,
-    padding:10,
+    
+    paddingHorizontal:10,
+    paddingVertical:15
 },
 selectItemText:{
     fontSize: 16,

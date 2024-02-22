@@ -10,11 +10,6 @@ import DataContext from './context/DataContext';
 import SelectInput from '../components/InputFields/SelectInput';
 import ModalErro from '../components/Modals/ModalErro';
 
-
-
-
-
-
 const Cadastro = () => {
     const [errorMessage,setErrorMessage] = useState('');
     const [modalVisible,setModalVisible] = useState(false);
@@ -68,11 +63,7 @@ useEffect(()=>{
 
     const onCadastrar = async () => {
       
-      // if(role===2){
-      //    setErrorMessage('O cadastro de novos profissionais está temporariamente suspenso.');
-      //    setModalVisible(true);
-      //    return;
-      // }
+      
 
       if(nome.trim().length === 0 || telefone.trim().length === 0 || email.trim().length === 0 || password.trim().length === 0 || passwordConfirm.trim().length === 0){
         setErrorMessage('Preencha todos os campos por favor.');
@@ -267,7 +258,7 @@ const styles = StyleSheet.create({
        marginBottom: 20,
     },
     roleButton:{
-       height:40,
+       height:48,
        width: 150,
        borderWidth: 1,
        borderColor: cores.azulEscuro,
@@ -275,7 +266,7 @@ const styles = StyleSheet.create({
        justifyContent:'center',
     },
     roleButtonSelected:{
-       height:40,
+       height:48,
        width:150,
        backgroundColor: cores.azulEscuro,
        alignItems: 'center',
