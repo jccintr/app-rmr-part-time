@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react'
+import React, { useState,useContext,useEffect } from 'react'
 import { StyleSheet, Text, SafeAreaView, View,Image,TouchableOpacity,StatusBar,Linking} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -26,6 +26,12 @@ useFocusEffect(
         
     }, []),
   );
+
+  useEffect(()=>{
+    if(!loggedUser){
+     navigation.reset({routes:[{name:'Login'}]});
+    }
+ },[])
 
 const selectAvatar = async () =>{
     

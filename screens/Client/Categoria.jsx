@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import SearchField from '../../components/InputFields/SearchField';
 import Api from '../../Api';
 import WorkerCard2 from '../../components/Cards/WorkerCard2';
+import EmptyList from '../../components/reusable/EmptyList';
 
 const Categoria = ({route}) => {
     const {categoria} = route.params;  
@@ -13,9 +14,7 @@ const Categoria = ({route}) => {
     const [search,setSearch] = useState('');
     const [workers,setWorkers] = useState([]);
     const [isLoading,setIsLoading] = useState(false);
-    //const screenWidth = Dimensions.get('window').width;
-
-
+    
     const onSearch = (t) => {
         setSearch(t);
       }
@@ -25,6 +24,7 @@ const Categoria = ({route}) => {
      useEffect(()=>{
         const getWorkers = async () => {
         setIsLoading(true);  
+        
         let json = await Api.getCategoria(categoria.id);
         setWorkers(json.worker);
         setIsLoading(false);  
@@ -46,6 +46,8 @@ const Categoria = ({route}) => {
                   keyExtractor={(item)=> item.id.toString()}
                   renderItem={({item})=><WorkerCard2 worker={item} />}
                   numColumns={2}
+                  ListEmptyComponent={<EmptyList mensagem={'Não encontramos profissionais nesta categoria.'}/>}
+                  contentContainerStyle={workersFiltered.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}
               />}
           </View>
     </SafeAreaView>

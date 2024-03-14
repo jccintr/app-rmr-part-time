@@ -7,6 +7,7 @@ import DataContext from '../context/DataContext';
 import CardOrcamento from '../../components/Cards/CardOrcamento';
 import CategoriaCard2 from '../../components/Cards/CategoriaCard2';
 import { useFocusEffect } from '@react-navigation/native';
+import EmptyList from '../../components/reusable/EmptyList';
 
 
 const Home = () => {
@@ -57,6 +58,8 @@ const Home = () => {
                 keyExtractor={(item)=> item.id.toString()}
                 renderItem={({item})=><CategoriaCard2 categoria={item} onPress={()=>navigation.navigate('OrcamentosCategoria', {categoria: item})}/>}
                 numColumns={2}
+                ListEmptyComponent={<EmptyList mensagem={'Nenhuma oportunidade de trabalho encontrada.'}/>}
+                contentContainerStyle={categoriasFiltered.length===0?{flexGrow:1,alignItems:'center',justifyContent:'center'}:''}
             />}       
         </SafeAreaView>
        
@@ -91,6 +94,10 @@ const styles = StyleSheet.create({
      color: '#000',
      fontStyle: 'italic',
  },
+ loading:{
+    position: 'absolute',
+    top: '50%',
+   }
  
    
    
